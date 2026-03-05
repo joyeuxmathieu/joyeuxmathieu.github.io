@@ -22,6 +22,7 @@ background-position:center top;
 .btn{
 position:absolute;
 cursor:pointer;
+border:2px solid red;
 }
 
 /* ===== MENU HAUT ===== */
