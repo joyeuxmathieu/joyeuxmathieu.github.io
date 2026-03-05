@@ -1,50 +1,19 @@
 body{
 margin:0;
-font-family:Arial;
-background:url(background.jpg);
-background-size:cover;
-background-position:center;
-color:white;
-text-align:center;
+padding:0;
 }
 
-.menu{
+/* fond du site */
+
+.background{
 position:fixed;
 top:0;
+left:0;
 width:100%;
-display:flex;
-justify-content:center;
-gap:40px;
-padding:20px;
-}
+height:100%;
 
-.menu a{
-color:white;
-text-decoration:none;
-font-size:18px;
-}
-
-.menu a:hover{
-color:#00eaff;
-}
-
-.hero{
-margin-top:200px;
-}
-
-.hero h1{
-font-size:60px;
-color:#00eaff;
-text-shadow:0 0 20px #00eaff;
-}
-
-.button{
-display:inline-block;
-margin-top:20px;
-padding:15px 40px;
-background:#00eaff;
-color:black;
-border-radius:10px;
-text-decoration:none;
-font-weight:bold;
+background-image:url("background.jpg");
+background-size:cover;
+background-position:center;
+background-repeat:no-repeat;
 }
