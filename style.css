@@ -1,27 +1,114 @@
 body{
 margin:0;
 background:black;
+display:flex;
+justify-content:center;
 }
 
 #background{
 position:relative;
-height:100vh;
-background:url("background.jpg") center/contain no-repeat;
-}
+width:700px;   /* largeur de ton image */
+height:1400px; /* hauteur de ton image */
 
+background:url("background.jpg") no-repeat;
+background-size:100% 100%;
+}
 /* test bouton visible */
 
 .btn{
 position:absolute;
-background:red;
-opacity:0.5;
+cursor:pointer;
+border:2px solid red;
 }
 
-/* test bouton serveur */
+/* MENU */
 
 .serveur{
-top:40%;
-left:40%;
+top:380px;
+left:120px;
+width:90px;
+height:35px;
+}
+
+.events{
+top:380px;
+left:215px;
+width:110px;
+height:35px;
+}
+
+.tribu{
+top:380px;
+left:330px;
+width:90px;
+height:35px;
+}
+
+.joueurs{
+top:380px;
+left:425px;
+width:100px;
+height:35px;
+}
+
+.bot{
+top:380px;
+left:530px;
+width:70px;
+height:35px;
+}
+
+.mod{
+top:380px;
+left:605px;
+width:70px;
+height:35px;
+}
+
+/* REJOINDRE SERVEUR */
+
+.rejoindre{
+top:570px;
+left:210px;
+width:280px;
+height:60px;
+}
+
+/* STATS */
+
+.structures{
+top:800px;
+left:200px;
 width:200px;
 height:50px;
+}
+
+.spyglass{
+top:800px;
+left:410px;
+width:200px;
+height:50px;
+}
+
+.dino{
+top:860px;
+left:200px;
+width:200px;
+height:50px;
+}
+
+.breeding{
+top:860px;
+left:410px;
+width:200px;
+height:50px;
+}
+
+/* DISCORD */
+
+.discord{
+top:1030px;
+left:230px;
+width:240px;
+height:55px;
 }
