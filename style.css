@@ -1,19 +1,65 @@
 body{
 margin:0;
-padding:0;
 }
 
-/* fond du site */
+/* fond */
 
 .background{
-position:fixed;
-top:0;
-left:0;
+position:relative;
 width:100%;
-height:100%;
-
+height:100vh;
 background-image:url("background.jpg");
 background-size:cover;
 background-position:center;
-background-repeat:no-repeat;
+}
+
+/* boutons invisibles */
+
+.btn{
+position:absolute;
+cursor:pointer;
+}
+
+/* positions */
+
+.serveur{
+top:6%;
+left:23%;
+width:8%;
+height:5%;
+}
+
+.events{
+top:6%;
+left:32%;
+width:10%;
+height:5%;
+}
+
+.tribu{
+top:6%;
+left:43%;
+width:8%;
+height:5%;
+}
+
+.joueurs{
+top:6%;
+left:52%;
+width:9%;
+height:5%;
+}
+
+.bot{
+top:6%;
+left:62%;
+width:7%;
+height:5%;
+}
+
+.mod{
+top:6%;
+left:70%;
+width:7%;
+height:5%;
 }
