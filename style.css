@@ -27,10 +27,15 @@ cursor:pointer;
 /* ===== MENU HAUT ===== */
 
 .serveur{
-top:28%;
-left:23%;
-width:7%;
-height:5%;
+position:absolute;
+
+top:27%;
+left:22%;
+
+width:9%;
+height:6%;
+
+cursor:pointer;
 }
 
 .events{
