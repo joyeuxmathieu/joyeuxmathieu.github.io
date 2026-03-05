@@ -2,83 +2,93 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>ALPHARK - Serveur ARK Survival Ascended</title>
-
-<link rel="stylesheet" href="style.css">
+<title>ALPHARK</title>
 
 <style>
 
 body{
 margin:0;
-font-family:Arial, Helvetica, sans-serif;
-background:url("background.jpg");
-background-size:cover;
-background-position:center;
-background-attachment:fixed;
-color:white;
-text-align:center;
-}
-
-/* Menu */
-.menu{
-position:fixed;
-top:0;
-width:100%;
-background:rgba(0,0,0,0.6);
-padding:15px;
+background:black;
 display:flex;
-justify-content:center;
-gap:40px;
-z-index:1000;
-}
-
-.menu a{
-color:white;
-text-decoration:none;
-font-size:18px;
-transition:0.3s;
-}
-
-.menu a:hover{
-color:#00eaff;
-}
-
-/* Section principale */
-.hero{
-height:100vh;
-display:flex;
-flex-direction:column;
 justify-content:center;
 align-items:center;
+height:100vh;
 }
 
-/* Titre */
-.hero h1{
-font-size:60px;
-color:#00eaff;
-text-shadow:0 0 20px #00eaff;
-margin-bottom:10px;
+/* container */
+.container{
+position:relative;
+width:100%;
+max-width:1920px;
 }
 
-/* Sous titre */
-.hero p{
-font-size:20px;
-margin-bottom:30px;
+/* image */
+.container img{
+width:100%;
+display:block;
 }
 
-/* Bouton */
+/* zones cliquables */
+
 .button{
-background:#00eaff;
-padding:15px 40px;
-border-radius:10px;
-color:black;
-font-weight:bold;
-text-decoration:none;
-transition:0.3s;
+position:absolute;
+cursor:pointer;
 }
 
-.button:hover{
-background:white;
+/* bouton rejoindre */
+.join{
+left:38%;
+top:54%;
+width:24%;
+height:8%;
+}
+
+/* menu serveur */
+.serveur{
+left:24%;
+top:23%;
+width:8%;
+height:5%;
+}
+
+/* menu events */
+.events{
+left:33%;
+top:23%;
+width:10%;
+height:5%;
+}
+
+/* menu tribu */
+.tribu{
+left:44%;
+top:23%;
+width:8%;
+height:5%;
+}
+
+/* menu joueurs */
+.joueurs{
+left:53%;
+top:23%;
+width:9%;
+height:5%;
+}
+
+/* menu bot */
+.bot{
+left:63%;
+top:23%;
+width:7%;
+height:5%;
+}
+
+/* menu mod */
+.mod{
+left:71%;
+top:23%;
+width:7%;
+height:5%;
 }
 
 </style>
@@ -87,26 +97,20 @@ background:white;
 
 <body>
 
-<!-- MENU -->
-<nav class="menu">
-<a href="#">Serveur</a>
-<a href="#">Evenements</a>
-<a href="#">Tribu</a>
-<a href="#">Joueurs</a>
-<a href="#">Bot</a>
-<a href="#">Mod</a>
-</nav>
+<div class="container">
 
-<!-- PAGE PRINCIPALE -->
-<section class="hero">
+<img src="background.jpg">
 
-<h1>Bienvenue sur ALPHARK</h1>
+<a class="button join" href="#"></a>
 
-<p>Serveur ARK Survival Ascended</p>
+<a class="button serveur" href="#"></a>
+<a class="button events" href="#"></a>
+<a class="button tribu" href="#"></a>
+<a class="button joueurs" href="#"></a>
+<a class="button bot" href="#"></a>
+<a class="button mod" href="#"></a>
 
-<a class="button" href="#">REJOINS NOUS</a>
-
-</section>
+</div>
 
 </body>
 </html>
