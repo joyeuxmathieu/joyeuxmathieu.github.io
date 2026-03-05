@@ -2,6 +2,17 @@ body{
 margin:0;
 }
 
+#background{
+position:relative;
+width:100%;
+height:100vh;
+background-image:url("background.jpg");
+background-size:contain;
+background-repeat:no-repeat;
+background-position:center top;
+background-color:black;
+}
+
 /* image de fond */
 
 .background{
