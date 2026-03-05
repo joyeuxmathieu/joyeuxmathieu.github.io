@@ -1,33 +1,106 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>ALPHARK</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ALPHARK - Serveur ARK Survival Ascended</title>
+
 <style>
+
 body{
-background:black;
+margin:0;
+font-family:Arial, Helvetica, sans-serif;
 color:white;
 text-align:center;
-font-family:Arial;
+background:black;
+}
+
+.hero{
+height:100vh;
+background:url("background.jpg") center/cover no-repeat;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
 }
 
 h1{
 font-size:60px;
-margin-top:200px;
+color:#00eaff;
+text-shadow:0 0 20px #00eaff;
+}
+
+.subtitle{
+font-size:22px;
+margin-bottom:40px;
+}
+
+.join-btn{
+padding:18px 50px;
+font-size:22px;
+border:none;
+border-radius:10px;
+background:linear-gradient(45deg,#00eaff,#008cff);
+color:white;
+cursor:pointer;
+transition:0.3s;
+box-shadow:0 0 20px #00eaff;
+}
+
+.join-btn:hover{
+transform:scale(1.1);
+box-shadow:0 0 40px #00eaff;
+}
+
+.menu{
+position:fixed;
+top:0;
+width:100%;
+display:flex;
+justify-content:center;
+gap:40px;
+background:rgba(0,0,0,0.7);
+padding:15px;
+}
+
+.menu a{
+color:white;
+text-decoration:none;
+font-size:18px;
+transition:0.3s;
+}
+
+.menu a:hover{
 color:#00eaff;
 }
 
-p{
-font-size:25px;
+.section{
+padding:80px 20px;
 }
 
-button{
-padding:20px 40px;
-font-size:20px;
-background:#00eaff;
-border:none;
+.stats{
+display:flex;
+justify-content:center;
+gap:40px;
+flex-wrap:wrap;
+}
+
+.card{
+background:#111;
+padding:30px;
 border-radius:10px;
-cursor:pointer;
+width:200px;
+box-shadow:0 0 10px #00eaff;
+}
+
+.discord{
+margin-top:40px;
+}
+
+footer{
+margin-top:60px;
+opacity:0.6;
 }
 
 </style>
@@ -35,12 +108,70 @@ cursor:pointer;
 
 <body>
 
+<div class="menu">
+<a href="#">Serveur</a>
+<a href="#">Evenements</a>
+<a href="#">Tribu</a>
+<a href="#">Joueurs</a>
+<a href="#">Bot</a>
+<a href="#">Mod</a>
+</div>
+
+<div class="hero">
+
 <h1>Bienvenue sur ALPHARK</h1>
+<p class="subtitle">Serveur ARK Survival Ascended</p>
+
+<button class="join-btn">
+REJOIGNEZ NOUS
+</button>
+
+</div>
+
+<div class="section">
+
+<h2>Stats du serveur</h2>
+
+<div class="stats">
+
+<div class="card">
+Structures Plus
+</div>
+
+<div class="card">
+Super Spyglass
+</div>
+
+<div class="card">
+Custom Dino Levels
+</div>
+
+<div class="card">
+Better Breeding
+</div>
+
+</div>
+
+<div class="discord">
+
+<h2>Rejoindre la communauté</h2>
+
+<p>Rejoignez notre Discord et discutez avec la communauté.</p>
+
+<button class="join-btn">
+DISCORD ALPHARK
+</button>
+
+</div>
+
+<footer>
+
+<p>ALPHARK © 2024</p>
 <p>Serveur ARK Survival Ascended</p>
 
-<button onclick="window.location.href='https://discord.gg/'">
-Rejoindre le Discord
-</button>
+</footer>
+
+</div>
 
 </body>
 </html>
