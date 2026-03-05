@@ -1,6 +1,7 @@
 body{
 margin:0;
 }
+
 /* fond */
 
 .background{
@@ -10,6 +11,7 @@ height:100vh;
 background-image:url("background.jpg");
 background-size:cover;
 background-position:center;
+background-repeat:no-repeat;
 }
 
 /* boutons invisibles */
@@ -19,7 +21,7 @@ position:absolute;
 cursor:pointer;
 }
 
-/* positions */
+/* positions boutons */
 
 .serveur{
 top:6%;
@@ -59,6 +61,9 @@ height:5%;
 .mod{
 top:6%;
 left:70%;
+width:7%;
+height:5%;
+}
 width:7%;
 height:5%;
 }
