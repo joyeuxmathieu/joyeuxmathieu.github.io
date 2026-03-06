@@ -3,6 +3,7 @@ margin:0;
 background:black;
 display:flex;
 justify-content:center;
+font-family:Arial;
 }
 
 .site{
@@ -11,19 +12,27 @@ width:720px;
 height:1400px;
 
 background-image:url("background.jpg");
-background-size:100%;
+background-size:contain;
 background-repeat:no-repeat;
 
 position:relative;
 
 }
 
-/* zones */
+/* zones cliquables */
 
 .zone{
 position:absolute;
-border:2px solid red;
 cursor:pointer;
+transition:0.3s;
+}
+
+/* glow effet */
+
+.zone:hover{
+
+box-shadow:0 0 20px rgba(0,200,255,0.8);
+
 }
 
 /* MENU */
@@ -88,7 +97,7 @@ height:30px;
 
 }
 
-/* bouton rejoindre */
+/* rejoindre serveur */
 
 .rejoindre{
 
