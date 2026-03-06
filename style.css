@@ -1,29 +1,25 @@
 body{
 margin:0;
 background:black;
+display:flex;
+justify-content:center;
 }
 
-/* CONTENEUR IMAGE */
+/* conteneur du site */
 
 #background{
 position:relative;
 width:720px;
-margin:auto;
 }
 
+/* image */
+
 #background img{
-width:720px;
+width:100%;
 display:block;
 }
 
-/* BOUTONS */
-
-.btn{
-position:absolute;
-cursor:pointer;
-border:2px solid red;
-}
-/* test bouton visible */
+/* boutons */
 
 .btn{
 position:absolute;
