@@ -3,21 +3,21 @@
 
 <head>
 <meta charset="UTF-8">
-<title>Rejoindre ALPHARK</title>
+<title>Cluster ALPHARK</title>
 
 <style>
 
 body{
 margin:0;
 font-family:Arial;
-background:linear-gradient(#0b0f17,#06090f);
+background:linear-gradient(#05080f,#0b1425);
 color:white;
 text-align:center;
 }
 
 h1{
 margin-top:40px;
-font-size:40px;
+font-size:42px;
 letter-spacing:2px;
 }
 
@@ -35,21 +35,21 @@ display:flex;
 align-items:center;
 justify-content:space-between;
 
-background:rgba(20,30,50,0.8);
+background:rgba(15,25,45,0.8);
 
 border:1px solid #1e3a5f;
 
-border-radius:10px;
+border-radius:12px;
 
 padding:15px;
 
 margin:15px;
 
-box-shadow:0 0 15px rgba(0,200,255,0.2);
+box-shadow:0 0 20px rgba(0,150,255,0.2);
 
 }
 
-/* IMAGE MAP */
+/* IMAGE */
 
 .map img{
 
@@ -65,6 +65,13 @@ border-radius:8px;
 flex:1;
 text-align:left;
 margin-left:20px;
+
+}
+
+.players{
+
+font-size:14px;
+opacity:0.8;
 
 }
 
@@ -100,7 +107,7 @@ box-shadow:0 0 10px #ff2e2e;
 
 button{
 
-background:linear-gradient(45deg,#00aaff,#0055ff);
+background:linear-gradient(45deg,#00aaff,#0066ff);
 
 border:none;
 
@@ -123,7 +130,6 @@ box-shadow:0 0 10px #00aaff;
 button:hover{
 
 transform:scale(1.1);
-
 box-shadow:0 0 20px #00aaff;
 
 }
@@ -136,173 +142,89 @@ box-shadow:0 0 20px #00aaff;
 
 <h1>Cluster ALPHARK</h1>
 
-<div class="container">
-
-<!-- THE ISLAND -->
-
-<div class="map">
-
-<img src="https://static.wikia.nocookie.net/arksurvivalevolved_gamepedia/images/b/b1/The_Island.jpg">
-
-<div class="info">
-<h3><span class="status online"></span>The Island</h3>
-</div>
-
-<button onclick="join('7810')">JOIN</button>
-
-</div>
-
-
-<!-- THE CENTER -->
-
-<div class="map">
-
-<img src="https://static.wikia.nocookie.net/arksurvivalevolved_gamepedia/images/7/7f/The_Center.jpg">
-
-<div class="info">
-<h3><span class="status online"></span>The Center</h3>
-</div>
-
-<button onclick="join('7820')">JOIN</button>
-
-</div>
-
-
-<!-- SCORCHED EARTH -->
-
-<div class="map">
-
-<img src="https://static.wikia.nocookie.net/arksurvivalevolved_gamepedia/images/f/f0/Scorched_Earth.jpg">
-
-<div class="info">
-<h3><span class="status online"></span>Scorched Earth</h3>
-</div>
-
-<button onclick="join('7830')">JOIN</button>
-
-</div>
-
-
-<!-- ABERRATION -->
-
-<div class="map">
-
-<img src="https://static.wikia.nocookie.net/arksurvivalevolved_gamepedia/images/4/4e/Aberration.jpg">
-
-<div class="info">
-<h3><span class="status online"></span>Aberration</h3>
-</div>
-
-<button onclick="join('7840')">JOIN</button>
-
-</div>
-
-
-<!-- EXTINCTION -->
-
-<div class="map">
-
-<img src="https://static.wikia.nocookie.net/arksurvivalevolved_gamepedia/images/d/d4/Extinction.jpg">
-
-<div class="info">
-<h3><span class="status online"></span>Extinction</h3>
-</div>
-
-<button onclick="join('7850')">JOIN</button>
-
-</div>
-
-
-<!-- LOST COLONY -->
-
-<div class="map">
-
-<img src="https://static.wikia.nocookie.net/arksurvivalevolved_gamepedia/images/5/56/Lost_Colony.jpg">
-
-<div class="info">
-<h3><span class="status online"></span>Lost Colony</h3>
-</div>
-
-<button onclick="join('7860')">JOIN</button>
-
-</div>
-
-
-<!-- AMISSA -->
-
-<div class="map">
-
-<img src="https://static.wikia.nocookie.net/arksurvivalevolved_gamepedia/images/8/8a/Amissa.jpg">
-
-<div class="info">
-<h3><span class="status online"></span>Amissa</h3>
-</div>
-
-<button onclick="join('7870')">JOIN</button>
-
-</div>
-
-
-<!-- RAGNAROK -->
-
-<div class="map">
-
-<img src="https://static.wikia.nocookie.net/arksurvivalevolved_gamepedia/images/8/85/Ragnarok.jpg">
-
-<div class="info">
-<h3><span class="status online"></span>Ragnarok</h3>
-</div>
-
-<button onclick="join('7880')">JOIN</button>
-
-</div>
-
-
-<!-- VALGUERO -->
-
-<div class="map">
-
-<img src="https://static.wikia.nocookie.net/arksurvivalevolved_gamepedia/images/6/6a/Valguero.jpg">
-
-<div class="info">
-<h3><span class="status online"></span>Valguero</h3>
-</div>
-
-<button onclick="join('7890')">JOIN</button>
-
-</div>
-
-
-<!-- ASTRAEOS -->
-
-<div class="map">
-
-<img src="https://static.wikia.nocookie.net/arksurvivalevolved_gamepedia/images/4/4b/Astraeos.jpg">
-
-<div class="info">
-<h3><span class="status online"></span>Astraeos</h3>
-</div>
-
-<button onclick="join('7900')">JOIN</button>
-
-</div>
-
-
-</div>
+<div class="container" id="servers"></div>
 
 <script>
 
-function join(port){
+const serverIP = "TON_IP_SERVEUR";
 
-window.location.href="steam://connect/TON_IP_SERVEUR:"+port
+/* MAPS */
+
+const maps = [
+
+{name:"The Island",port:7950,img:"https://static.wikia.nocookie.net/arksurvivalevolved_gamepedia/images/b/b1/The_Island.jpg"},
+{name:"The Center",port:7820,img:"https://static.wikia.nocookie.net/arksurvivalevolved_gamepedia/images/7/7f/The_Center.jpg"},
+{name:"Scorched Earth",port:7830,img:"https://static.wikia.nocookie.net/arksurvivalevolved_gamepedia/images/f/f0/Scorched_Earth.jpg"},
+{name:"Aberration",port:7840,img:"https://static.wikia.nocookie.net/arksurvivalevolved_gamepedia/images/4/4e/Aberration.jpg"},
+{name:"Extinction",port:7850,img:"https://static.wikia.nocookie.net/arksurvivalevolved_gamepedia/images/d/d4/Extinction.jpg"},
+{name:"Lost Colony",port:7860,img:"https://static.wikia.nocookie.net/arksurvivalevolved_gamepedia/images/5/56/Lost_Colony.jpg"},
+{name:"Amissa",port:7870,img:"https://static.wikia.nocookie.net/arksurvivalevolved_gamepedia/images/8/8a/Amissa.jpg"},
+{name:"Ragnarok",port:7880,img:"https://static.wikia.nocookie.net/arksurvivalevolved_gamepedia/images/8/85/Ragnarok.jpg"},
+{name:"Valguero",port:7890,img:"https://static.wikia.nocookie.net/arksurvivalevolved_gamepedia/images/6/6a/Valguero.jpg"},
+{name:"Astraeos",port:7900,img:"https://static.wikia.nocookie.net/arksurvivalevolved_gamepedia/images/4/4b/Astraeos.jpg"}
+
+];
+
+async function loadServers(){
+
+const container = document.getElementById("servers");
+
+for(let map of maps){
+
+let status="offline";
+let players="Serveur offline";
+
+try{
+
+const res = await fetch(`https://api.mcsrvstat.us/2/${serverIP}:${map.port}`);
+const data = await res.json();
+
+if(data.players){
+
+status="online";
+players=`Joueurs : ${data.players.online} / ${data.players.max}`;
 
 }
 
+}catch{}
+
+container.innerHTML += `
+
+<div class="map">
+
+<img src="${map.img}">
+
+<div class="info">
+
+<h3>
+<span class="status ${status}"></span>
+${map.name}
+</h3>
+
+<p class="players">${players}</p>
+
+</div>
+
+<button onclick="join(${map.port})">JOIN</button>
+
+</div>
+
+`;
+
+}
+
+}
+
+function join(port){
+
+window.location.href=`steam://connect/${serverIP}:${port}`
+
+}
+
+loadServers();
+
 </script>
 
-</body>
-
-</html>
 </body>
 
 </html>
