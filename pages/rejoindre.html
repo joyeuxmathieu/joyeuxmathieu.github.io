@@ -8,55 +8,123 @@
 <style>
 
 body{
-background:#0b0f17;
-color:white;
+margin:0;
 font-family:Arial;
+background:linear-gradient(#0b0f17,#06090f);
+color:white;
 text-align:center;
 }
 
 h1{
 margin-top:40px;
+font-size:40px;
+letter-spacing:2px;
 }
 
 .container{
-width:600px;
+width:900px;
 margin:auto;
+margin-top:40px;
 }
+
+/* MAP CARD */
 
 .map{
 
 display:flex;
-justify-content:space-between;
 align-items:center;
+justify-content:space-between;
 
-background:#1a2333;
+background:rgba(20,30,50,0.8);
+
+border:1px solid #1e3a5f;
+
+border-radius:10px;
 
 padding:15px;
-margin:10px;
 
+margin:15px;
+
+box-shadow:0 0 15px rgba(0,200,255,0.2);
+
+}
+
+/* IMAGE MAP */
+
+.map img{
+
+width:160px;
 border-radius:8px;
 
 }
 
+/* INFO */
+
+.info{
+
+flex:1;
+text-align:left;
+margin-left:20px;
+
+}
+
+/* STATUS */
+
+.status{
+
+width:14px;
+height:14px;
+
+border-radius:50%;
+
+display:inline-block;
+margin-right:8px;
+
+}
+
+.online{
+
+background:#00ff6a;
+box-shadow:0 0 10px #00ff6a;
+
+}
+
+.offline{
+
+background:#ff2e2e;
+box-shadow:0 0 10px #ff2e2e;
+
+}
+
+/* BOUTON JOIN */
+
 button{
 
-background:#1f6feb;
+background:linear-gradient(45deg,#00aaff,#0055ff);
 
 border:none;
 
-padding:10px 20px;
+padding:12px 25px;
 
 color:white;
 
-border-radius:5px;
+font-weight:bold;
+
+border-radius:6px;
 
 cursor:pointer;
+
+transition:0.3s;
+
+box-shadow:0 0 10px #00aaff;
 
 }
 
 button:hover{
 
-background:#388bfd;
+transform:scale(1.1);
+
+box-shadow:0 0 20px #00aaff;
 
 }
 
@@ -66,59 +134,159 @@ background:#388bfd;
 
 <body>
 
-<h1>Choisir une map</h1>
+<h1>Cluster ALPHARK</h1>
 
 <div class="container">
 
-<div class="map">
-<span>TheIsland</span>
-<button onclick="join('7810')">Rejoindre</button>
-</div>
+<!-- THE ISLAND -->
 
 <div class="map">
-<span>TheCenter</span>
-<button onclick="join('7820')">Rejoindre</button>
+
+<img src="https://static.wikia.nocookie.net/arksurvivalevolved_gamepedia/images/b/b1/The_Island.jpg">
+
+<div class="info">
+<h3><span class="status online"></span>The Island</h3>
 </div>
 
-<div class="map">
-<span>ScorchedEarth</span>
-<button onclick="join('7830')">Rejoindre</button>
+<button onclick="join('7810')">JOIN</button>
+
 </div>
 
-<div class="map">
-<span>Aberration</span>
-<button onclick="join('7840')">Rejoindre</button>
-</div>
+
+<!-- THE CENTER -->
 
 <div class="map">
-<span>Extinction</span>
-<button onclick="join('7850')">Rejoindre</button>
+
+<img src="https://static.wikia.nocookie.net/arksurvivalevolved_gamepedia/images/7/7f/The_Center.jpg">
+
+<div class="info">
+<h3><span class="status online"></span>The Center</h3>
 </div>
 
-<div class="map">
-<span>Lost Colony</span>
-<button onclick="join('7860')">Rejoindre</button>
+<button onclick="join('7820')">JOIN</button>
+
 </div>
 
-<div class="map">
-<span>Amissa</span>
-<button onclick="join('7870')">Rejoindre</button>
-</div>
+
+<!-- SCORCHED EARTH -->
 
 <div class="map">
-<span>Ragnarok</span>
-<button onclick="join('7880')">Rejoindre</button>
+
+<img src="https://static.wikia.nocookie.net/arksurvivalevolved_gamepedia/images/f/f0/Scorched_Earth.jpg">
+
+<div class="info">
+<h3><span class="status online"></span>Scorched Earth</h3>
 </div>
 
-<div class="map">
-<span>Valguero</span>
-<button onclick="join('7890')">Rejoindre</button>
+<button onclick="join('7830')">JOIN</button>
+
 </div>
 
+
+<!-- ABERRATION -->
+
 <div class="map">
-<span>Astraeos</span>
-<button onclick="join('7900')">Rejoindre</button>
+
+<img src="https://static.wikia.nocookie.net/arksurvivalevolved_gamepedia/images/4/4e/Aberration.jpg">
+
+<div class="info">
+<h3><span class="status online"></span>Aberration</h3>
 </div>
+
+<button onclick="join('7840')">JOIN</button>
+
+</div>
+
+
+<!-- EXTINCTION -->
+
+<div class="map">
+
+<img src="https://static.wikia.nocookie.net/arksurvivalevolved_gamepedia/images/d/d4/Extinction.jpg">
+
+<div class="info">
+<h3><span class="status online"></span>Extinction</h3>
+</div>
+
+<button onclick="join('7850')">JOIN</button>
+
+</div>
+
+
+<!-- LOST COLONY -->
+
+<div class="map">
+
+<img src="https://static.wikia.nocookie.net/arksurvivalevolved_gamepedia/images/5/56/Lost_Colony.jpg">
+
+<div class="info">
+<h3><span class="status online"></span>Lost Colony</h3>
+</div>
+
+<button onclick="join('7860')">JOIN</button>
+
+</div>
+
+
+<!-- AMISSA -->
+
+<div class="map">
+
+<img src="https://static.wikia.nocookie.net/arksurvivalevolved_gamepedia/images/8/8a/Amissa.jpg">
+
+<div class="info">
+<h3><span class="status online"></span>Amissa</h3>
+</div>
+
+<button onclick="join('7870')">JOIN</button>
+
+</div>
+
+
+<!-- RAGNAROK -->
+
+<div class="map">
+
+<img src="https://static.wikia.nocookie.net/arksurvivalevolved_gamepedia/images/8/85/Ragnarok.jpg">
+
+<div class="info">
+<h3><span class="status online"></span>Ragnarok</h3>
+</div>
+
+<button onclick="join('7880')">JOIN</button>
+
+</div>
+
+
+<!-- VALGUERO -->
+
+<div class="map">
+
+<img src="https://static.wikia.nocookie.net/arksurvivalevolved_gamepedia/images/6/6a/Valguero.jpg">
+
+<div class="info">
+<h3><span class="status online"></span>Valguero</h3>
+</div>
+
+<button onclick="join('7890')">JOIN</button>
+
+</div>
+
+
+<!-- ASTRAEOS -->
+
+<div class="map">
+
+<img src="https://static.wikia.nocookie.net/arksurvivalevolved_gamepedia/images/4/4b/Astraeos.jpg">
+
+<div class="info">
+<h3><span class="status online"></span>Astraeos</h3>
+</div>
+
+<button onclick="join('7900')">JOIN</button>
+
+</div>
+
 
 </div>
 
@@ -126,12 +294,15 @@ background:#388bfd;
 
 function join(port){
 
-window.location.href="steam://connect/IP_DU_SERVEUR:"+port
+window.location.href="steam://connect/TON_IP_SERVEUR:"+port
 
 }
 
 </script>
 
+</body>
+
+</html>
 </body>
 
 </html>
