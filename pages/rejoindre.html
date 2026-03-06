@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+<meta charset="UTF-8">
+<title>Rejoindre ALPHARK</title>
+
+<style>
+
+body{
+background:#0b0f17;
+color:white;
+font-family:Arial;
+text-align:center;
+}
+
+h1{
+margin-top:40px;
+}
+
+.container{
+width:600px;
+margin:auto;
+}
+
+.map{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+background:#1a2333;
+
+padding:15px;
+margin:10px;
+
+border-radius:8px;
+
+}
+
+button{
+
+background:#1f6feb;
+
+border:none;
+
+padding:10px 20px;
+
+color:white;
+
+border-radius:5px;
+
+cursor:pointer;
+
+}
+
+button:hover{
+
+background:#388bfd;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Choisir une map</h1>
+
+<div class="container">
+
+<div class="map">
+<span>TheIsland</span>
+<button onclick="join('7810')">Rejoindre</button>
+</div>
+
+<div class="map">
+<span>TheCenter</span>
+<button onclick="join('7820')">Rejoindre</button>
+</div>
+
+<div class="map">
+<span>ScorchedEarth</span>
+<button onclick="join('7830')">Rejoindre</button>
+</div>
+
+<div class="map">
+<span>Aberration</span>
+<button onclick="join('7840')">Rejoindre</button>
+</div>
+
+<div class="map">
+<span>Extinction</span>
+<button onclick="join('7850')">Rejoindre</button>
+</div>
+
+<div class="map">
+<span>Lost Colony</span>
+<button onclick="join('7860')">Rejoindre</button>
+</div>
+
+<div class="map">
+<span>Amissa</span>
+<button onclick="join('7870')">Rejoindre</button>
+</div>
+
+<div class="map">
+<span>Ragnarok</span>
+<button onclick="join('7880')">Rejoindre</button>
+</div>
+
+<div class="map">
+<span>Valguero</span>
+<button onclick="join('7890')">Rejoindre</button>
+</div>
+
+<div class="map">
+<span>Astraeos</span>
+<button onclick="join('7900')">Rejoindre</button>
+</div>
+
+</div>
+
+<script>
+
+function join(port){
+
+window.location.href="steam://connect/IP_DU_SERVEUR:"+port
+
+}
+
+</script>
+
+</body>
+
+</html>
