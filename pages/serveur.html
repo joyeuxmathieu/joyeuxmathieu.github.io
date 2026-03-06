@@ -1,20 +1,216 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
+
 <meta charset="UTF-8">
-<title>Serveur ALPHARK</title>
-<link rel="stylesheet" href="../style.css">
+<title>Cluster Alphark</title>
+
+<style>
+
+body{
+background:#0b0f1c;
+font-family:Arial;
+color:white;
+text-align:center;
+}
+
+h1{
+margin-top:40px;
+}
+
+#servers{
+width:900px;
+margin:auto;
+}
+
+.server{
+
+display:flex;
+align-items:center;
+justify-content:space-between;
+
+background:#162033;
+
+margin:20px 0;
+padding:20px;
+
+border-radius:10px;
+
+box-shadow:0 0 15px rgba(0,0,0,0.5);
+
+}
+
+.map{
+
+font-size:20px;
+font-weight:bold;
+
+}
+
+.players{
+
+color:#aaa;
+
+}
+
+.status{
+
+font-weight:bold;
+
+}
+
+.online{
+
+color:#00ff88;
+
+}
+
+.offline{
+
+color:red;
+
+}
+
+button{
+
+background:#00aaff;
+border:none;
+color:white;
+
+padding:10px 25px;
+
+font-size:16px;
+
+border-radius:6px;
+
+cursor:pointer;
+
+transition:0.3s;
+
+}
+
+button:hover{
+
+background:#0077cc;
+
+}
+
+</style>
+
 </head>
+
 
 <body>
 
-<h1>Serveur ALPHARK</h1>
+<h1>Serveurs Alphark</h1>
 
-<p>Bienvenue sur le serveur ARK Survival Ascended</p>
+<div id="servers"></div>
 
-<p>IP : 123.456.789</p>
 
-<a href="../index.html">Retour</a>
+<script>
+
+
+const servers = [
+{ name:"capitale", id:"37949654", ip:"213.239.204.205", port:"7952" },
+
+{ name:"valguero event", id:"37948882", ip:"213.239.204.205", port:"7962" },
+  
+{ name:"The Island", id:"37949820", ip:"213.239.204.205", port:"7812" },
+
+{ name:"The Center", id:"37949823", ip:"213.239.204.205", port:"7822" },
+
+{ name:"Scorched Earth", id:"37949818", ip:"213.239.204.205", port:"7832" },
+
+{ name:"Aberration", id:"37949816", ip:"213.239.204.205", port:"7842" },
+
+{ name:"Extinction", id:"37949824", ip:"213.239.204.205", port:"7852" },
+
+{ name:"Lost Colony", id:"37949821", ip:"213.239.204.205", port:"7862" },
+
+{ name:"Amissa", id:"37949720", ip:"213.239.204.205", port:"7872" },
+
+{ name:"Ragnarok", id:"37949927", ip:"213.239.204.205", port:"7882" },
+
+{ name:"Valguero", id:"37949822", ip:"213.239.204.205", port:"7952" },
+
+{ name:"Astraeos", id:"37949819", ip:"213.239.204.205", port:"7902" }
+
+];
+
+
+
+async function loadServers(){
+
+const container = document.getElementById("servers");
+
+for(const server of servers){
+
+let players="0";
+let max="0";
+let status="offline";
+
+try{
+
+const res = await fetch(`https://api.battlemetrics.com/servers/${server.id}`);
+const data = await res.json();
+
+players = data.data.attributes.players;
+max = data.data.attributes.maxPlayers;
+status = data.data.attributes.status;
+
+}catch{}
+
+container.innerHTML += `
+
+<div class="server">
+
+<div>
+
+<div class="map">${server.name}</div>
+
+<div class="players">
+
+${players} / ${max} joueurs
+
+</div>
+
+<div class="status ${status}">
+
+${status}
+
+</div>
+
+</div>
+
+<button onclick="join('${server.ip}','${server.port}')">
+
+JOIN
+
+</button>
+
+</div>
+
+`;
+
+}
+
+}
+
+
+
+function join(ip,port){
+
+window.location.href=`steam://connect/${ip}:${port}`;
+
+}
+
+
+loadServers();
+
+</script>
+
 
 </body>
+
 </html>
