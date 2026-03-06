@@ -1,15 +1,119 @@
 ```html
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+<meta charset="UTF-8">
+<title>Cluster ALPHARK</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:#050b1a;
+color:white;
+text-align:center;
+}
+
+h1{
+margin-top:40px;
+font-size:40px;
+letter-spacing:3px;
+}
+
+#servers{
+width:900px;
+margin:auto;
+margin-top:40px;
+}
+
+.server{
+
+display:flex;
+align-items:center;
+justify-content:space-between;
+
+background:#0f1a33;
+margin:20px 0;
+padding:20px;
+
+border-radius:10px;
+box-shadow:0 0 20px rgba(0,150,255,0.2);
+
+}
+
+.server img{
+width:150px;
+border-radius:8px;
+}
+
+.info{
+text-align:left;
+flex:1;
+margin-left:20px;
+}
+
+.status{
+font-weight:bold;
+}
+
+.join{
+
+background:#00aaff;
+border:none;
+color:white;
+padding:10px 20px;
+border-radius:6px;
+cursor:pointer;
+font-weight:bold;
+
+}
+
+.join:hover{
+
+background:#0088cc;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Cluster ALPHARK</h1>
+
+<div id="servers"></div>
+
 <script>
 
 const servers = [
 
-{
-name:"Capitale",
-id:"37949654",
-ip:"213.239.204.205",
-port:"7950",
-img:"../images/valguero.jpg"
-}
+{ name:"Capitale", id:"37949654", ip:"213.239.204.205", port:"7952", img:"../images/valguero.jpg" },
+
+{ name:"Valguero Event", id:"37948882", ip:"213.239.204.205", port:"7962", img:"../images/valguero.jpg" },
+
+{ name:"The Island", id:"37949820", ip:"213.239.204.205", port:"7812", img:"../images/island.jpg" },
+
+{ name:"The Center", id:"37949823", ip:"213.239.204.205", port:"7822", img:"../images/center.jpg" },
+
+{ name:"Scorched Earth", id:"37949818", ip:"213.239.204.205", port:"7832", img:"../images/scorched.jpg" },
+
+{ name:"Aberration", id:"37949816", ip:"213.239.204.205", port:"7842", img:"../images/aberration.jpg" },
+
+{ name:"Extinction", id:"37949824", ip:"213.239.204.205", port:"7852", img:"../images/extinction.jpg" },
+
+{ name:"Lost Colony", id:"37949821", ip:"213.239.204.205", port:"7862", img:"../images/lostcolony.jpg" },
+
+{ name:"Amissa", id:"37949720", ip:"213.239.204.205", port:"7872", img:"../images/amissa.jpg" },
+
+{ name:"Ragnarok", id:"37949927", ip:"213.239.204.205", port:"7882", img:"../images/ragnarok.jpg" },
+
+{ name:"Valguero", id:"37949822", ip:"213.239.204.205", port:"7952", img:"../images/valguero.jpg" },
+
+{ name:"Astraeos", id:"37949819", ip:"213.239.204.205", port:"7902", img:"../images/astraeos.jpg" }
 
 ];
 
@@ -40,20 +144,22 @@ container.innerHTML += `
 
 <div class="server">
 
-<img src="${server.img}" width="130">
+<img src="${server.img}">
 
-<div>
+<div class="info">
 
 <h3>${server.name}</h3>
 
 <p>${players} / ${maxPlayers} joueurs</p>
 
-<p style="color:${color}">${text}</p>
+<p class="status" style="color:${color}">${text}</p>
 
 </div>
 
-<button onclick="join('${server.ip}','${server.port}')">
+<button class="join" onclick="join('${server.ip}','${server.port}')">
+
 JOIN
+
 </button>
 
 </div>
@@ -79,4 +185,8 @@ window.location.href="steam://connect/"+ip+":"+port;
 loadServers();
 
 </script>
+
+</body>
+</html>
 ```
+
