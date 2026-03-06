@@ -5,200 +5,112 @@ display:flex;
 justify-content:center;
 }
 
-/* conteneur du site */
-
-#background{
+.site{
 position:relative;
 width:720px;
-height:auto;
 }
 
-/* image */
-
-#background img{
+.map{
 width:100%;
 display:block;
 }
 
-/* zones cliquables */
+/* zones */
 
-.btn{
+.zone{
 position:absolute;
-cursor:pointer;
 border:2px solid red;
+cursor:pointer;
 }
 
 /* MENU */
 
 .serveur{
-top:430px;
-left:90px;
-width:90px;
-height:40px;
+top:30%;
+left:13%;
+width:10%;
+height:3%;
 }
 
 .events{
-top:430px;
-left:180px;
-width:120px;
-height:40px;
+top:30%;
+left:23%;
+width:13%;
+height:3%;
 }
 
 .tribu{
-top:430px;
-left:300px;
-width:100px;
-height:40px;
+top:30%;
+left:36%;
+width:11%;
+height:3%;
 }
 
 .joueurs{
-top:430px;
-left:400px;
-width:110px;
-height:40px;
+top:30%;
+left:47%;
+width:13%;
+height:3%;
 }
 
 .bot{
-top:430px;
-left:510px;
-width:80px;
-height:40px;
+top:30%;
+left:60%;
+width:10%;
+height:3%;
 }
 
 .mod{
-top:430px;
-left:590px;
-width:80px;
-height:40px;
+top:30%;
+left:70%;
+width:10%;
+height:3%;
 }
 
-/* REJOINDRE SERVEUR */
+/* rejoindre serveur */
 
 .rejoindre{
-top:640px;
-left:200px;
-width:320px;
-height:60px;
+top:45%;
+left:28%;
+width:44%;
+height:5%;
 }
 
-/* STATS */
+/* stats */
 
 .structures{
-top:890px;
-left:180px;
-width:220px;
-height:55px;
+top:63%;
+left:23%;
+width:26%;
+height:4%;
 }
 
 .spyglass{
-top:890px;
-left:410px;
-width:220px;
-height:55px;
+top:63%;
+left:51%;
+width:26%;
+height:4%;
 }
 
 .dino{
-top:950px;
-left:180px;
-width:220px;
-height:55px;
+top:68%;
+left:23%;
+width:26%;
+height:4%;
 }
 
 .breeding{
-top:950px;
-left:410px;
-width:220px;
-height:55px;
+top:68%;
+left:51%;
+width:26%;
+height:4%;
 }
 
-/* DISCORD */
+/* discord */
 
 .discord{
-top:1150px;
-left:240px;
-width:240px;
-height:60px;
-}
-
-.events{
-top:410px;
-left:200px;
-width:120px;
-height:40px;
-}
-
-.tribu{
-top:410px;
-left:330px;
-width:100px;
-height:40px;
-}
-
-.joueurs{
-top:410px;
-left:430px;
-width:110px;
-height:40px;
-}
-
-.bot{
-top:410px;
-left:540px;
-width:80px;
-height:40px;
-}
-
-.mod{
-top:410px;
-left:620px;
-width:80px;
-height:40px;
-}
-
-/* REJOINDRE */
-
-.rejoindre{
-top:620px;
-left:200px;
-width:320px;
-height:60px;
-}
-
-/* STATS */
-
-.structures{
-top:870px;
-left:180px;
-width:220px;
-height:55px;
-}
-
-.spyglass{
-top:870px;
-left:410px;
-width:220px;
-height:55px;
-}
-
-.dino{
-top:930px;
-left:180px;
-width:220px;
-height:55px;
-}
-
-.breeding{
-top:930px;
-left:410px;
-width:220px;
-height:55px;
-}
-
-/* DISCORD */
-
-.discord{
-top:1140px;
-left:240px;
-width:240px;
-height:60px;
+top:83%;
+left:34%;
+width:32%;
+height:5%;
 }
