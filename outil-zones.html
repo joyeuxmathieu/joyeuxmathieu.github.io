@@ -1,0 +1,121 @@
+```html
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+<meta charset="UTF-8">
+<title>Créateur de zones</title>
+
+<style>
+
+body{
+margin:0;
+background:#111;
+display:flex;
+justify-content:center;
+font-family:Arial;
+color:white;
+}
+
+.container{
+position:relative;
+}
+
+img{
+width:720px;
+}
+
+.zone{
+
+position:absolute;
+border:2px solid red;
+
+width:120px;
+height:40px;
+
+pointer-events:none;
+
+}
+
+.panel{
+
+position:fixed;
+top:10px;
+left:10px;
+
+background:black;
+padding:10px;
+
+width:250px;
+
+}
+
+textarea{
+
+width:100%;
+height:300px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="panel">
+
+<h3>CSS généré</h3>
+
+<textarea id="css"></textarea>
+
+</div>
+
+<div class="container" id="container">
+
+<img src="background.jpg">
+
+</div>
+
+<script>
+
+const container = document.getElementById("container");
+const css = document.getElementById("css");
+
+let count = 1;
+
+container.addEventListener("click", function(e){
+
+const rect = container.getBoundingClientRect();
+
+const x = e.clientX - rect.left;
+const y = e.clientY - rect.top;
+
+const zone = document.createElement("div");
+
+zone.className = "zone";
+
+zone.style.left = x+"px";
+zone.style.top = y+"px";
+
+container.appendChild(zone);
+
+css.value += `.zone${count}{
+top:${Math.round(y)}px;
+left:${Math.round(x)}px;
+width:120px;
+height:40px;
+}
+
+`;
+
+count++;
+
+});
+
+</script>
+
+</body>
+</html>
+```
