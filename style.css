@@ -40,10 +40,10 @@ box-shadow:0 0 20px rgba(0,200,255,0.8);
 .serveur{
 
 top:471px;
-left:66px;
+left:63px;
 
-width:120px;
-height:40px;
+width:101px;
+height:32px;
 
 }
 
@@ -52,48 +52,48 @@ height:40px;
 top:471px;
 left:165px;
 
-width:120px;
-height:40px;
+width:99px;
+height:32px;
 
 }
 
 .tribu{
 
 top:471px;
-left:269px;
+left:268px;
 
-width:120px;
-height:40px;
+width:88px;
+height:30px;
 
 }
 
 .joueurs{
 
-top:420px;
-left:380px;
+top:471px;
+left:357px;
 
-width:110px;
-height:30px;
+width:93px;
+height:31px;
 
 }
 
 .bot{
 
-top:420px;
-left:490px;
+top:471px;
+left:452px;
 
-width:75px;
-height:30px;
+width:82px;
+height:32px;
 
 }
 
 .mod{
 
-top:420px;
-left:565px;
+top:471px;
+left:535px;
 
-width:85px;
-height:30px;
+width:90px;
+height:29px;
 
 }
 
@@ -101,53 +101,11 @@ height:30px;
 
 .rejoindre{
 
-top:640px;
-left:210px;
+top:642px;
+left:202px;
 
-width:300px;
-height:60px;
-
-}
-
-/* stats */
-
-.structures{
-
-top:840px;
-left:170px;
-
-width:180px;
-height:45px;
-
-}
-
-.spyglass{
-
-top:840px;
-left:370px;
-
-width:180px;
-height:45px;
-
-}
-
-.dino{
-
-top:900px;
-left:170px;
-
-width:180px;
-height:45px;
-
-}
-
-.breeding{
-
-top:900px;
-left:370px;
-
-width:180px;
-height:45px;
+width:311px;
+height:38px;
 
 }
 
@@ -155,10 +113,10 @@ height:45px;
 
 .discord{
 
-top:1100px;
-left:240px;
+top:642px;
+left:202px;
 
-width:240px;
-height:60px;
+width:311px;
+height:38px;
 
 }
