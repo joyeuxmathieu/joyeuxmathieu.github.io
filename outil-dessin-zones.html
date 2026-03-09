@@ -1,0 +1,134 @@
+```html
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+<meta charset="UTF-8">
+<title>Editeur de zones</title>
+
+<style>
+
+body{
+margin:0;
+background:#111;
+font-family:Arial;
+display:flex;
+}
+
+.panel{
+width:300px;
+background:black;
+color:white;
+padding:10px;
+}
+
+textarea{
+width:100%;
+height:90vh;
+}
+
+.container{
+position:relative;
+}
+
+img{
+width:720px;
+}
+
+.zone{
+
+position:absolute;
+border:2px solid red;
+background:rgba(255,0,0,0.2);
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="panel">
+
+<h3>CSS généré</h3>
+
+<textarea id="css"></textarea>
+
+</div>
+
+<div class="container" id="container">
+
+<img src="background.jpg">
+
+</div>
+
+<script>
+
+const container = document.getElementById("container");
+const css = document.getElementById("css");
+
+let startX,startY;
+let zone;
+
+container.addEventListener("mousedown",e=>{
+
+const rect = container.getBoundingClientRect();
+
+startX = e.clientX - rect.left;
+startY = e.clientY - rect.top;
+
+zone = document.createElement("div");
+zone.className="zone";
+
+zone.style.left=startX+"px";
+zone.style.top=startY+"px";
+
+container.appendChild(zone);
+
+});
+
+container.addEventListener("mousemove",e=>{
+
+if(!zone) return;
+
+const rect = container.getBoundingClientRect();
+
+let x = e.clientX - rect.left;
+let y = e.clientY - rect.top;
+
+zone.style.width = (x-startX)+"px";
+zone.style.height = (y-startY)+"px";
+
+});
+
+container.addEventListener("mouseup",()=>{
+
+if(!zone) return;
+
+const top = parseInt(zone.style.top);
+const left = parseInt(zone.style.left);
+const width = parseInt(zone.style.width);
+const height = parseInt(zone.style.height);
+
+css.value += `
+
+.zone{
+top:${top}px;
+left:${left}px;
+width:${width}px;
+height:${height}px;
+}
+
+`;
+
+zone=null;
+
+});
+
+</script>
+
+</body>
+</html>
+```
