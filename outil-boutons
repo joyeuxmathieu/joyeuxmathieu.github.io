@@ -1,0 +1,95 @@
+```html
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+<meta charset="UTF-8">
+<title>Placement boutons</title>
+
+<style>
+
+body{
+margin:0;
+background:#111;
+display:flex;
+justify-content:center;
+font-family:Arial;
+color:white;
+}
+
+.container{
+position:relative;
+}
+
+img{
+width:720px;
+}
+
+.cursor{
+
+position:absolute;
+border:2px solid red;
+width:120px;
+height:40px;
+
+pointer-events:none;
+
+}
+
+.info{
+
+position:fixed;
+top:10px;
+left:10px;
+
+background:black;
+padding:10px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="info">
+
+TOP : <span id="top">0</span> px<br>
+LEFT : <span id="left">0</span> px
+
+</div>
+
+<div class="container">
+
+<img src="background.jpg">
+
+<div class="cursor" id="cursor"></div>
+
+</div>
+
+<script>
+
+const cursor = document.getElementById("cursor");
+
+document.addEventListener("mousemove",function(e){
+
+const rect = document.querySelector("img").getBoundingClientRect();
+
+const x = e.clientX - rect.left;
+const y = e.clientY - rect.top;
+
+cursor.style.left = x+"px";
+cursor.style.top = y+"px";
+
+document.getElementById("top").innerText = Math.round(y);
+document.getElementById("left").innerText = Math.round(x);
+
+});
+
+</script>
+
+</body>
+</html>
+```
