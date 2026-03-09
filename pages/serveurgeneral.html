@@ -1,4 +1,4 @@
-
+```html
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -37,14 +37,16 @@ color:#6fe8ff;
 
 .description{
 
-background:rgba(10,20,40,0.8);
+background:linear-gradient(180deg,#06142e,#020b1c);
 
 padding:30px;
 margin-top:40px;
 
-border-radius:10px;
+border-radius:15px;
 
-box-shadow:0 0 30px rgba(0,150,255,0.4);
+box-shadow:
+0 0 25px rgba(0,200,255,0.5),
+inset 0 0 15px rgba(0,150,255,0.2);
 
 }
 
@@ -55,26 +57,40 @@ box-shadow:0 0 30px rgba(0,150,255,0.4);
 display:grid;
 grid-template-columns:1fr 1fr;
 
-gap:20px;
+gap:25px;
 
 margin-top:40px;
 
 }
 
+/* blocs */
+
 .stat{
 
-background:rgba(10,20,40,0.8);
+background:linear-gradient(180deg,#06142e,#020b1c);
 
-padding:20px;
+padding:25px;
 
-border-radius:10px;
+border-radius:15px;
 
-box-shadow:0 0 20px rgba(0,150,255,0.3);
+box-shadow:
+0 0 20px rgba(0,200,255,0.4),
+inset 0 0 20px rgba(0,150,255,0.2);
 
 }
 
 .stat h2{
 color:#00eaff;
+font-size:26px;
+margin-bottom:15px;
+}
+
+/* texte bleu electrique */
+
+.blue{
+color:#00eaff;
+font-weight:bold;
+line-height:1.6;
 }
 
 /* bouton join */
@@ -124,7 +140,7 @@ color:#aaa;
 
 <div class="container">
 
-<h1> ALPHARK</h1>
+<h1>ALPHARK</h1>
 
 <div class="description">
 
@@ -142,9 +158,9 @@ des événements réguliers et une communauté active.
 
 <p>
 
-✔ Serveurs puissants et stables  
-✔ Mods équilibrés  
-✔ Événements réguliers  
+✔ Serveurs puissants et stables<br>
+✔ Mods équilibrés<br>
+✔ Événements réguliers<br>
 ✔ Communauté Discord active  
 
 </p>
@@ -154,23 +170,82 @@ des événements réguliers et une communauté active.
 <div class="stats">
 
 <div class="stat">
+
 <h2>Maps</h2>
-<p>12 maps disponibles</p>
+
+<p class="blue">
+
+The Island<br>
+The Center<br>
+Scorched Earth<br>
+Aberration<br>
+Extinction<br>
+Lost Colony<br>
+Amissa<br>
+Ragnarok<br>
+Valguero<br>
+Astraeos<br>
+Capitale<br>
+Valguero Event
+
+</p>
+
 </div>
 
 <div class="stat">
 <h2>Slots</h2>
-<p>70 joueurs par map</p>
+<p class="blue">70 joueurs par map</p>
 </div>
 
 <div class="stat">
+
 <h2>Rates</h2>
-<p>  Tame x60 / Incubation x300 / Maturation x300 / Farm x15 / lvl max dino 300 / lvl max dino tek 360 / oeufs Wyvern et drake  380 max /  <p>
+
+<p class="blue">
+
+Tame x60<br>
+Incubation x300<br>
+Maturation x300<br>
+Farm x15<br>
+Lvl max dino 300<br>
+Lvl max dino tek 360<br>
+Oeufs Wyvern & Drake 380
+
+</p>
+
 </div>
 
 <div class="stat">
+
 <h2>Mods</h2>
-<p> Awesome ARK Tools<br>Super Spyglass Plus<br>Automated Dino Wipes<br> Klinger Additional Rustic Building<br>Potions Gaia Studios<br> A Simple Performance Mod<br>Shoko's Déco & Structures<br>MarniiMods Griffins<br>  AP: Death Recovery<br>Alfa Oceanic Platforms<br>   Super Cryo Storage<br> Zytharian Critters - Additional Tek Dinos Collection<br>Moro's Indomitable Duo<br>Wall'n'Floor Decor<br>Net Pro<br>Racing Babies & Co<br>Cybers Structures QoL+<br>  Mouse Saver - Easy Dino Attacks<br>Auto Engrams<br>Astraeos - Mythological Creatures (map the island et astraeos)<br>Isle of Myths: Skyshroud Drakara (map extinction) <br>ARKOLOGY: OE - Desolatitan(map scorched et ragnarok ) </p>
+
+<p class="blue">
+
+Awesome ARK Tools<br>
+Super Spyglass Plus<br>
+Automated Dino Wipes<br>
+Klinger Additional Rustic Building<br>
+Potions Gaia Studios<br>
+A Simple Performance Mod<br>
+Shoko's Déco & Structures<br>
+MarniiMods Griffins<br>
+AP: Death Recovery<br>
+Alfa Oceanic Platforms<br>
+Super Cryo Storage<br>
+Zytharian Critters - Additional Tek Dinos Collection<br>
+Moro's Indomitable Duo<br>
+Wall'n'Floor Decor<br>
+Net Pro<br>
+Racing Babies & Co<br>
+Cybers Structures QoL+<br>
+Mouse Saver - Easy Dino Attacks<br>
+Auto Engrams<br>
+Astraeos - Mythological Creatures<br>
+Isle of Myths: Skyshroud Drakara<br>
+ARKOLOGY: OE - Desolatitan
+
+</p>
+
 </div>
 
 </div>
@@ -192,5 +267,5 @@ REJOINDRE LE SERVEUR
 
 </body>
 </html>
-```
+
 
