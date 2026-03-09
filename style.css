@@ -94,6 +94,11 @@ left:535px;
 
 width:90px;
 height:29px;
+
+}
+
+/* image derrière les mods */
+
 .mods{
 
 background-image:url("../images/mods.jpg");
@@ -104,7 +109,7 @@ position:relative;
 
 }
 
-/* filtre sombre pour lire le texte */
+/* filtre sombre */
 
 .mods::before{
 
@@ -123,36 +128,11 @@ border-radius:15px;
 
 }
 
-/* texte au dessus de l'image */
+/* texte au dessus */
 
 .mods *{
 
 position:relative;
 z-index:2;
-
-}
-}
-
-/* rejoindre serveur */
-
-.rejoindre{
-
-top:672px;
-left:181px;
-
-width:352px;
-height:46px;
-
-}
-
-/* discord */
-
-.discord{
-
-top:914px;
-left:207px;
-
-width:312px;
-height:46px;
 
 }
