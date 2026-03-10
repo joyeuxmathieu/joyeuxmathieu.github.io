@@ -5,18 +5,16 @@
 body{
 margin:0;
 background:black;
-font-family:Arial;
-
 display:flex;
 justify-content:center;
-align-items:flex-start;
-
+align-items:center;
 min-height:100vh;
+font-family:Arial;
 }
 
 
 /* ======================= */
-/* PAGE PRINCIPALE */
+/* IMAGE PRINCIPALE */
 /* ======================= */
 
 .site{
@@ -24,41 +22,35 @@ min-height:100vh;
 width:720px;
 height:1400px;
 
-background-image:url("background.jpg");
+background:url("background.jpg") no-repeat center;
 
-background-size:720px 1400px;
-background-repeat:no-repeat;
+background-size:contain;
 
 position:relative;
 
-margin-top:20px;
-
 }
 
 
-/* zones cliquables */
+/* ======================= */
+/* ZONES CLIQUABLES */
+/* ======================= */
 
 .zone{
-
 position:absolute;
 cursor:pointer;
 transition:0.3s;
-z-index:10;
-
 }
 
-/* effet glow */
+/* glow */
 
 .zone:hover{
-
 box-shadow:0 0 20px rgba(0,200,255,0.8);
-
 }
 
 
-/* ========================= */
+/* ======================= */
 /* MENU */
-/* ========================= */
+/* ======================= */
 
 .serveur{
 top:486px;
@@ -103,33 +95,27 @@ height:29px;
 }
 
 
-/* ========================= */
-/* REJOINDRE SERVEUR */
-/* ========================= */
+/* ======================= */
+/* BOUTON REJOINDRE */
+/* ======================= */
 
 .rejoindre{
-
 top:672px;
 left:181px;
-
 width:352px;
 height:60px;
-
 }
 
 
-/* ========================= */
+/* ======================= */
 /* DISCORD */
-/* ========================= */
+/* ======================= */
 
 .discord{
-
 top:915px;
 left:211px;
-
 width:309px;
 height:53px;
-
 }
 
 
