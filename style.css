@@ -25,6 +25,13 @@ position:relative;
 position:absolute;
 cursor:pointer;
 transition:0.3s;
+z-index:10;
+}
+
+/* glow effet */
+
+.zone:hover{
+box-shadow:0 0 20px rgba(0,200,255,0.8);
 }
 
 /* glow effet */
