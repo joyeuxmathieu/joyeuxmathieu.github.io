@@ -78,7 +78,7 @@ height:50px;
 
 .bot{
 top:540px;
-left:1470px;
+left:1500px;
 width:150px;
 height:50px;
 }
@@ -94,9 +94,9 @@ height:50px;
 /* BOUTON REJOINDRE */
 
 .rejoindre{
-top:672px;
-left:181px;
-width:352px;
+top:900px;
+left:800px;
+width:500px;
 height:60px;
 }
 
@@ -104,10 +104,10 @@ height:60px;
 /* DISCORD */
 
 .discord{
-top:915px;
-left:211px;
-width:309px;
-height:53px;
+top:1200px;
+left:900px;
+width:400px;
+height:60px;
 }
 /* ========================= */
 /* PAGE CONTENU */
