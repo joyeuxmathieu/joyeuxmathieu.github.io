@@ -1,4 +1,4 @@
-
+```html
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -9,6 +9,8 @@
 
 <style>
 
+/* GENERAL */
+
 body{
 margin:0;
 font-family:Arial;
@@ -17,7 +19,7 @@ background:linear-gradient(#020617,#050b1a);
 text-align:center;
 }
 
-/* container */
+/* CONTAINER */
 
 .container{
 width:900px;
@@ -25,15 +27,16 @@ margin:auto;
 padding-top:60px;
 }
 
-/* titre */
+/* TITRE */
 
 h1{
-font-size:40px;
+font-size:42px;
 letter-spacing:3px;
 color:#6fe8ff;
+text-shadow:0 0 15px #00eaff;
 }
 
-/* description */
+/* DESCRIPTION */
 
 .description{
 
@@ -45,12 +48,12 @@ margin-top:40px;
 border-radius:15px;
 
 box-shadow:
-0 0 25px rgba(0,200,255,0.5),
-inset 0 0 15px rgba(0,150,255,0.2);
+0 0 30px rgba(0,200,255,0.5),
+inset 0 0 20px rgba(0,150,255,0.2);
 
 }
 
-/* stats */
+/* GRID */
 
 .stats{
 
@@ -58,46 +61,110 @@ display:grid;
 grid-template-columns:1fr 1fr;
 
 gap:25px;
-
 margin-top:40px;
 
 }
 
-/* blocs */
+/* BLOCS */
 
 .stat{
-
-background:linear-gradient(180deg,#06142e,#020b1c);
 
 padding:25px;
 
 border-radius:15px;
 
+background-size:cover;
+background-position:center;
+
 box-shadow:
-0 0 20px rgba(0,200,255,0.4),
-inset 0 0 20px rgba(0,150,255,0.2);
+0 0 25px rgba(0,200,255,0.5),
+inset 0 0 30px rgba(0,0,0,0.8);
+
+position:relative;
+
+overflow:hidden;
+
+transition:0.3s;
+
+}
+
+/* ANIMATION */
+
+.stat:hover{
+
+transform:scale(1.05);
+box-shadow:0 0 40px #00eaff;
+
+}
+
+/* FILTRE SOMBRE */
+
+.stat::before{
+
+content:"";
+position:absolute;
+
+top:0;
+left:0;
+
+width:100%;
+height:100%;
+
+background:rgba(0,0,0,0.65);
+
+}
+
+/* TEXTE */
+
+.stat h2,
+.stat p{
+
+position:relative;
+z-index:2;
 
 }
 
 .stat h2{
+
 color:#00eaff;
 font-size:26px;
 margin-bottom:15px;
+
 }
 
-/* texte bleu electrique */
+/* TEXTE BLEU */
 
 .blue{
+
 color:#00eaff;
 font-weight:bold;
 line-height:1.6;
+
 }
 
-/* bouton join */
+/* IMAGES DERRIERE LES BLOCS */
+
+.maps{
+background-image:url("../Images/maps.jpg");
+}
+
+.slots{
+background-image:url("../Images/slots.jpg");
+}
+
+.rates{
+background-image:url("../Images/rates.jpg");
+}
+
+.mods{
+background-image:url("../Images/MOD.jpg");
+}
+
+/* BOUTON REJOINDRE */
 
 .join{
 
-margin-top:50px;
+margin-top:60px;
 
 background:linear-gradient(90deg,#00c3ff,#0066ff);
 
@@ -113,21 +180,24 @@ display:inline-block;
 
 transition:0.3s;
 
+box-shadow:0 0 20px #00eaff;
+
 }
 
 .join:hover{
 
 transform:scale(1.1);
 
-box-shadow:0 0 20px #00eaff;
+box-shadow:0 0 40px #00eaff;
 
 }
+
+/* RETOUR */
 
 .back{
 
 margin-top:40px;
 display:block;
-
 color:#aaa;
 
 }
@@ -169,7 +239,7 @@ des événements réguliers et une communauté active.
 
 <div class="stats">
 
-<div class="stat">
+<div class="stat maps">
 
 <h2>Maps</h2>
 
@@ -192,12 +262,17 @@ Valguero Event
 
 </div>
 
-<div class="stat">
+<div class="stat slots">
+
 <h2>Slots</h2>
-<p class="blue">70 joueurs par map</p>
+
+<p class="blue">
+70 joueurs par map
+</p>
+
 </div>
 
-<div class="stat">
+<div class="stat rates">
 
 <h2>Rates</h2>
 
@@ -216,6 +291,7 @@ Oeufs Wyvern & Drake 380
 </div>
 
 <div class="stat mods">
+
 <h2>Mods</h2>
 
 <p class="blue">
@@ -250,7 +326,7 @@ ARKOLOGY: OE - Desolatitan
 </div>
 
 <div class="join"
-onclick="window.location.href='https://alphark.fr/pages/serveur.html'">
+onclick="window.location.href='https://alphark.fr/pages/rejoindre.html'">
 
 REJOINDRE LE SERVEUR
 
@@ -266,5 +342,6 @@ REJOINDRE LE SERVEUR
 
 </body>
 </html>
+```
 
 
