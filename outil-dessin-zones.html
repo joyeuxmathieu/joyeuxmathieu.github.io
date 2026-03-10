@@ -1,129 +1,113 @@
 ```html
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
-
 <meta charset="UTF-8">
-<title>Editeur de zones</title>
+<title>Outil Dessin Zones</title>
 
 <style>
 
 body{
 margin:0;
 background:#111;
-font-family:Arial;
-display:flex;
-}
-
-.panel{
-width:300px;
-background:black;
 color:white;
-padding:10px;
+font-family:Arial;
+text-align:center;
 }
 
-textarea{
-width:100%;
-height:90vh;
+h2{
+margin:20px;
 }
 
-.container{
+#zone{
 position:relative;
-}
-
-img{
 width:720px;
+margin:auto;
+border:2px solid #444;
 }
 
-.zone{
+#zone img{
+width:720px;
+height:auto;
+display:block;
+}
 
+.selection{
 position:absolute;
-border:2px solid red;
-background:rgba(255,0,0,0.2);
+border:2px solid cyan;
+background:rgba(0,255,255,0.3);
+}
 
+#result{
+margin-top:20px;
+width:600px;
+height:160px;
+font-size:14px;
 }
 
 </style>
-
 </head>
 
 <body>
 
-<div class="panel">
+<h2>Outil placement boutons</h2>
 
-<h3>CSS généré</h3>
+<p>Glisse la souris sur l'image pour créer une zone.</p>
 
-<textarea id="css"></textarea>
+<div id="zone">
 
-</div>
-
-<div class="container" id="container">
-
-<img src="background.jpg">
+<img src="background.jpg" id="image">
 
 </div>
+
+<textarea id="result" placeholder="Le CSS apparaîtra ici"></textarea>
 
 <script>
 
-const container = document.getElementById("container");
-const css = document.getElementById("css");
+const zone = document.getElementById("zone");
 
-let startX,startY;
-let zone;
+let startX = 0;
+let startY = 0;
+let box = null;
 
-container.addEventListener("mousedown",e=>{
+zone.addEventListener("mousedown",function(e){
 
-const rect = container.getBoundingClientRect();
+startX = e.offsetX;
+startY = e.offsetY;
 
-startX = e.clientX - rect.left;
-startY = e.clientY - rect.top;
+box = document.createElement("div");
+box.className = "selection";
 
-zone = document.createElement("div");
-zone.className="zone";
+box.style.left = startX + "px";
+box.style.top = startY + "px";
 
-zone.style.left=startX+"px";
-zone.style.top=startY+"px";
+zone.appendChild(box);
 
-container.appendChild(zone);
-
-});
-
-container.addEventListener("mousemove",e=>{
-
-if(!zone) return;
-
-const rect = container.getBoundingClientRect();
-
-let x = e.clientX - rect.left;
-let y = e.clientY - rect.top;
-
-zone.style.width = (x-startX)+"px";
-zone.style.height = (y-startY)+"px";
+zone.addEventListener("mousemove",draw);
 
 });
 
-container.addEventListener("mouseup",()=>{
+function draw(e){
 
-if(!zone) return;
+let width = e.offsetX - startX;
+let height = e.offsetY - startY;
 
-const top = parseInt(zone.style.top);
-const left = parseInt(zone.style.left);
-const width = parseInt(zone.style.width);
-const height = parseInt(zone.style.height);
+box.style.width = width + "px";
+box.style.height = height + "px";
 
-css.value += `
-
-.zone{
-top:${top}px;
-left:${left}px;
-width:${width}px;
-height:${height}px;
 }
 
-`;
+zone.addEventListener("mouseup",function(e){
 
-zone=null;
+zone.removeEventListener("mousemove",draw);
+
+let css = 
+"top:" + startY + "px;\n" +
+"left:" + startX + "px;\n" +
+"width:" + box.offsetWidth + "px;\n" +
+"height:" + box.offsetHeight + "px;";
+
+document.getElementById("result").value = css;
 
 });
 
@@ -132,3 +116,4 @@ zone=null;
 </body>
 </html>
 ```
+
