@@ -6,7 +6,7 @@ justify-content:center;
 font-family:Arial;
 }
 
-/* image du site */
+/* IMAGE DU SITE */
 
 .site{
 
@@ -21,89 +21,78 @@ position:relative;
 
 }
 
-
 /* zones cliquables */
 
 .zone{
 position:absolute;
 cursor:pointer;
 transition:0.3s;
-z-index:10;
 }
 
-/* glow */
+/* effet glow */
 
 .zone:hover{
 box-shadow:0 0 20px rgba(0,200,255,0.8);
 }
 
-
-/* ================= */
-/* MENU SUR IMAGE */
-/* ================= */
+/* MENU */
 
 .serveur{
-top:486px;
-left:63px;
-width:101px;
-height:32px;
+top:480px;
+left:60px;
+width:100px;
+height:35px;
 }
 
 .events{
-top:486px;
+top:480px;
 left:165px;
-width:99px;
-height:32px;
+width:100px;
+height:35px;
 }
 
 .tribu{
-top:486px;
-left:268px;
-width:88px;
-height:30px;
+top:480px;
+left:270px;
+width:90px;
+height:35px;
 }
 
 .joueurs{
-top:486px;
-left:357px;
-width:93px;
-height:31px;
+top:480px;
+left:360px;
+width:100px;
+height:35px;
 }
 
 .bot{
-top:486px;
-left:452px;
-width:82px;
-height:32px;
+top:480px;
+left:460px;
+width:80px;
+height:35px;
 }
 
 .mod{
-top:486px;
-left:535px;
+top:480px;
+left:540px;
 width:90px;
-height:29px;
+height:35px;
 }
 
-
-/* ================= */
-/* BOUTON REJOINDRE */
-/* ================= */
+/* REJOINDRE SERVEUR */
 
 .rejoindre{
-top:672px;
-left:181px;
-width:352px;
-height:60px;
+top:670px;
+left:180px;
+width:360px;
+height:70px;
 }
 
-
-/* ================= */
 /* DISCORD */
-/* ================= */
 
 .discord{
-top:915px;
-left:211px;
-width:309px;
-height:53px;
+top:920px;
+left:210px;
+width:300px;
+height:60px;
 }
