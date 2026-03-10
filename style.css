@@ -6,7 +6,7 @@ justify-content:center;
 font-family:Arial;
 }
 
-/* conteneur du site */
+/* image du site */
 
 .site{
 
@@ -28,101 +28,82 @@ position:relative;
 position:absolute;
 cursor:pointer;
 transition:0.3s;
+z-index:10;
 }
 
-/* effet glow */
+/* glow */
 
 .zone:hover{
-
 box-shadow:0 0 20px rgba(0,200,255,0.8);
-
 }
 
 
-/* MENU */
+/* ================= */
+/* MENU SUR IMAGE */
+/* ================= */
 
 .serveur{
-
 top:486px;
 left:63px;
-
 width:101px;
 height:32px;
-
 }
 
 .events{
-
 top:486px;
 left:165px;
-
 width:99px;
 height:32px;
-
 }
 
 .tribu{
-
 top:486px;
 left:268px;
-
 width:88px;
 height:30px;
-
 }
 
 .joueurs{
-
 top:486px;
 left:357px;
-
 width:93px;
 height:31px;
-
 }
 
 .bot{
-
 top:486px;
 left:452px;
-
 width:82px;
 height:32px;
-
 }
 
 .mod{
-
 top:486px;
 left:535px;
-
 width:90px;
 height:29px;
-
 }
 
 
-/* bouton rejoindre */
+/* ================= */
+/* BOUTON REJOINDRE */
+/* ================= */
 
 .rejoindre{
-
 top:672px;
 left:181px;
-
 width:352px;
 height:60px;
-
 }
 
 
-/* bouton discord */
+/* ================= */
+/* DISCORD */
+/* ================= */
 
 .discord{
-
 top:915px;
 left:211px;
-
 width:309px;
 height:53px;
-
 }
