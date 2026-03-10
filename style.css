@@ -2,25 +2,34 @@
 /* STYLE GLOBAL */
 /* ======================= */
 
+/* fond du navigateur */
+
 body{
-
 margin:0;
+background:black;
+display:flex;
+justify-content:center;
 font-family:Arial;
-color:white;
-text-align:center;
+}
 
-/* fond plein écran */
+
+/* ton site */
+
+.site{
+
+width:720px;
+height:1400px;
 
 background-image:url("background.jpg");
-background-size:700px;
-background-position:center;
-background-size: 70%;
+background-size:100% auto;
 background-repeat:no-repeat;
-background-color:black;
+background-position:center top;
 
-overflow-x:hidden;
+position:relative;
 
 }
+
+
 
 
 /* effet sombre pour lisibilité */
