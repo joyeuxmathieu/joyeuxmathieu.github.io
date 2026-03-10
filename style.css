@@ -41,29 +41,25 @@ cursor:pointer;
 transition:0.3s;
 }
 
-/* glow */
-
 .zone:hover{
 box-shadow:0 0 20px rgba(0,200,255,0.8);
 }
 
 
-/* ======================= */
 /* MENU */
-/* ======================= */
 
 .serveur{
-top:196px;
-left:118px;
-width:76px;
-height:22px;
+top:486px;
+left:63px;
+width:101px;
+height:32px;
 }
 
 .events{
-top:196px;
-left:194px;
-width:89px;
-height:22px;
+top:486px;
+left:165px;
+width:99px;
+height:32px;
 }
 
 .tribu{
@@ -95,9 +91,7 @@ height:29px;
 }
 
 
-/* ======================= */
 /* BOUTON REJOINDRE */
-/* ======================= */
 
 .rejoindre{
 top:672px;
@@ -107,9 +101,7 @@ height:60px;
 }
 
 
-/* ======================= */
 /* DISCORD */
-/* ======================= */
 
 .discord{
 top:915px;
@@ -117,8 +109,6 @@ left:211px;
 width:309px;
 height:53px;
 }
-
-
 /* ========================= */
 /* PAGE CONTENU */
 /* ========================= */
