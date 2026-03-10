@@ -1,277 +1,128 @@
-/* ================= */
-/* GLOBAL */
-/* ================= */
-
 body{
-
 margin:0;
+background:black;
+display:flex;
+justify-content:center;
 font-family:Arial;
+}
 
-color:white;
-text-align:center;
+/* conteneur du site */
 
-/* fond gaming */
+.site{
+
+width:720px;
+height:1400px;
 
 background-image:url("background.jpg");
-background-size:cover;
-background-position:center;
-background-attachment:fixed;
+background-size:contain;
+background-repeat:no-repeat;
+
+position:relative;
 
 }
 
 
-/* overlay sombre */
+/* zones cliquables */
 
-body::before{
+.zone{
+position:absolute;
+cursor:pointer;
+transition:0.3s;
+}
 
-content:"";
-position:fixed;
+/* effet glow */
 
-top:0;
-left:0;
+.zone:hover{
 
-width:100%;
-height:100%;
-
-background:rgba(0,0,0,0.6);
-
-z-index:-1;
+box-shadow:0 0 20px rgba(0,200,255,0.8);
 
 }
 
 
-
-/* ================= */
 /* MENU */
-/* ================= */
 
-.menu{
+.serveur{
 
-display:flex;
-justify-content:space-between;
+top:486px;
+left:63px;
 
-align-items:center;
+width:101px;
+height:32px;
 
-padding:20px 60px;
+}
 
-background:rgba(0,0,0,0.5);
+.events{
 
-backdrop-filter:blur(5px);
+top:486px;
+left:165px;
+
+width:99px;
+height:32px;
+
+}
+
+.tribu{
+
+top:486px;
+left:268px;
+
+width:88px;
+height:30px;
+
+}
+
+.joueurs{
+
+top:486px;
+left:357px;
+
+width:93px;
+height:31px;
+
+}
+
+.bot{
+
+top:486px;
+left:452px;
+
+width:82px;
+height:32px;
+
+}
+
+.mod{
+
+top:486px;
+left:535px;
+
+width:90px;
+height:29px;
 
 }
 
 
-.logo{
+/* bouton rejoindre */
 
-font-size:26px;
-font-weight:bold;
+.rejoindre{
 
-color:#00eaff;
+top:672px;
+left:181px;
 
-text-shadow:0 0 10px #00eaff;
-
-}
-
-
-nav a{
-
-margin:0 15px;
-color:white;
-
-text-decoration:none;
-font-weight:bold;
-
-transition:0.3s;
-
-}
-
-nav a:hover{
-
-color:#00eaff;
-text-shadow:0 0 10px #00eaff;
+width:352px;
+height:60px;
 
 }
 
 
-
-/* ================= */
-/* HERO */
-/* ================= */
-
-.hero{
-
-height:70vh;
-
-display:flex;
-flex-direction:column;
-
-justify-content:center;
-align-items:center;
-
-}
-
-.hero h1{
-
-font-size:50px;
-
-text-shadow:
-
-0 0 10px #00eaff,
-0 0 30px #00eaff;
-
-}
-
-.hero p{
-
-font-size:20px;
-
-opacity:0.8;
-
-}
-
-
-/* bouton */
-
-.btn{
-
-margin-top:30px;
-
-padding:15px 40px;
-
-background:#00eaff;
-
-color:black;
-
-text-decoration:none;
-
-font-weight:bold;
-
-border-radius:10px;
-
-transition:0.3s;
-
-}
-
-.btn:hover{
-
-transform:scale(1.1);
-
-box-shadow:0 0 25px #00eaff;
-
-}
-
-
-
-/* ================= */
-/* FEATURES */
-/* ================= */
-
-.features{
-
-display:grid;
-
-grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-
-gap:30px;
-
-padding:80px;
-
-}
-
-.card{
-
-background:rgba(0,0,0,0.6);
-
-padding:30px;
-
-border-radius:15px;
-
-box-shadow:
-
-0 0 20px rgba(0,200,255,0.4);
-
-transition:0.3s;
-
-}
-
-.card:hover{
-
-transform:scale(1.05);
-
-box-shadow:
-
-0 0 35px rgba(0,200,255,0.8);
-
-}
-
-
-
-/* ================= */
-/* FOOTER */
-/* ================= */
-
-footer{
-
-padding:60px;
-
-}
+/* bouton discord */
 
 .discord{
 
-background:#5865F2;
+top:915px;
+left:211px;
 
-padding:15px 40px;
-
-border-radius:10px;
-
-color:white;
-
-text-decoration:none;
-
-font-weight:bold;
-
-transition:0.3s;
-
-}
-
-.discord:hover{
-
-transform:scale(1.1);
-
-box-shadow:0 0 20px #5865F2;
-
-}
-
-
-
-/* ================= */
-/* MOBILE */
-/* ================= */
-
-@media(max-width:800px){
-
-.menu{
-
-flex-direction:column;
-
-}
-
-nav{
-
-margin-top:10px;
-
-}
-
-.hero h1{
-
-font-size:35px;
-
-}
-
-.features{
-
-padding:40px;
-
-}
+width:309px;
+height:53px;
 
 }
