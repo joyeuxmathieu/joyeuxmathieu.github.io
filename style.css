@@ -1,10 +1,20 @@
+/* ======================= */
+/* STYLE GLOBAL */
+/* ======================= */
+
 body{
 margin:0;
 background:black;
 display:flex;
 justify-content:center;
 font-family:Arial;
+color:white;
 }
+
+
+/* ======================= */
+/* PAGE ACCUEIL */
+/* ======================= */
 
 .site{
 
@@ -19,6 +29,7 @@ position:relative;
 
 }
 
+
 /* zones cliquables */
 
 .zone{
@@ -28,145 +39,79 @@ transition:0.3s;
 z-index:10;
 }
 
-/* glow effet */
-
 .zone:hover{
 box-shadow:0 0 20px rgba(0,200,255,0.8);
 }
 
 
-
 /* MENU */
 
 .serveur{
-
 top:486px;
 left:63px;
-
 width:101px;
 height:32px;
-
 }
 
 .events{
-
 top:486px;
 left:165px;
-
 width:99px;
 height:32px;
-
 }
 
 .tribu{
-
 top:486px;
 left:268px;
-
 width:88px;
 height:30px;
-
 }
 
 .joueurs{
-
 top:486px;
 left:357px;
-
 width:93px;
 height:31px;
-
 }
 
 .bot{
-
 top:486px;
 left:452px;
-
 width:82px;
 height:32px;
-
 }
 
 .mod{
-
 top:486px;
 left:535px;
-
 width:90px;
 height:29px;
-
 }
 
-/* image derrière les mods */
 
-.mods{
-
-background-image:url("../images/MOD.jpg");
-background-size:cover;
-background-position:center;
-
-position:relative;
-
-}
-
-/* filtre sombre */
-
-.mods::before{
-
-content:"";
-position:absolute;
-
-top:0;
-left:0;
-
-width:100%;
-height:100%;
-
-background:rgba(0,0,0,0.65);
-
-border-radius:15px;
-
-}
-
-/* texte au dessus */
-
-.mods *{
-
-position:relative;
-z-index:2;
-
-}
-
-/* bouton rejoindre serveur */
+/* bouton rejoindre */
 
 .rejoindre{
-
 top:672px;
 left:181px;
-
 width:352px;
 height:60px;
-
 }
+
 
 /* bouton discord */
 
 .discord{
-
 top:915px;
 left:211px;
-
 width:309px;
 height:53px;
-
 }
 
 
 
-
 /* ======================= */
-/* CSS PAGE SERVEUR */
+/* PAGE SERVEUR */
 /* ======================= */
 
 .container{
@@ -174,6 +119,11 @@ width:900px;
 margin:auto;
 padding-top:60px;
 text-align:center;
+}
+
+h1{
+color:#00eaff;
+text-shadow:0 0 15px #00eaff;
 }
 
 .stats{
@@ -189,9 +139,13 @@ border-radius:15px;
 background-size:cover;
 background-position:center;
 position:relative;
+
+box-shadow:
+0 0 20px rgba(0,200,255,0.4),
+inset 0 0 20px rgba(0,150,255,0.2);
 }
 
-/* images */
+/* images des blocs */
 
 .maps{
 background-image:url("../images/maps.jpg");
@@ -209,11 +163,147 @@ background-image:url("../images/rates.jpg");
 background-image:url("../images/MOD.jpg");
 }
 
+/* texte bleu */
+
+.blue{
+color:#00eaff;
+font-weight:bold;
+line-height:1.6;
+}
+
 
 
 /* ======================= */
-/* CSS PAGE EVENEMENT */
+/* PAGE EVENEMENTS */
 /* ======================= */
 
+.events-page{
+width:700px;
+margin:auto;
+margin-top:60px;
+}
+
+.event{
+
+background:#111;
+padding:12px;
+margin:6px;
+border:1px solid #444;
+cursor:pointer;
+transition:0.3s;
+}
+
+.event:hover{
+
+background:#00eaff;
+color:black;
+transform:scale(1.05);
+
+}
+
+
+/* popup event */
+
+.popup{
+
+position:fixed;
+top:0;
+left:0;
+
+width:100%;
+height:100%;
+
+background:rgba(0,0,0,0.8);
+
+display:none;
+
+justify-content:center;
+align-items:center;
+
+}
+
+
+/* fiche event */
+
+.card{
+
+width:700px;
+height:400px;
+
+background-size:cover;
+background-position:center;
+
+border-radius:10px;
+
+box-shadow:0 0 30px #00eaff;
+
+position:relative;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+}
+
+
+/* texte popup */
+
+.card-text{
+
+background:rgba(0,0,0,0.7);
+
+padding:20px;
+
+border-radius:10px;
+
+width:80%;
+
+}
+
+
+/* bouton fermer */
+
+.close{
+
+position:absolute;
+top:10px;
+right:15px;
+
+font-size:25px;
+cursor:pointer;
+
+}
+
+
+/* bouton retour */
+
+.back{
+
+display:inline-block;
+
+margin-top:40px;
+
+padding:10px 25px;
+
+background:#111;
+
+border:1px solid #00eaff;
+
+color:#00eaff;
+
+text-decoration:none;
+
+border-radius:8px;
+
+transition:0.3s;
+
+}
+
+.back:hover{
+
+background:#00eaff;
+color:black;
+
+box-shadow:0 0 15px #00eaff;
 
 }
