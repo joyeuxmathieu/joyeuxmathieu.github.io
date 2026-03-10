@@ -1,4 +1,4 @@
-
+```html
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -14,9 +14,13 @@
 body{
 margin:0;
 font-family:Arial;
-background:#020617;
 color:white;
 text-align:center;
+
+background-image:url("../background.jpg");
+background-size:cover;
+background-position:center;
+background-attachment:fixed;
 }
 
 /* titre */
@@ -30,76 +34,52 @@ text-shadow:0 0 15px #00eaff;
 /* liste */
 
 .events{
-
 width:600px;
 margin:auto;
 margin-top:40px;
-
 }
 
 /* bouton event */
 
 .event{
-
 background:#111;
-
 padding:12px;
-
 margin:6px;
-
 border:1px solid #444;
-
 cursor:pointer;
-
 transition:0.3s;
-
 }
 
 .event:hover{
-
 background:#00eaff;
 color:black;
 transform:scale(1.05);
-
 }
 
 /* popup */
 
 .popup{
-
 position:fixed;
-
 top:0;
 left:0;
-
 width:100%;
 height:100%;
-
 background:rgba(0,0,0,0.8);
-
 display:none;
-
 justify-content:center;
 align-items:center;
-
 }
 
 /* fiche */
 
 .card{
-
 width:700px;
 height:400px;
 
 background-size:cover;
 background-position:center;
-background-image:url("../images/events-bg.jpg");
-background-size:cover;
-background-position:center;
-background-attachment:fixed;
 
 border-radius:10px;
-
 box-shadow:0 0 30px #00eaff;
 
 position:relative;
@@ -107,36 +87,34 @@ position:relative;
 display:flex;
 align-items:center;
 justify-content:center;
-
 }
 
 /* texte */
 
 .card-text{
-
 background:rgba(0,0,0,0.7);
-
 padding:20px;
-
 border-radius:10px;
-
 width:80%;
-
 }
 
-/* bouton fermer */
+/* fermer */
 
 .close{
-
 position:absolute;
-
 top:10px;
 right:15px;
-
 font-size:25px;
-
 cursor:pointer;
+}
 
+/* bouton retour */
+
+.back{
+display:block;
+margin-top:40px;
+color:white;
+text-decoration:none;
 }
 
 </style>
@@ -161,18 +139,7 @@ cursor:pointer;
 
 <div class="event" onclick="openEvent('tresor','Chasse au trésor','Trouver les indices pour gagner le trésor.')">CHASSE AU TRESOR</div>
 
-<div class="event" onclick="openEvent('quidditch','Coupe de Quidditch','Match inspiré de Harry Potter.')">COUPE DE QUIDDITCH</div>
-
-<div class="event" onclick="openEvent('combat','Parcours du combattant','Parcours rempli d’obstacles.')">PARCOURS DU COMBATTANT</div>
-
-<div class="event" onclick="openEvent('total','Total War','Combat général entre tribus.')">TOTAL WAR</div>
-
-<div class="event" onclick="openEvent('duel','Jeux de l'ile','Défis dans une arène.')">JEUX DE L'ILE</div>
-
-<div class="event" onclick="openEvent('tir','Tir à l'arc','Concours de précision.')">TIR A L'ARC</div>
-
 </div>
-
 
 <div class="popup" id="popup">
 
@@ -192,6 +159,9 @@ cursor:pointer;
 
 </div>
 
+<a class="back" href="../index.html">
+⬅ Retour accueil
+</a>
 
 <script>
 
@@ -212,11 +182,14 @@ function closeEvent(){
 document.getElementById("popup").style.display="none"
 
 }
-<a class="back" href="../index.html">
+</div>
 
-⬅ Retour accueil
-</script>
+<a class="back" href="../index.html">⬅ Retour accueil</a>
+
+<script>
 
 </body>
 </html>
+
+
 
