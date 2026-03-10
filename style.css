@@ -1,19 +1,23 @@
-/* ========================= */
+/* ======================= */
 /* BASE */
-/* ========================= */
+/* ======================= */
 
 body{
 margin:0;
 background:black;
+font-family:Arial;
+
 display:flex;
 justify-content:center;
-font-family:Arial;
+align-items:flex-start;
+
+min-height:100vh;
 }
 
 
-/* ========================= */
+/* ======================= */
 /* PAGE PRINCIPALE */
-/* ========================= */
+/* ======================= */
 
 .site{
 
@@ -22,10 +26,12 @@ height:1400px;
 
 background-image:url("background.jpg");
 
-background-size:contain;
+background-size:720px 1400px;
 background-repeat:no-repeat;
 
 position:relative;
+
+margin-top:20px;
 
 }
 
