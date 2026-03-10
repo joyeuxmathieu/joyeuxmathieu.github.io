@@ -1,26 +1,10 @@
-/* ======================= */
-/* BASE SITE */
-/* ======================= */
-
 body{
 margin:0;
-font-family:Arial;
 background:black;
-color:white;
-}
-
-
-/* ======================= */
-/* PAGE PRINCIPALE */
-/* ======================= */
-
-.home{
-
 display:flex;
 justify-content:center;
+font-family:Arial;
 }
-
-/* image du site */
 
 .site{
 
@@ -35,117 +19,82 @@ position:relative;
 
 }
 
-
 /* zones cliquables */
 
 .zone{
-
 position:absolute;
 cursor:pointer;
 transition:0.3s;
 z-index:10;
-
 }
 
-
-/* glow */
+/* glow effet */
 
 .zone:hover{
-
-box-shadow:
-0 0 20px rgba(0,200,255,0.8);
-
+box-shadow:0 0 20px rgba(0,200,255,0.8);
 }
-
 
 /* MENU */
 
 .serveur{
-
 top:486px;
 left:63px;
-
 width:101px;
 height:32px;
-
 }
 
 .events{
-
 top:486px;
 left:165px;
-
 width:99px;
 height:32px;
-
 }
 
 .tribu{
-
 top:486px;
 left:268px;
-
 width:88px;
 height:30px;
-
 }
 
 .joueurs{
-
 top:486px;
 left:357px;
-
 width:93px;
 height:31px;
-
 }
 
 .bot{
-
 top:486px;
 left:452px;
-
 width:82px;
 height:32px;
-
 }
 
 .mod{
-
 top:486px;
 left:535px;
-
 width:90px;
 height:29px;
-
 }
 
-
-/* rejoindre serveur */
+/* bouton rejoindre serveur */
 
 .rejoindre{
-
 top:672px;
 left:181px;
-
 width:352px;
 height:60px;
-
 }
 
-
-/* discord */
+/* bouton discord */
 
 .discord{
-
 top:915px;
 left:211px;
-
 width:309px;
 height:53px;
-
-}
-
+}v
 
 /* ======================= */
 /* PAGE SERVEUR */
@@ -224,240 +173,46 @@ margin-bottom:10px;
 .events-page{
 
 background-image:url("../images/events-bg.jpg");
-
 background-size:cover;
-
 background-position:center;
-
-background-attachment:fixed;
 
 min-height:100vh;
 
+color:white;
 text-align:center;
 
 }
 
-
-/* filtre sombre */
-
-.events-page::before{
-
-content:"";
-
-position:fixed;
-
-top:0;
-left:0;
-
-width:100%;
-height:100%;
-
-background:rgba(0,0,0,0.65);
-
-z-index:-1;
-
-}
-
-
 /* titre */
 
 .events-page h1{
-
-margin-top:40px;
-
 color:#00eaff;
-
-text-shadow:
-
-0 0 10px #00eaff,
-0 0 20px #00eaff;
-
+margin-top:40px;
 }
 
-
-/* liste events */
+/* liste */
 
 .events{
-
 width:600px;
-
 margin:auto;
-
 margin-top:40px;
-
 }
-
 
 /* bouton event */
 
 .event{
-
-background:rgba(0,0,0,0.7);
-
+background:black;
 padding:12px;
-
 margin:6px;
-
-border:1px solid rgba(0,200,255,0.5);
-
+border:1px solid #444;
 cursor:pointer;
-
 transition:0.3s;
-
-border-radius:5px;
-
 }
-
 
 /* hover */
 
 .event:hover{
-
 background:#00eaff;
-
 color:black;
-
 transform:scale(1.05);
-
-box-shadow:
-
-0 0 15px #00eaff,
-0 0 30px #00eaff;
-
-}
-
-
-/* popup */
-
-.popup{
-
-position:fixed;
-
-top:0;
-left:0;
-
-width:100%;
-height:100%;
-
-background:rgba(0,0,0,0.85);
-
-display:none;
-
-justify-content:center;
-align-items:center;
-
-z-index:100;
-
-}
-
-
-/* carte event */
-
-.card{
-
-width:700px;
-height:420px;
-
-background-size:cover;
-background-position:center;
-
-border-radius:12px;
-
-box-shadow:
-
-0 0 30px #00eaff;
-
-display:flex;
-align-items:center;
-justify-content:center;
-
-position:relative;
-
-}
-
-
-/* overlay */
-
-.card::before{
-
-content:"";
-
-position:absolute;
-
-top:0;
-left:0;
-
-width:100%;
-height:100%;
-
-background:rgba(0,0,0,0.6);
-
-border-radius:12px;
-
-}
-
-
-/* texte */
-
-.card-text{
-
-position:relative;
-
-background:rgba(0,0,0,0.7);
-
-padding:25px;
-
-border-radius:10px;
-
-width:80%;
-
-}
-
-
-/* fermer */
-
-.close{
-
-position:absolute;
-
-top:10px;
-right:15px;
-
-font-size:28px;
-
-cursor:pointer;
-
-}
-
-
-/* bouton retour */
-
-.back{
-
-display:inline-block;
-
-margin-top:40px;
-
-padding:12px 25px;
-
-background:rgba(0,0,0,0.6);
-
-border:1px solid #00eaff;
-
-border-radius:6px;
-
-color:#00eaff;
-
-text-decoration:none;
-
-transition:0.3s;
-
-}
-
-.back:hover{
-
-background:#00eaff;
-
-color:black;
-
 }
