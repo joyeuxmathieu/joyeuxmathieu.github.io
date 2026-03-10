@@ -7,20 +7,17 @@ font-family:Arial;
 }
 .site{
 
-width:720px;
-height:1400px;
+width:100vw;
+height:100vh;
 
-background-image:url("background.jpg");
+background:url("background.jpg") center no-repeat;
 
-background-size:720px 1400px;
-
-background-repeat:no-repeat;
+background-size:cover;
 
 position:relative;
 
-
-
 }
+
 
 /* zones cliquables */
 
