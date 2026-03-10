@@ -12,9 +12,10 @@ text-align:center;
 /* fond plein écran */
 
 background-image:url("background.jpg");
-background-size:cover;
+background-size:contain;
 background-position:center;
-background-attachment:fixed;
+background-repeat:no-repeat;
+background-color:black;
 
 overflow-x:hidden;
 
