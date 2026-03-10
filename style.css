@@ -58,35 +58,35 @@ height:50px;
 .events{
 top:540px;
 left:840px;
-width:300px;
+width:250px;
 height:50px;
 }
 
 .tribu{
 top:540px;
-left:1250px;
-width:88px;
+left:1100px;
+width:150px;
 height:50px;
 }
 
 .joueurs{
 top:540px;
-left:1500px;
-width:93px;
+left:1300px;
+width:200px;
 height:50px;
 }
 
 .bot{
 top:540px;
-left:1700px;
-width:82px;
+left:1650px;
+width:100px;
 height:50px;
 }
 
 .mod{
-top:486px;
+top:540px;
 left:1800px;
-width:90px;
+width:150px;
 height:50px;
 }
 
