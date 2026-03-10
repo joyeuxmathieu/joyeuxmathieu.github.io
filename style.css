@@ -1,3 +1,7 @@
+/* ========================= */
+/* BASE */
+/* ========================= */
+
 body{
 margin:0;
 background:black;
@@ -5,14 +9,21 @@ display:flex;
 justify-content:center;
 font-family:Arial;
 }
+
+
+/* ========================= */
+/* PAGE PRINCIPALE */
+/* ========================= */
+
 .site{
 
-width:100vw;
-height:100vh;
+width:720px;
+height:1400px;
 
-background:url("background.jpg") center no-repeat;
+background-image:url("background.jpg");
 
-background-size:cover;
+background-size:contain;
+background-repeat:no-repeat;
 
 position:relative;
 
@@ -22,19 +33,26 @@ position:relative;
 /* zones cliquables */
 
 .zone{
+
 position:absolute;
 cursor:pointer;
 transition:0.3s;
 z-index:10;
+
 }
 
-/* glow effet */
+/* effet glow */
 
 .zone:hover{
+
 box-shadow:0 0 20px rgba(0,200,255,0.8);
+
 }
 
+
+/* ========================= */
 /* MENU */
+/* ========================= */
 
 .serveur{
 top:486px;
@@ -78,141 +96,113 @@ width:90px;
 height:29px;
 }
 
-/* bouton rejoindre serveur */
+
+/* ========================= */
+/* REJOINDRE SERVEUR */
+/* ========================= */
 
 .rejoindre{
+
 top:672px;
 left:181px;
+
 width:352px;
 height:60px;
+
 }
 
-/* bouton discord */
+
+/* ========================= */
+/* DISCORD */
+/* ========================= */
 
 .discord{
+
 top:915px;
 left:211px;
+
 width:309px;
 height:53px;
-}v
 
-/* ======================= */
-/* PAGE SERVEUR */
-/* ======================= */
+}
 
-.server-page{
 
-background-image:url("images/server-bg.jpg");
+/* ========================= */
+/* PAGE CONTENU */
+/* ========================= */
 
-background-size:cover;
-background-position:center;
+.page{
+
+color:white;
+text-align:center;
+
+background:#020617;
 
 min-height:100vh;
-
-text-align:center;
 
 padding-top:60px;
 
 }
 
 
+/* titre */
+
+.page h1{
+
+color:#00eaff;
+
+text-shadow:0 0 10px #00eaff;
+
+}
+
+
 /* blocs */
 
-.container{
+.box{
 
-width:900px;
-margin:auto;
-
-}
-
-.stats{
-
-display:grid;
-
-grid-template-columns:1fr 1fr;
-
-gap:25px;
-
-margin-top:40px;
-
-}
-
-
-/* cartes */
-
-.stat{
+background:#06142e;
 
 padding:25px;
 
-border-radius:15px;
+margin:20px auto;
 
-background:rgba(0,0,0,0.7);
+width:700px;
+
+border-radius:10px;
 
 box-shadow:
 
-0 0 20px rgba(0,200,255,0.4);
+0 0 20px rgba(0,200,255,0.5);
 
 }
 
 
-/* titre */
+/* bouton retour */
 
-.stat h2{
+.back{
+
+display:inline-block;
+
+margin-top:40px;
+
+padding:12px 25px;
+
+border:1px solid #00eaff;
 
 color:#00eaff;
 
-margin-bottom:10px;
+text-decoration:none;
 
-}
+border-radius:6px;
 
-
-/* ======================= */
-/* PAGE EVENEMENTS */
-/* ======================= */
-
-.events-page{
-
-background-image:url("../images/events-bg.jpg");
-background-size:cover;
-background-position:center;
-
-min-height:100vh;
-
-color:white;
-text-align:center;
-
-}
-
-/* titre */
-
-.events-page h1{
-color:#00eaff;
-margin-top:40px;
-}
-
-/* liste */
-
-.events{
-width:600px;
-margin:auto;
-margin-top:40px;
-}
-
-/* bouton event */
-
-.event{
-background:black;
-padding:12px;
-margin:6px;
-border:1px solid #444;
-cursor:pointer;
 transition:0.3s;
+
 }
 
-/* hover */
+.back:hover{
 
-.event:hover{
 background:#00eaff;
+
 color:black;
-transform:scale(1.05);
+
 }
