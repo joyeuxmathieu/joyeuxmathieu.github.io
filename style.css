@@ -137,3 +137,27 @@ position:relative;
 z-index:2;
 
 }
+
+/* bouton rejoindre serveur */
+
+.rejoindre{
+
+top:672px;
+left:181px;
+
+width:352px;
+height:60px;
+
+}
+
+/* bouton discord */
+
+.discord{
+
+top:1040px;
+left:200px;
+
+width:320px;
+height:70px;
+
+}
