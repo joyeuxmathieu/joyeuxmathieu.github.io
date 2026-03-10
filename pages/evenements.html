@@ -1,135 +1,24 @@
-```html
 <!DOCTYPE html>
 <html lang="fr">
 
 <head>
-<link rel="stylesheet" href="../style.css">
+
 <meta charset="UTF-8">
 <title>Événements Alphark</title>
 
-<style>
-
-/* fond */
-
-body{
-margin:0;
-font-family:Arial;
-color:white;
-text-align:center;
-
-background-image:url("../events-bg.jpg");
-background-size:cover;
-background-position:center;
-background-attachment:fixed;
-}
-
-/* titre */
-
-h1{
-margin-top:40px;
-color:#00eaff;
-text-shadow:0 0 15px #00eaff;
-}
-
-/* liste */
-
-.events{
-width:600px;
-margin:auto;
-margin-top:40px;
-}
-
-/* bouton event */
-
-.event{
-background:#111;
-padding:12px;
-margin:6px;
-border:1px solid #444;
-cursor:pointer;
-transition:0.3s;
-}
-
-.event:hover{
-background:#00eaff;
-color:black;
-transform:scale(1.05);
-}
-
-/* popup */
-
-.popup{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.8);
-display:none;
-justify-content:center;
-align-items:center;
-}
-
-/* fiche */
-
-.card{
-width:700px;
-height:400px;
-
-background-size:cover;
-background-position:center;
-
-border-radius:10px;
-box-shadow:0 0 30px #00eaff;
-
-position:relative;
-
-display:flex;
-align-items:center;
-justify-content:center;
-}
-
-/* texte */
-
-.card-text{
-background:rgba(0,0,0,0.7);
-padding:20px;
-border-radius:10px;
-width:80%;
-}
-
-/* fermer */
-
-.close{
-position:absolute;
-top:10px;
-right:15px;
-font-size:25px;
-cursor:pointer;
-}
-
-/* bouton retour */
-
-.back{
-display:block;
-margin-top:40px;
-color:white;
-text-decoration:none;
-}
-
-</style>
+<link rel="stylesheet" href="../style.css">
 
 </head>
 
-<body>
+<body class="events-page">
 
 <h1>Événements Alphark</h1>
 
 <div class="events">
 
-<div class="event" onclick="openEvent('course','Course Dino','Course de dinos dans une arène. Le premier qui arrive gagne !')">COURSE DINO</div>
+<div class="event" onclick="openEvent('course','Course Dino','Course de dinos dans une arène. Le premier qui arrive gagne.')">COURSE DINO</div>
 
-<div class="event" onclick="openEvent('glace','Palais des Glace','Labyrinthe glacé rempli de pièges.')">PALAIS DES GLACE</div>
+<div class="event" onclick="openEvent('glace','Palais des Glaces','Labyrinthe glacé rempli de pièges.')">PALAIS DES GLACES</div>
 
 <div class="event" onclick="openEvent('rallye','ARK Rallye','Course à travers la map avec checkpoints.')">ARK RALLYE</div>
 
@@ -139,7 +28,20 @@ text-decoration:none;
 
 <div class="event" onclick="openEvent('tresor','Chasse au trésor','Trouver les indices pour gagner le trésor.')">CHASSE AU TRESOR</div>
 
+<div class="event" onclick="openEvent('quidditch','Coupe de Quidditch','Match inspiré de Harry Potter.')">COUPE DE QUIDDITCH</div>
+
+<div class="event" onclick="openEvent('combat','Parcours du combattant','Parcours rempli d’obstacles.')">PARCOURS DU COMBATTANT</div>
+
+<div class="event" onclick="openEvent('total','Total War','Combat général entre tribus.')">TOTAL WAR</div>
+
+<div class="event" onclick="openEvent('ile','Jeux de l'île','Défis dans une arène.')">JEUX DE L'ILE</div>
+
+<div class="event" onclick="openEvent('tir','Tir à l’arc','Concours de précision.')">TIR A L'ARC</div>
+
 </div>
+
+
+<!-- POPUP -->
 
 <div class="popup" id="popup">
 
@@ -159,9 +61,9 @@ text-decoration:none;
 
 </div>
 
-<a class="back" href="../index.html">
-⬅ Retour accueil
-</a>
+
+<a class="back" href="../index.html">⬅ Retour accueil</a>
+
 
 <script>
 
@@ -182,14 +84,8 @@ function closeEvent(){
 document.getElementById("popup").style.display="none"
 
 }
-</div>
 
-<a class="back" href="../index.html">⬅ Retour accueil</a>
-
-<script>
+</script>
 
 </body>
 </html>
-
-
-
