@@ -19,12 +19,12 @@ font-family:Arial;
 
 .site{
 
-width:720px;
-height:1400px;
+width:100vw;
+height:100vh;
 
-background:url("background.jpg") no-repeat center;
+background:url("background.jpg") center no-repeat;
 
-background-size:contain;
+background-size:cover;
 
 position:relative;
 
