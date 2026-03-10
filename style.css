@@ -24,7 +24,7 @@ height:100vh;
 
 background:url("background.jpg") center no-repeat;
 
-background-size:cover;
+background-size:contain;
 
 position:relative;
 
