@@ -161,3 +161,50 @@ width:309px;
 height:53px;
 
 }
+
+
+
+
+/* ======================= */
+/* CSS PAGE SERVEUR */
+/* ======================= */
+
+.container{
+width:900px;
+margin:auto;
+padding-top:60px;
+text-align:center;
+}
+
+.stats{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:25px;
+margin-top:40px;
+}
+
+.stat{
+padding:25px;
+border-radius:15px;
+background-size:cover;
+background-position:center;
+position:relative;
+}
+
+/* images */
+
+.maps{
+background-image:url("../Images/maps.jpg");
+}
+
+.slots{
+background-image:url("../Images/slots.jpg");
+}
+
+.rates{
+background-image:url("../Images/rates.jpg");
+}
+
+.mods{
+background-image:url("../Images/MOD.jpg");
+}
