@@ -39,10 +39,9 @@ position:relative;
 position:absolute;
 cursor:pointer;
 transition:0.3s;
-}
 
-.zone:hover{
-box-shadow:0 0 20px rgba(0,200,255,0.8);
+background:rgba(0,255,255,0.3);
+border:2px solid cyan;
 }
 
 
