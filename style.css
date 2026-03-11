@@ -4,202 +4,10 @@
 
 body{
 margin:0;
-background:black;
 font-family:Arial;
-}
-
-/* page accueil uniquement */
-
-.home{
-display:flex;
-justify-content:center;
-align-items:center;
-min-height:100vh;
-}
-
-
-/* ======================= */
-/* IMAGE PRINCIPALE */
-/* ======================= */
-
-.site{
-
-width:100vw;
-height:100vh;
-
-background:url("background.jpg") center no-repeat;
-
-background-size:contain;
-
-position:relative;
-
-}
-
-
-/* ======================= */
-/* ZONES CLIQUABLES */
-/* ======================= */
-
-.zone{
-
-position:absolute;
-
-cursor:pointer;
-
-transition:0.3s;
-
-background:transparent;
-
-border:none;
-
-}
-
-
-/* ======================= */
-/* MENU */
-/* ======================= */
-
-.serveur{
-top:540px;
-left:620px;
-width:200px;
-height:50px;
-}
-
-.events{
-top:540px;
-left:820px;
-width:250px;
-height:50px;
-}
-
-.tribu{
-top:540px;
-left:1080px;
-width:180px;
-height:50px;
-}
-
-.joueurs{
-top:540px;
-left:1270px;
-width:200px;
-height:50px;
-}
-
-.bot{
-top:540px;
-left:1500px;
-width:150px;
-height:50px;
-}
-
-.mod{
-top:540px;
-left:1650px;
-width:150px;
-height:50px;
-}
-
-
-/* ======================= */
-/* BOUTONS PRINCIPAUX */
-/* ======================= */
-
-.rejoindre{
-top:850px;
-left:920px;
-width:700px;
-height:90px;
-}
-
-.discord{
-top:1200px;
-left:1000px;
-width:520px;
-height:60px;
-}
-
-
-/* ========================= */
-/* PAGE CONTENU */
-/* ========================= */
-
-.page{
-
 color:white;
-text-align:center;
-
-background:#020617;
-
-min-height:100vh;
-
-padding-top:60px;
-
+background:black;
 }
-
-
-/* titre */
-
-.page h1{
-
-color:#00eaff;
-
-text-shadow:0 0 10px #00eaff;
-
-}
-
-
-/* blocs */
-
-.box{
-
-background:#06142e;
-
-padding:25px;
-
-margin:20px auto;
-
-width:700px;
-
-border-radius:10px;
-
-box-shadow:
-0 0 20px rgba(0,200,255,0.5);
-
-}
-
-
-/* bouton retour */
-
-.back{
-
-display:inline-block;
-
-margin-top:40px;
-
-padding:12px 25px;
-
-border:1px solid #00eaff;
-
-color:#00eaff;
-
-text-decoration:none;
-
-border-radius:6px;
-
-transition:0.3s;
-
-}
-
-.back:hover{
-
-background:#00eaff;
-
-color:black;
-
-}
-
 
 /* ======================= */
 /* PAGE EVENEMENTS */
@@ -207,30 +15,23 @@ color:black;
 
 .events-page{
 
-background-image:url("../images/event-bg.jpg");
+background:url("images/event-bg.jpg") center no-repeat;
 
 background-size:cover;
 
-background-position:center;
-
-background-repeat:no-repeat;
-
 min-height:100vh;
 
-color:white;
+text-align:center;
 
 padding-top:40px;
 
 }
 
-
+/* ======================= */
 /* TITRE */
+/* ======================= */
 
 .titre-event{
-
-text-align:center;
-
-margin-bottom:40px;
 
 font-size:45px;
 
@@ -238,10 +39,13 @@ color:#00eaff;
 
 text-shadow:0 0 20px #00eaff;
 
+margin-bottom:40px;
+
 }
 
-
+/* ======================= */
 /* LISTE EVENTS */
+/* ======================= */
 
 .events-list{
 
@@ -257,20 +61,19 @@ gap:12px;
 
 }
 
-
-/* BOUTON EVENT */
+/* ======================= */
+/* BOUTONS EVENT */
+/* ======================= */
 
 .event{
 
 background:black;
 
+border:1px solid #333;
+
 padding:10px;
 
-text-align:center;
-
 cursor:pointer;
-
-border:1px solid #333;
 
 transition:0.3s;
 
@@ -286,9 +89,8 @@ transform:scale(1.05);
 
 }
 
-
 /* ======================= */
-/* POPUP EVENT */
+/* POPUP */
 /* ======================= */
 
 .popup{
@@ -313,8 +115,9 @@ align-items:center;
 
 }
 
-
-/* fiche event */
+/* ======================= */
+/* CARTE EVENT */
+/* ======================= */
 
 .event-card{
 
@@ -330,18 +133,17 @@ text-align:center;
 
 position:relative;
 
-box-shadow:0 0 20px #00eaff;
-
 }
 
-
-/* bouton fermer */
+/* ======================= */
+/* BOUTON FERMER */
+/* ======================= */
 
 .close{
 
 position:absolute;
 
-top:15px;
+top:10px;
 
 right:20px;
 
@@ -351,9 +153,8 @@ cursor:pointer;
 
 }
 
-
 /* ======================= */
-/* BOUTON RETOUR */
+/* RETOUR */
 /* ======================= */
 
 .retour{
@@ -362,7 +163,7 @@ display:block;
 
 width:200px;
 
-margin:60px auto 40px auto;
+margin:60px auto;
 
 text-align:center;
 
