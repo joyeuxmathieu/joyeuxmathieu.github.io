@@ -200,7 +200,6 @@ color:black;
 
 }
 
-
 /* PAGE EVENTS */
 
 .events-page{
@@ -212,15 +211,19 @@ min-height:100vh;
 
 font-family:Arial;
 color:white;
-text-align:center;
 
 }
 
-/* titre */
+/* titre centré */
 
-.title{
+.titre-event{
 
-margin-top:40px;
+position:absolute;
+
+top:40px;
+left:50%;
+
+transform:translateX(-50%);
 
 font-size:40px;
 
@@ -230,31 +233,36 @@ text-shadow:0 0 20px #00eaff;
 
 }
 
-/* liste */
+/* liste des events */
 
 .events-list{
 
-width:400px;
+position:absolute;
 
-margin:auto;
+top:150px;
+left:50%;
 
-margin-top:40px;
+transform:translateX(-50%);
+
+width:300px;
 
 }
 
-/* bouton event */
+/* boutons events */
 
 .event{
 
-background:#111;
+background:black;
 
 margin:6px;
 
 padding:12px;
 
+text-align:center;
+
 cursor:pointer;
 
-border:1px solid #555;
+border:1px solid #333;
 
 transition:0.3s;
 
@@ -270,54 +278,36 @@ transform:scale(1.05);
 
 }
 
-/* popup */
+/* bouton retour */
 
-.popup{
-
-position:fixed;
-
-top:0;
-left:0;
-
-width:100%;
-height:100%;
-
-background:rgba(0,0,0,0.85);
-
-display:none;
-
-justify-content:center;
-align-items:center;
-
-}
-
-/* fiche */
-
-.event-card{
-
-width:600px;
-
-background:rgba(0,0,0,0.8);
-
-padding:30px;
-
-border-radius:10px;
-
-box-shadow:0 0 30px #00eaff;
-
-}
-
-/* fermer */
-
-.close{
+.retour{
 
 position:absolute;
 
-top:20px;
-right:40px;
+bottom:40px;
 
-font-size:30px;
+left:50%;
 
-cursor:pointer;
+transform:translateX(-50%);
+
+background:black;
+
+padding:12px 30px;
+
+text-decoration:none;
+
+color:white;
+
+border:1px solid #444;
+
+transition:0.3s;
+
+}
+
+.retour:hover{
+
+background:#00eaff;
+
+color:black;
 
 }
