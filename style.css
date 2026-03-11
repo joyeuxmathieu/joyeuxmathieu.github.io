@@ -218,14 +218,11 @@ color:white;
 
 .titre-event{
 
-position:absolute;
-
-top:40px;
-left:50%;
-
-transform:translateX(-50%);
+text-align:center;
 
 font-size:40px;
+
+margin-top:40px;
 
 color:#00eaff;
 
@@ -233,28 +230,29 @@ text-shadow:0 0 20px #00eaff;
 
 }
 
-/* liste des events */
+/* GRILLE EVENTS */
 
-.events-list{
+.events-grid{
 
-position:absolute;
+width:900px;
 
-top:150px;
-left:50%;
+margin:auto;
 
-transform:translateX(-50%);
+margin-top:80px;
 
-width:300px;
+display:grid;
+
+grid-template-columns:repeat(3, 1fr);
+
+gap:15px;
 
 }
 
-/* boutons events */
+/* BOUTON EVENT */
 
 .event{
 
 background:black;
-
-margin:6px;
 
 padding:12px;
 
@@ -265,6 +263,8 @@ cursor:pointer;
 border:1px solid #333;
 
 transition:0.3s;
+
+color:white;
 
 }
 
@@ -278,25 +278,25 @@ transform:scale(1.05);
 
 }
 
-/* bouton retour */
+/* BOUTON RETOUR */
 
 .retour{
 
-position:absolute;
+display:block;
 
-bottom:40px;
+width:200px;
 
-left:50%;
+margin:80px auto;
 
-transform:translateX(-50%);
+text-align:center;
 
 background:black;
 
-padding:12px 30px;
-
-text-decoration:none;
+padding:12px;
 
 color:white;
+
+text-decoration:none;
 
 border:1px solid #444;
 
