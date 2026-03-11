@@ -34,14 +34,25 @@ position:relative;
 /* ======================= */
 /* ZONES CLIQUABLES */
 /* ======================= */
-
 .zone{
 position:absolute;
 cursor:pointer;
 transition:0.3s;
 
-background:rgba(0,255,255,0.3);
-border:2px solid cyan;
+/* invisible */
+
+background:transparent;
+border:none;
+}
+.zone{
+position:absolute;
+cursor:pointer;
+transition:0.3s;
+
+/* invisible */
+
+background:transparent;
+border:none;
 }
 
 
