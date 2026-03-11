@@ -4,7 +4,7 @@
 <head>
 
 <meta charset="UTF-8">
-<title>Événements Alphark</title>
+<title>Evénements Alphark</title>
 
 <link rel="stylesheet" href="../style.css">
 
@@ -12,77 +12,86 @@
 
 <body class="events-page">
 
-<h1>Événements Alphark</h1>
+<h1 class="title">ÉVÉNEMENTS ALPHARK</h1>
 
-<div class="events">
+<div class="events-list">
 
-<div class="event" onclick="openEvent('course','Course Dino','Course de dinos dans une arène. Le premier qui arrive gagne.')">COURSE DINO</div>
-
-<div class="event" onclick="openEvent('glace','Palais des Glaces','Labyrinthe glacé rempli de pièges.')">PALAIS DES GLACES</div>
-
-<div class="event" onclick="openEvent('rallye','ARK Rallye','Course à travers la map avec checkpoints.')">ARK RALLYE</div>
-
-<div class="event" onclick="openEvent('peche','Pêche','Concours de pêche, le plus gros poisson gagne.')">PECHE</div>
-
-<div class="event" onclick="openEvent('gnome','Gnome','Trouver le gnome caché sur la map.')">GNOME</div>
-
-<div class="event" onclick="openEvent('tresor','Chasse au trésor','Trouver les indices pour gagner le trésor.')">CHASSE AU TRESOR</div>
-
-<div class="event" onclick="openEvent('quidditch','Coupe de Quidditch','Match inspiré de Harry Potter.')">COUPE DE QUIDDITCH</div>
-
-<div class="event" onclick="openEvent('combat','Parcours du combattant','Parcours rempli d’obstacles.')">PARCOURS DU COMBATTANT</div>
-
-<div class="event" onclick="openEvent('total','Total War','Combat général entre tribus.')">TOTAL WAR</div>
-
-<div class="event" onclick="openEvent('ile','Jeux de l'île','Défis dans une arène.')">JEUX DE L'ILE</div>
-
-<div class="event" onclick="openEvent('tir','Tir à l’arc','Concours de précision.')">TIR A L'ARC</div>
+<div class="event" onclick="openEvent('course')">COURSE DINO</div>
+<div class="event" onclick="openEvent('glace')">PALAIS DES GLACE</div>
+<div class="event" onclick="openEvent('rallye')">ARK RALLYE</div>
+<div class="event" onclick="openEvent('peche')">PECHE</div>
+<div class="event" onclick="openEvent('chaise')">CHAISE MUSICAL</div>
+<div class="event" onclick="openEvent('gnome')">GNOME</div>
+<div class="event" onclick="openEvent('tresor')">CHASSE AU TRESOR</div>
+<div class="event" onclick="openEvent('quidditch')">COUPE DE QUIDDITCH</div>
+<div class="event" onclick="openEvent('combat')">PARCOURS DU COMBATTANT</div>
+<div class="event" onclick="openEvent('total')">TOTAL WAR</div>
+<div class="event" onclick="openEvent('ile')">JEUX DE L ILE</div>
+<div class="event" onclick="openEvent('tir')">TIR A L'ARC</div>
 
 </div>
 
 
-<!-- POPUP -->
+<!-- POPUP EVENT -->
 
 <div class="popup" id="popup">
 
-<div class="card" id="card">
+<div class="event-card" id="card">
 
-<div class="close" onclick="closeEvent()">✖</div>
+<span class="close" onclick="closeEvent()">✖</span>
 
-<div class="card-text">
+<h2 id="event-title"></h2>
 
-<h2 id="title"></h2>
-
-<p id="desc"></p>
+<p id="event-desc"></p>
 
 </div>
 
 </div>
-
-</div>
-
-
-<a class="back" href="../index.html">⬅ Retour accueil</a>
 
 
 <script>
 
-function openEvent(img,title,desc){
+function openEvent(name){
 
 document.getElementById("popup").style.display="flex"
 
-document.getElementById("title").innerText=title
+let title=""
+let desc=""
 
-document.getElementById("desc").innerText=desc
+switch(name){
 
-document.getElementById("card").style.backgroundImage="url('../images/events/"+img+".jpg')"
+case "course":
+title="COURSE DINO"
+desc="Course de dinos dans une arène. Le premier arrivé gagne."
+break
+
+case "glace":
+title="PALAIS DES GLACE"
+desc="Labyrinthe glacé rempli de pièges."
+break
+
+case "rallye":
+title="ARK RALLYE"
+desc="Course à travers la map avec checkpoints."
+break
+
+case "peche":
+title="PECHE"
+desc="Concours de pêche. Le plus gros poisson gagne."
+break
+
+default:
+title="EVENT"
+desc="Description à ajouter."
+}
+
+document.getElementById("event-title").innerText=title
+document.getElementById("event-desc").innerText=desc
 
 }
 
 function closeEvent(){
-
 document.getElementById("popup").style.display="none"
-
 }
 
 </script>
