@@ -1,3 +1,7 @@
+/* ===================== */
+/* GENERAL */
+/* ===================== */
+
 body{
 margin:0;
 background:black;
@@ -6,10 +10,11 @@ justify-content:center;
 font-family:Arial;
 }
 
+/* ===================== */
 /* IMAGE PRINCIPALE */
+/* ===================== */
 
 .site{
-
 width:720px;
 height:1400px;
 
@@ -18,10 +23,11 @@ background-size:contain;
 background-repeat:no-repeat;
 
 position:relative;
-
 }
 
+/* ===================== */
 /* ZONES CLIQUABLES */
+/* ===================== */
 
 .zone{
 position:absolute;
@@ -29,13 +35,15 @@ cursor:pointer;
 transition:0.3s;
 }
 
-/* EFFET HOVER */
+/* effet hover */
 
 .zone:hover{
 box-shadow:0 0 20px rgba(0,200,255,0.8);
 }
 
+/* ===================== */
 /* MENU */
+/* ===================== */
 
 .serveur{
 top:486px;
@@ -79,7 +87,9 @@ width:90px;
 height:29px;
 }
 
+/* ===================== */
 /* REJOINDRE */
+/* ===================== */
 
 .rejoindre{
 top:672px;
@@ -88,7 +98,9 @@ width:352px;
 height:60px;
 }
 
+/* ===================== */
 /* DISCORD */
+/* ===================== */
 
 .discord{
 top:915px;
@@ -97,88 +109,55 @@ width:309px;
 height:53px;
 }
 
-/* ========================= */
+/* ===================== */
 /* PAGE CONTENU */
-/* ========================= */
+/* ===================== */
 
 .page{
-
 color:white;
 text-align:center;
-
 background:#020617;
-
 min-height:100vh;
-
 padding-top:60px;
-
 }
-
-
-/* TITRE */
 
 .page h1{
-
 color:#00eaff;
-
 text-shadow:0 0 10px #00eaff;
-
 }
-
-
-/* BLOCS */
 
 .box{
-
 background:#06142e;
-
 padding:25px;
-
 margin:20px auto;
-
 width:700px;
-
 border-radius:10px;
-
 box-shadow:0 0 20px rgba(0,200,255,0.5);
-
 }
 
-
+/* ===================== */
 /* BOUTON RETOUR */
+/* ===================== */
 
 .back{
-
 display:inline-block;
-
 margin-top:40px;
-
 padding:12px 25px;
-
 border:1px solid #00eaff;
-
 color:#00eaff;
-
 text-decoration:none;
-
 border-radius:6px;
-
 transition:0.3s;
-
 }
 
 .back:hover{
-
 background:#00eaff;
-
 color:black;
-
 }
 
-
-/* ======================= */
+/* ===================== */
 /* PAGE EVENEMENTS */
-/* ======================= */
+/* ===================== */
 
 .events-page{
 background:url("images/events-bg.jpg") center no-repeat;
@@ -191,70 +170,48 @@ flex-direction:column;
 align-items:center;
 }
 
-
+/* ===================== */
 /* TITRE EVENT */
+/* ===================== */
 
 .titre-event{
-
 font-size:45px;
 color:black;
-
 text-align:center;
 margin-top:30px;
 margin-bottom:40px;
-
 animation: lightning 1.5s infinite;
-
 }
 
-/* effet aura rouge électrique */
+/* effet lightning */
 
 @keyframes lightning{
 
 0%{
-text-shadow:
-0 0 5px #ff0000,
-0 0 10px #ff0000,
-0 0 20px #ff0000,
-0 0 40px #ff0000;
+text-shadow:0 0 5px #ff0000,0 0 10px #ff0000,0 0 20px #ff0000,0 0 40px #ff0000;
 }
 
 25%{
-text-shadow:
-0 0 10px #ff0000,
-0 0 20px #ff0000,
-0 0 30px #ff0000,
-0 0 60px #ff0000;
+text-shadow:0 0 10px #ff0000,0 0 20px #ff0000,0 0 30px #ff0000,0 0 60px #ff0000;
 }
 
 50%{
-text-shadow:
-0 0 5px #ff0000,
-0 0 15px #ff0000,
-0 0 35px #ff0000,
-0 0 70px #ff0000;
+text-shadow:0 0 5px #ff0000,0 0 15px #ff0000,0 0 35px #ff0000,0 0 70px #ff0000;
 }
 
 75%{
-text-shadow:
-0 0 8px #ff0000,
-0 0 25px #ff0000,
-0 0 45px #ff0000,
-0 0 80px #ff0000;
+text-shadow:0 0 8px #ff0000,0 0 25px #ff0000,0 0 45px #ff0000,0 0 80px #ff0000;
 }
 
 100%{
-text-shadow:
-0 0 5px #ff0000,
-0 0 10px #ff0000,
-0 0 20px #ff0000,
-0 0 40px #ff0000;
+text-shadow:0 0 5px #ff0000,0 0 10px #ff0000,0 0 20px #ff0000,0 0 40px #ff0000;
 }
 
 }
 
-
+/* ===================== */
 /* LISTE EVENTS */
+/* ===================== */
 
 .events-list{
 width:900px;
@@ -262,152 +219,97 @@ display:grid;
 grid-template-columns:repeat(3,1fr);
 gap:12px;
 margin:auto;
-
 }
 
-
-/* BOUTON EVENT */
+/* ===================== */
+/* EVENT */
+/* ===================== */
 
 .event{
-
 background:black;
-
 padding:12px;
-
 text-align:center;
-
 cursor:pointer;
-
 border:1px solid #333;
-
 transition:0.3s;
-
 }
 
 .event:hover{
-
 background:#00eaff;
-
 color:black;
-
 transform:scale(1.05);
-
 }
 
-
-/* ======================= */
+/* ===================== */
 /* POPUP */
-/* ======================= */
+/* ===================== */
 
 .popup{
-
 position:fixed;
-
 top:0;
-
 left:0;
-
 width:100%;
-
 height:100%;
-
 background:rgba(0,0,0,0.85);
-
 display:none;
-
 justify-content:center;
-
 align-items:center;
-
 z-index:1000;
-
 }
 
-
-/* ======================= */
+/* ===================== */
 /* CARTE EVENT */
-/* ======================= */
+/* ===================== */
 
 .event-card{
-
 background:#111;
-
 padding:30px;
-
 border-radius:10px;
-
 max-width:600px;
-
 width:90%;
-
 text-align:center;
-
 position:relative;
-
 box-shadow:0 0 25px rgba(0,200,255,0.5);
-
 }
-
-
-/* IMAGE EVENT */
 
 .event-image{
-
 width:100%;
-
 border-radius:10px;
-
 margin-bottom:15px;
-
 }
 
-
-/* ======================= */
-/* BOUTON FERMER */
-/* ======================= */
+/* ===================== */
+/* CLOSE */
+/* ===================== */
 
 .close{
-
 position:absolute;
-
 top:10px;
-
 right:15px;
-
 font-size:25px;
-
 cursor:pointer;
-
 color:white;
-
 }
 
 .close:hover{
-
 color:#00eaff;
-
 }
 
-
-/* ======================= */
-/* BOUTON RETOUR */
-/* ======================= */
+/* ===================== */
+/* BOUTON RETOUR EVENT */
+/* ===================== */
 
 .retour{
 position:fixed;
 bottom:40px;
 left:50%;
 transform:translateX(-50%);
-
 width:200px;
 text-align:center;
-
 background:black;
 padding:12px;
-
 color:white;
 text-decoration:none;
-
 border:1px solid #444;
 transition:0.3s;
 }
@@ -415,11 +317,4 @@ transition:0.3s;
 .retour:hover{
 background:#00eaff;
 color:black;
-}
-.retour:hover{
-
-background:#00eaff;
-
-color:black;
-
 }
