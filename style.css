@@ -1,28 +1,24 @@
 body{
 margin:0;
 background:black;
+display:flex;
+justify-content:center;
 font-family:Arial;
 }
 
-/* CONTENEUR SITE */
+/* IMAGE PRINCIPALE */
 
 .site{
+
+width:720px;
+height:1400px;
+
+background-image:url("background.jpg");
+background-size:contain;
+background-repeat:no-repeat;
+
 position:relative;
-width:100%;
-max-width:1920px;
-margin:auto;
-}
 
-.bg{
-width:100%;
-display:block;
-}
-
-/* IMAGE */
-
-.site img{
-width:100%;
-display:block;
 }
 
 /* ZONES CLIQUABLES */
@@ -30,81 +26,75 @@ display:block;
 .zone{
 position:absolute;
 cursor:pointer;
-border:3px solid red;
-background:rgba(255,0,0,0.4);
-z-index:10;
-/* DEBUG VISUEL */
-
-border:2px solid red;
-background:rgba(255,0,0,0.2);
+transition:0.3s;
 }
 
-/* MENU */
+/* EFFET HOVER */
 
-.zone{
-position:absolute;
-cursor:pointer;
+.zone:hover{
+box-shadow:0 0 20px rgba(0,200,255,0.8);
 }
 
 /* MENU */
 
 .serveur{
-top:540px;
-left:620px;
-width:200px;
-height:50px
+top:486px;
+left:63px;
+width:101px;
+height:32px;
+}
 
 .events{
-top:47%;
-left:42%;
-width:12%;
-height:4%;
+top:486px;
+left:165px;
+width:99px;
+height:32px;
 }
 
 .tribu{
-top:47%;
-left:55%;
-width:10%;
-height:4%;
+top:486px;
+left:268px;
+width:88px;
+height:30px;
 }
 
 .joueurs{
-top:47%;
-left:65%;
-width:10%;
-height:4%;
+top:486px;
+left:357px;
+width:93px;
+height:31px;
 }
 
 .bot{
-top:47%;
-left:75%;
-width:8%;
-height:4%;
+top:486px;
+left:452px;
+width:82px;
+height:32px;
 }
 
 .mod{
-top:47%;
-left:83%;
-width:8%;
-height:4%;
+top:486px;
+left:535px;
+width:90px;
+height:29px;
 }
 
 /* REJOINDRE */
 
 .rejoindre{
-top:70%;
-left:40%;
-width:20%;
-height:6%;
+top:672px;
+left:181px;
+width:352px;
+height:60px;
 }
 
 /* DISCORD */
 
 .discord{
-top:86%;
-left:42%;
-width:18%;
-height:5%;
+top:915px;
+left:211px;
+width:309px;
+height:53px;
 }
 
 /* ========================= */
