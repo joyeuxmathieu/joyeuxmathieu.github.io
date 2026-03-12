@@ -30,6 +30,12 @@ display:block;
 .zone{
 position:absolute;
 cursor:pointer;
+transition:0.2s;
+
+/* DEBUG VISUEL */
+
+border:2px solid red;
+background:rgba(255,0,0,0.2);
 }
 
 /* MENU */
