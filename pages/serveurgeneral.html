@@ -22,7 +22,8 @@ text-align:center;
 /* CONTAINER */
 
 .container{
-width:900px;
+max-width:900px;
+width:95%;
 margin:auto;
 padding-top:60px;
 }
@@ -56,12 +57,17 @@ inset 0 0 20px rgba(0,150,255,0.2);
 /* GRID */
 
 .stats{
-
 display:grid;
-grid-template-columns:1fr 1fr;
-
+grid-template-columns:repeat(2,1fr);
 gap:25px;
 margin-top:40px;
+}
+
+@media(max-width:700px){
+
+.stats{
+grid-template-columns:1fr;
+}
 
 }
 
@@ -203,6 +209,13 @@ color:#aaa;
 }
 
 </style>
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Serveur Alphark</title>
 
 </head>
 
