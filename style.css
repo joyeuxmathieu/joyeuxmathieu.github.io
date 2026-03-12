@@ -1,112 +1,101 @@
-/* ======================= */
 /* BASE */
-/* ======================= */
 
 body{
 margin:0;
 background:black;
-display:flex;
-justify-content:center;
 font-family:Arial;
 }
 
-/* ======================= */
-/* IMAGE PRINCIPALE */
-/* ======================= */
+/* CONTENEUR */
 
 .site{
-
-width:720px;
-height:1400px;
-
-background-image:url("background.jpg");
-background-size:contain;
-background-repeat:no-repeat;
-
 position:relative;
-
+width:100%;
+height:100vh;
+overflow:hidden;
 }
 
-/* ======================= */
+/* IMAGE FOND */
+
+.bg{
+position:absolute;
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
 /* ZONES CLIQUABLES */
-/* ======================= */
+
 .zone{
 position:absolute;
 cursor:pointer;
-transition:0.3s;
 
-/* MODE DEBUG */
+/* debug pour voir les boutons */
 
 border:2px solid red;
-background:rgba(255,0,0,0.3);
-}
-/* effet hover */
-
-.zone:hover{
-box-shadow:0 0 20px rgba(0,200,255,0.8);
+background:rgba(255,0,0,0.25);
 }
 
-/* ======================= */
 /* MENU */
 
 .serveur{
-top:34.5%;
-left:21%;
+top:33%;
+left:29%;
 width:8%;
-height:2.5%;
+height:4%;
 }
 
 .events{
-top:34.5%;
-left:30%;
-width:8%;
-height:2.5%;
+top:33%;
+left:38%;
+width:9%;
+height:4%;
 }
 
 .tribu{
-top:34.5%;
-left:39%;
+top:33%;
+left:48%;
 width:8%;
-height:2.5%;
+height:4%;
 }
 
 .joueurs{
-top:34.5%;
-left:48%;
+top:33%;
+left:57%;
 width:8%;
-height:2.5%;
+height:4%;
 }
 
 .bot{
-top:34.5%;
-left:57%;
-width:8%;
-height:2.5%;
+top:33%;
+left:66%;
+width:7%;
+height:4%;
 }
 
 .mod{
-top:34.5%;
-left:66%;
-width:8%;
-height:2.5%;
+top:33%;
+left:74%;
+width:7%;
+height:4%;
 }
 
 /* REJOINDRE */
 
 .rejoindre{
-top:48%;
+top:49%;
 left:34%;
 width:32%;
-height:6%;
+height:7%;
 }
 
 /* DISCORD */
 
 .discord{
-top:72%;
-left:36%;
-width:28%;
-height:5%;
+top:71%;
+left:37%;
+width:26%;
+height:6%;
 }
 
 /* ========================= */
