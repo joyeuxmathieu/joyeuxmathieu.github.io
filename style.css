@@ -30,13 +30,16 @@ position:relative;
 /* ======================= */
 /* ZONES CLIQUABLES */
 /* ======================= */
-
 .zone{
 position:absolute;
 cursor:pointer;
 transition:0.3s;
-}
 
+/* MODE DEBUG */
+
+border:2px solid red;
+background:rgba(255,0,0,0.3);
+}
 /* effet hover */
 
 .zone:hover{
