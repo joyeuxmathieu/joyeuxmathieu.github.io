@@ -13,6 +13,11 @@ max-width:1920px;
 margin:auto;
 }
 
+.bg{
+width:100%;
+display:block;
+}
+
 /* IMAGE */
 
 .site img{
@@ -29,52 +34,59 @@ cursor:pointer;
 
 /* MENU */
 
+.zone{
+position:absolute;
+cursor:pointer;
+}
+
+/* MENU */
+
 .serveur{
-top:45%;
+top:47%;
 left:32%;
 width:10%;
 height:4%;
 }
 
 .events{
-top:45%;
+top:47%;
 left:42%;
 width:12%;
 height:4%;
 }
 
 .tribu{
-top:45%;
+top:47%;
 left:55%;
 width:10%;
 height:4%;
 }
 
 .joueurs{
-top:45%;
+top:47%;
 left:65%;
 width:10%;
 height:4%;
 }
 
 .bot{
-top:45%;
+top:47%;
 left:75%;
 width:8%;
 height:4%;
 }
 
 .mod{
-top:45%;
+top:47%;
 left:83%;
 width:8%;
 height:4%;
 }
 
-/* BOUTON REJOINDRE */
+/* REJOINDRE */
 
 .rejoindre{
-top:68%;
+top:70%;
 left:40%;
 width:20%;
 height:6%;
@@ -83,7 +95,7 @@ height:6%;
 /* DISCORD */
 
 .discord{
-top:85%;
+top:86%;
 left:42%;
 width:18%;
 height:5%;
