@@ -54,7 +54,26 @@ const auth = getAuth(app);
 
 const btn = document.getElementById("discord-btn");
 const userInfo = document.getElementById("user-info");
+.then((result)=>{
 
+const credential = OAuthProvider.credentialFromResult(result);
+
+const idToken = credential.idToken;
+
+// décoder les infos Discord
+const payload = JSON.parse(atob(idToken.split('.')[1]));
+
+const username = payload.username;
+
+userInfo.innerHTML = "🟢 " + username;
+
+btn.style.display = "none";
+
+localStorage.setItem("discord_user", JSON.stringify({
+username: username
+}));
+
+})
 btn.addEventListener("click", loginDiscord);
 
 function loginDiscord(){
@@ -64,18 +83,24 @@ const provider = new OAuthProvider('oidc.discord');
 signInWithPopup(auth, provider)
 .then((result)=>{
 
-const user = result.user;
+const credential = OAuthProvider.credentialFromResult(result);
 
-userInfo.innerHTML = "🟢 " + user.displayName;
+const idToken = credential.idToken;
 
-btn.style.display="none";
+// décoder les infos Discord
+const payload = JSON.parse(atob(idToken.split('.')[1]));
+
+const username = payload.username;
+
+userInfo.innerHTML = "🟢 " + username;
+
+btn.style.display = "none";
+
+localStorage.setItem("discord_user", JSON.stringify({
+username: username
+}));
 
 })
-.catch((error)=>{
-console.log(error);
-});
-
-}
 
 </script>
 
