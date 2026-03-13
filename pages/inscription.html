@@ -3,3 +3,28 @@
 <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
 
 <script src="/js/firebase.js"></script>
+<script>
+
+function register(){
+
+firebase.auth().createUserWithEmailAndPassword(
+
+document.getElementById("email").value,
+
+document.getElementById("password").value
+
+)
+
+.then(()=>{
+
+alert("Compte créé avec succès")
+
+window.location.href="connexion.html"
+
+})
+
+.catch(error=>alert(error.message))
+
+}
+
+</script>
