@@ -23,7 +23,7 @@
 <a href="pages/serveur.html" class="zone rejoindre"></a>
 <a href="https://discord.gg/" class="zone discord"></a>
 
-<div class="auth" id="auth">
+<div class="auth">
 
 <button id="discord-btn" onclick="loginDiscord()">
 Connexion Discord
@@ -35,7 +35,10 @@ Connexion Discord
 
 </div>
 
+
 <script>
+
+document.addEventListener("DOMContentLoaded", function(){
 
 const user = localStorage.getItem("discord_user")
 
@@ -50,6 +53,8 @@ document.getElementById("user-info").innerHTML =
 
 }
 
+})
+
 </script>
 
 
@@ -58,36 +63,56 @@ document.getElementById("user-info").innerHTML =
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, OAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
+
 const firebaseConfig = {
-apiKey: "TA_CLE_API",
+
+apiKey: "AIzaSyCW2c98GzmqT0snVaKTRkm2KcZ4ndlBK7M",
+
 authDomain: "alphark-f1982.firebaseapp.com",
-projectId: "alphark-f1982"
+
+projectId: "alphark-f1982",
+
 };
 
+
 const app = initializeApp(firebaseConfig);
+
 const auth = getAuth(app);
+
 
 window.loginDiscord = function(){
 
 const provider = new OAuthProvider('oidc.discord');
 
+
 signInWithPopup(auth, provider)
+
 .then((result)=>{
 
 const user = result.user;
 
+
 localStorage.setItem("discord_user", JSON.stringify({
+
 username:user.displayName
+
 }));
+
 
 document.getElementById("discord-btn").style.display = "none"
 
+
 document.getElementById("user-info").innerHTML =
+
 "🟢 " + user.displayName
 
+
 })
+
 .catch((error)=>{
-console.log(error)
+
+console.log("Erreur connexion Discord :", error)
+
 })
 
 }
