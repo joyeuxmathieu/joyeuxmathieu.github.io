@@ -379,6 +379,101 @@ color:#00ff6a;
 font-size:18px;
 margin-top:5px;
 }
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, OAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+const firebaseConfig = {
+apiKey: "AIzaSyCW2c98GzmqT0snVaKTRkm2KcZ4ndlBK7M",
+authDomain: "alphark-f1982.firebaseapp.com",
+projectId: "alphark-f1982"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+const btn = document.getElementById("discord-btn");
+const userInfo = document.getElementById("user-info");
+
+
+// ===============================
+// UTILISATEUR SAUVEGARDE
+// ===============================
+
+const savedUser = localStorage.getItem("discord_user");
+
+if(savedUser){
+
+const data = JSON.parse(savedUser);
+
+showUser(data.username,data.avatar)
+
+}
+
+
+// ===============================
+// CONNEXION DISCORD
+// ===============================
+
+btn.addEventListener("click", loginDiscord);
+
+function loginDiscord(){
+
+const provider = new OAuthProvider('oidc.discord');
+
+signInWithPopup(auth, provider)
+
+.then((result)=>{
+
+const credential = OAuthProvider.credentialFromResult(result);
+
+const idToken = credential.idToken;
+
+// décoder les infos Discord
+const payload = JSON.parse(atob(idToken.split('.')[1]));
+
+const username = payload.username;
+const avatar = payload.avatar;
+const id = payload.sub;
+
+// URL avatar discord
+const avatarURL =
+"https://cdn.discordapp.com/avatars/"+id+"/"+avatar+".png";
+
+localStorage.setItem("discord_user", JSON.stringify({
+username: username,
+avatar: avatarURL
+}));
+
+showUser(username,avatarURL)
+
+})
+
+.catch((error)=>{
+console.log(error);
+});
+
+}
+
+
+// ===============================
+// AFFICHER UTILISATEUR
+// ===============================
+
+function showUser(username,avatar){
+
+btn.style.display="none";
+
+userInfo.innerHTML =
+'<img src="'+avatar+'" class="avatar"> 🟢 '+username;
+
+}
+
+</script>
+
+
+
 
 /* ======================= */
 /* MOBILE */
