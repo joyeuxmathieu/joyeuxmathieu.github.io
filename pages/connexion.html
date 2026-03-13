@@ -3,3 +3,28 @@
 <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
 
 <script src="/js/firebase.js"></script>
+<script>
+
+function login(){
+
+firebase.auth().signInWithEmailAndPassword(
+
+document.getElementById("email").value,
+
+document.getElementById("password").value
+
+)
+
+.then(()=>{
+
+alert("Connexion réussie")
+
+window.location.href="../forum.html"
+
+})
+
+.catch(error=>alert(error.message))
+
+}
+
+</script>
