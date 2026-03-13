@@ -2,10 +2,13 @@
 <html lang="fr">
 
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Alphark</title>
+
 <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
@@ -25,7 +28,7 @@
 
 <div class="auth">
 
-<button id="discord-btn" onclick="loginDiscord()">
+<button id="discord-btn">
 Connexion Discord
 </button>
 
@@ -35,89 +38,46 @@ Connexion Discord
 
 </div>
 
-
-<script>
-
-document.addEventListener("DOMContentLoaded", function(){
-
-const user = localStorage.getItem("discord_user")
-
-if(user){
-
-const data = JSON.parse(user)
-
-document.getElementById("discord-btn").style.display = "none"
-
-document.getElementById("user-info").innerHTML =
-"🟢 " + (data.username || "Connecté")
-
-}
-
-})
-
-</script>
-
-
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, OAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-
 const firebaseConfig = {
-
 apiKey: "AIzaSyCW2c98GzmqT0snVaKTRkm2KcZ4ndlBK7M",
-
 authDomain: "alphark-f1982.firebaseapp.com",
-
-projectId: "alphark-f1982",
-
+projectId: "alphark-f1982"
 };
 
-
 const app = initializeApp(firebaseConfig);
-
 const auth = getAuth(app);
 
+const btn = document.getElementById("discord-btn");
+const userInfo = document.getElementById("user-info");
 
-window.loginDiscord = function(){
+btn.addEventListener("click", loginDiscord);
+
+function loginDiscord(){
 
 const provider = new OAuthProvider('oidc.discord');
 
-
 signInWithPopup(auth, provider)
-
 .then((result)=>{
 
 const user = result.user;
 
+userInfo.innerHTML = "🟢 " + user.displayName;
 
-localStorage.setItem("discord_user", JSON.stringify({
-
-username:user.displayName
-
-}));
-
-
-document.getElementById("discord-btn").style.display = "none"
-
-
-document.getElementById("user-info").innerHTML =
-
-"🟢 " + user.displayName
-
+btn.style.display="none";
 
 })
-
 .catch((error)=>{
-
-console.log("Erreur connexion Discord :", error)
-
-})
+console.log(error);
+});
 
 }
 
 </script>
-<script src="script.js"></script>
+
 </body>
 </html>
