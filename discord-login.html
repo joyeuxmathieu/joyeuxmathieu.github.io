@@ -5,27 +5,19 @@
 <title>Connexion Discord</title>
 </head>
 
-<body style="background:black;color:white;text-align:center;padding-top:100px;font-family:Arial;">
+<body>
 
 Connexion Discord...
 
 <script>
 
-const params = new URLSearchParams(window.location.search)
-const code = params.get("code")
-
-if(code){
-
-// Simulation utilisateur connecté
 const user = {
-username: "Joueur Discord"
+username: "Joueur"
 }
 
 localStorage.setItem("discord_user", JSON.stringify(user))
 
 window.location.href="/"
-
-}
 
 </script>
 
