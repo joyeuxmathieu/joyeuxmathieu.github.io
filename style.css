@@ -37,42 +37,42 @@ background:rgba(255,0,0,0.25);
 /* MENU */
 
 .serveur{
-top:40%;
-left:20%;
+top:41%;
+left:15%;
 width:9%;
 height:4%;
 }
 
 .events{
-top:27%;
-left:38%;
+top:41%;
+left:21%;
 width:10%;
 height:4%;
 }
 
 .tribu{
-top:27%;
-left:49%;
+top:41%;
+left:31%;
 width:9%;
 height:4%;
 }
 
 .joueurs{
-top:27%;
+top:41%;
 left:59%;
 width:9%;
 height:4%;
 }
 
 .bot{
-top:27%;
+top:41%;
 left:69%;
 width:7%;
 height:4%;
 }
 
 .mod{
-top:27%;
+top:41%;
 left:77%;
 width:7%;
 height:4%;
@@ -81,7 +81,7 @@ height:4%;
 /* REJOINDRE */
 
 .rejoindre{
-top:49%;
+top:65%;
 left:35%;
 width:30%;
 height:7%;
@@ -90,7 +90,7 @@ height:7%;
 /* DISCORD */
 
 .discord{
-top:73%;
+top:90%;
 left:38%;
 width:25%;
 height:6%;
