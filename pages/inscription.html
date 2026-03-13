@@ -1,8 +1,32 @@
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+<!DOCTYPE html>
+<html>
 
+<head>
+
+<meta charset="UTF-8">
+<title>Inscription</title>
+
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
 
 <script src="../js/firebase.js"></script>
+
+</head>
+
+<body>
+
+<h2>Créer un compte</h2>
+
+<input id="email" placeholder="Email">
+
+<br><br>
+
+<input id="password" type="password" placeholder="Mot de passe">
+
+<br><br>
+
+<button onclick="register()">Créer compte</button>
+
 <script>
 
 function register(){
@@ -10,7 +34,6 @@ function register(){
 firebase.auth().createUserWithEmailAndPassword(
 
 document.getElementById("email").value,
-
 document.getElementById("password").value
 
 )
@@ -28,3 +51,6 @@ window.location.href="connexion.html"
 }
 
 </script>
+
+</body>
+</html>
