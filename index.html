@@ -1,43 +1,3 @@
-<!DOCTYPE html>
-<html lang="fr">
-
-<head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Alphark</title>
-
-<link rel="stylesheet" href="style.css">
-
-</head>
-
-<body>
-
-<div class="site">
-
-<img src="background.jpg" class="bg">
-
-<a href="pages/serveurgeneral.html" class="zone serveur"></a>
-<a href="pages/evenements.html" class="zone events"></a>
-<a href="pages/tribu.html" class="zone tribu"></a>
-<a href="pages/joueurs.html" class="zone joueurs"></a>
-<a href="pages/bot.html" class="zone bot"></a>
-<a href="pages/mod.html" class="zone mod"></a>
-<a href="pages/serveur.html" class="zone rejoindre"></a>
-<a href="https://discord.gg/" class="zone discord"></a>
-
-<div class="auth">
-
-<button id="discord-btn">
-Connexion Discord
-</button>
-
-<div id="user-info"></div>
-
-</div>
-
-</div>
-
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -54,26 +14,27 @@ const auth = getAuth(app);
 
 const btn = document.getElementById("discord-btn");
 const userInfo = document.getElementById("user-info");
-.then((result)=>{
 
-const credential = OAuthProvider.credentialFromResult(result);
 
-const idToken = credential.idToken;
+// ===============================
+// UTILISATEUR SAUVEGARDE
+// ===============================
 
-// décoder les infos Discord
-const payload = JSON.parse(atob(idToken.split('.')[1]));
+const savedUser = localStorage.getItem("discord_user");
 
-const username = payload.username;
+if(savedUser){
 
-userInfo.innerHTML = "🟢 " + username;
+const data = JSON.parse(savedUser);
 
-btn.style.display = "none";
+showUser(data.username,data.avatar)
 
-localStorage.setItem("discord_user", JSON.stringify({
-username: username
-}));
+}
 
-})
+
+// ===============================
+// CONNEXION DISCORD
+// ===============================
+
 btn.addEventListener("click", loginDiscord);
 
 function loginDiscord(){
@@ -81,6 +42,7 @@ function loginDiscord(){
 const provider = new OAuthProvider('oidc.discord');
 
 signInWithPopup(auth, provider)
+
 .then((result)=>{
 
 const credential = OAuthProvider.credentialFromResult(result);
@@ -91,18 +53,40 @@ const idToken = credential.idToken;
 const payload = JSON.parse(atob(idToken.split('.')[1]));
 
 const username = payload.username;
+const avatar = payload.avatar;
+const id = payload.sub;
 
-userInfo.innerHTML = "🟢 " + username;
-
-btn.style.display = "none";
+// URL avatar discord
+const avatarURL =
+"https://cdn.discordapp.com/avatars/"+id+"/"+avatar+".png";
 
 localStorage.setItem("discord_user", JSON.stringify({
-username: username
+username: username,
+avatar: avatarURL
 }));
+
+showUser(username,avatarURL)
 
 })
 
-</script>
+.catch((error)=>{
+console.log(error);
+});
 
-</body>
-</html>
+}
+
+
+// ===============================
+// AFFICHER UTILISATEUR
+// ===============================
+
+function showUser(username,avatar){
+
+btn.style.display="none";
+
+userInfo.innerHTML =
+'<img src="'+avatar+'" class="avatar"> 🟢 '+username;
+
+}
+
+</script>
