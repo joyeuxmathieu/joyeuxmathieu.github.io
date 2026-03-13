@@ -38,42 +38,42 @@ background:rgba(255,0,0,0.25);
 
 .serveur{
 top:41%;
-left:15%;
+left:18%;
 width:9%;
 height:4%;
 }
 
 .events{
 top:41%;
-left:21%;
+left:30%;
 width:10%;
 height:4%;
 }
 
 .tribu{
 top:41%;
-left:31%;
+left:40%;
 width:9%;
 height:4%;
 }
 
 .joueurs{
 top:41%;
-left:59%;
+left:50%;
 width:9%;
 height:4%;
 }
 
 .bot{
 top:41%;
-left:69%;
+left:60%;
 width:7%;
 height:4%;
 }
 
 .mod{
 top:41%;
-left:77%;
+left:70%;
 width:7%;
 height:4%;
 }
@@ -82,8 +82,8 @@ height:4%;
 
 .rejoindre{
 top:65%;
-left:35%;
-width:30%;
+left:33%;
+width:35%;
 height:7%;
 }
 
