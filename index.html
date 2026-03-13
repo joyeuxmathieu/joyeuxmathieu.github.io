@@ -1,92 +1,59 @@
-<script type="module">
+<!DOCTYPE html>
+<html lang="fr">
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAuth, OAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+<head>
 
-const firebaseConfig = {
-apiKey: "AIzaSyCW2c98GzmqT0snVaKTRkm2KcZ4ndlBK7M",
-authDomain: "alphark-f1982.firebaseapp.com",
-projectId: "alphark-f1982"
-};
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+<title>Alphark</title>
 
-const btn = document.getElementById("discord-btn");
-const userInfo = document.getElementById("user-info");
+<link rel="stylesheet" href="style.css">
 
+</head>
 
-// ===============================
-// UTILISATEUR SAUVEGARDE
-// ===============================
+<body>
 
-const savedUser = localStorage.getItem("discord_user");
+<div class="site">
 
-if(savedUser){
+<img src="background.jpg" class="bg">
 
-const data = JSON.parse(savedUser);
+<!-- MENU -->
 
-showUser(data.username,data.avatar)
+<a href="pages/serveurgeneral.html" class="zone serveur"></a>
+<a href="pages/evenements.html" class="zone events"></a>
+<a href="pages/tribu.html" class="zone tribu"></a>
+<a href="pages/joueurs.html" class="zone joueurs"></a>
+<a href="pages/bot.html" class="zone bot"></a>
+<a href="pages/mod.html" class="zone mod"></a>
 
-}
+<!-- BOUTON REJOINDRE -->
 
+<a href="pages/serveur.html" class="zone rejoindre"></a>
 
-// ===============================
-// CONNEXION DISCORD
-// ===============================
+<!-- DISCORD -->
 
-btn.addEventListener("click", loginDiscord);
-
-function loginDiscord(){
-
-const provider = new OAuthProvider('oidc.discord');
-
-signInWithPopup(auth, provider)
-
-.then((result)=>{
-
-const credential = OAuthProvider.credentialFromResult(result);
-
-const idToken = credential.idToken;
-
-// décoder les infos Discord
-const payload = JSON.parse(atob(idToken.split('.')[1]));
-
-const username = payload.username;
-const avatar = payload.avatar;
-const id = payload.sub;
-
-// URL avatar discord
-const avatarURL =
-"https://cdn.discordapp.com/avatars/"+id+"/"+avatar+".png";
-
-localStorage.setItem("discord_user", JSON.stringify({
-username: username,
-avatar: avatarURL
-}));
-
-showUser(username,avatarURL)
-
-})
-
-.catch((error)=>{
-console.log(error);
-});
-
-}
+<a href="https://discord.gg/" class="zone discord"></a>
 
 
-// ===============================
-// AFFICHER UTILISATEUR
-// ===============================
+<!-- CONNEXION DISCORD -->
 
-function showUser(username,avatar){
+<div class="auth">
 
-btn.style.display="none";
+<button id="discord-btn">
+Connexion Discord
+</button>
 
-userInfo.innerHTML =
-'<img src="'+avatar+'" class="avatar"> 🟢 '+username;
+<div id="user-info"></div>
 
-}
+</div>
 
-</script>
+</div>
+
+
+<!-- SCRIPT DISCORD -->
+
+<script type="module" src="script.js"></script>
+
+</body>
+</html>
