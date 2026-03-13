@@ -2,15 +2,10 @@
 <html lang="fr">
 
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Alphark</title>
-
 <link rel="stylesheet" href="style.css">
-
 </head>
 
 <body>
@@ -20,31 +15,23 @@
 <img src="background.jpg" class="bg">
 
 <a href="pages/serveurgeneral.html" class="zone serveur"></a>
-
 <a href="pages/evenements.html" class="zone events"></a>
-
 <a href="pages/tribu.html" class="zone tribu"></a>
-
 <a href="pages/joueurs.html" class="zone joueurs"></a>
-
 <a href="pages/bot.html" class="zone bot"></a>
-
 <a href="pages/mod.html" class="zone mod"></a>
-
 <a href="pages/serveur.html" class="zone rejoindre"></a>
-
 <a href="https://discord.gg/" class="zone discord"></a>
 
 <div class="auth" id="auth">
 
-<a id="discord-btn"
-href="https://discord.com/oauth2/authorize?client_id=1478681103228342384&response_type=code&redirect_uri=https%3A%2F%2Falphark.fr%2Fdiscord-login.html&scope=identify%20email">
-
+<button id="discord-btn" onclick="loginDiscord()">
 Connexion Discord
-
-</a>
+</button>
 
 <div id="user-info"></div>
+
+</div>
 
 </div>
 
@@ -62,42 +49,50 @@ document.getElementById("user-info").innerHTML =
 "🟢 " + (data.username || "Connecté")
 
 }
+
+</script>
+
+
 <script type="module">
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, OAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 const firebaseConfig = {
-  apiKey: "TA_CLE_API",
-  authDomain: "alphark-f1982.firebaseapp.com",
-  projectId: "alphark-f1982",
+apiKey: "TA_CLE_API",
+authDomain: "alphark-f1982.firebaseapp.com",
+projectId: "alphark-f1982"
 };
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-window.loginDiscord = function() {
+window.loginDiscord = function(){
 
 const provider = new OAuthProvider('oidc.discord');
 
 signInWithPopup(auth, provider)
-.then((result) => {
+.then((result)=>{
 
 const user = result.user;
 
-document.getElementById("userStatus").innerHTML =
-"🟢 Connecté : " + user.displayName;
+localStorage.setItem("discord_user", JSON.stringify({
+username:user.displayName
+}));
+
+document.getElementById("discord-btn").style.display = "none"
+
+document.getElementById("user-info").innerHTML =
+"🟢 " + user.displayName
 
 })
-.catch((error) => {
-console.log(error);
-});
+.catch((error)=>{
+console.log(error)
+})
 
 }
 
 </script>
-
-</body>
-</html>
 
 </body>
 </html>
