@@ -50,14 +50,16 @@ Connexion Discord
 
 <script>
 
-const user = JSON.parse(localStorage.getItem("discord_user"))
+const user = localStorage.getItem("discord_user")
 
 if(user){
 
-document.getElementById("discord-btn").style.display="none"
+const data = JSON.parse(user)
+
+document.getElementById("discord-btn").style.display = "none"
 
 document.getElementById("user-info").innerHTML =
-"🟢 " + user.username
+"🟢 " + (data.username || "Connecté")
 
 }
 
