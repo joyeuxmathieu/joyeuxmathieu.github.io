@@ -442,3 +442,23 @@ background:#00eaff;
 color:black;
 
 }
+.auth{
+position:fixed;
+top:20px;
+right:30px;
+z-index:9999;
+font-family:Arial;
+}
+
+.auth a{
+color:#00eaff;
+text-decoration:none;
+border:1px solid #00eaff;
+padding:8px 14px;
+border-radius:6px;
+}
+
+#user-info{
+color:#00ff6a;
+font-size:18px;
+}
