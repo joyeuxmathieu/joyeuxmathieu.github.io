@@ -11,15 +11,20 @@ Connexion Discord...
 
 <script>
 
+let username = prompt("Entre ton pseudo Discord")
+
+if(username){
+
 const user = {
-username: "Joueur"
+username: username
 }
 
 localStorage.setItem("discord_user", JSON.stringify(user))
 
+}
+
 window.location.href="/"
 
 </script>
-
 </body>
 </html>
