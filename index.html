@@ -35,9 +35,6 @@
 
 <a href="https://discord.gg/" class="zone discord"></a>
 
-<div class="auth">
-
-
 <div class="auth" id="auth">
 
 <a id="discord-btn"
@@ -50,6 +47,24 @@ Connexion Discord
 <div id="user-info"></div>
 
 </div>
+
+<script>
+
+const user = JSON.parse(localStorage.getItem("discord_user"))
+
+if(user){
+
+document.getElementById("discord-btn").style.display="none"
+
+document.getElementById("user-info").innerHTML =
+"🟢 " + user.username
+
+}
+
+</script>
+
+</body>
+</html>
 
 </body>
 </html>
