@@ -55,6 +55,29 @@ Connexion Discord
 <!-- SCRIPT DISCORD -->
 
 <script type="module" src="script.js"></script>
+<script>
 
+const user = localStorage.getItem("discord_user");
+
+if(user){
+
+const data = JSON.parse(user);
+
+document.querySelector(".login-btn").style.display="none";
+
+document.getElementById("user-info").innerHTML = `
+<img src="${data.avatar}" class="avatar">
+🟢 ${data.username}
+<span onclick="logout()" style="cursor:pointer;color:red;">⏻</span>
+`;
+
+}
+
+function logout(){
+localStorage.removeItem("discord_user");
+location.reload();
+}
+
+</script>
 </body>
 </html>
