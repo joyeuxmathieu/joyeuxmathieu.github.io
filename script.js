@@ -41,30 +41,38 @@ signInWithPopup(auth, provider)
 const credential = OAuthProvider.credentialFromResult(result);
 const idToken = credential.idToken;
 
+// decode token
 const payload = JSON.parse(atob(idToken.split('.')[1]));
 
-const username = payload.username;
-const avatar = payload.avatar;
-const id = payload.sub;
+console.log("DISCORD DATA :", payload); // 🔥 debug
 
-const avatarURL =
-"https://cdn.discordapp.com/avatars/"+id+"/"+avatar+".png";
+const username = payload.preferred_username || payload.username || "Joueur";
+const avatar = payload.picture || null;
 
+// si avatar existe
+let avatarURL = "";
+
+if(avatar){
+avatarURL = avatar;
+}else{
+avatarURL = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
+}
+
+// sauvegarde
 localStorage.setItem("discord_user", JSON.stringify({
 username: username,
 avatar: avatarURL
 }));
 
-showUser(username,avatarURL);
+showUser(username, avatarURL);
 
 })
 
 .catch((error)=>{
-console.log(error);
+console.log("Erreur Discord :", error);
 });
 
 }
-
 // ===============================
 // AFFICHER UTILISATEUR
 // ===============================
