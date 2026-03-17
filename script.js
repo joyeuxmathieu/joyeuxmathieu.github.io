@@ -77,11 +77,24 @@ console.log("Erreur Discord :", error);
 // AFFICHER UTILISATEUR
 // ===============================
 
-function showUser(username,avatar){
+function showUser(username, avatar){
 
 btn.style.display="none";
 
-userInfo.innerHTML =
-'<img src="'+avatar+'" class="avatar"> 🟢 '+username;
+userInfo.innerHTML = `
+<img src="${avatar}" class="avatar">
+🟢 ${username}
+<span onclick="logout()" style="cursor:pointer;color:red;margin-left:8px;">⏻</span>
+`;
 
 }
+function showUser(username, avatar){
+
+btn.style.display="none";
+
+userInfo.innerHTML = `
+<img src="${avatar}" class="avatar">
+🟢 ${username}
+<span onclick="logout()" style="cursor:pointer;color:red;margin-left:8px;">⏻</span>
+`;
+
