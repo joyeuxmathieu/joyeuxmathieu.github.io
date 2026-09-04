@@ -19,3 +19,207 @@
 <!-- ======================= -->
 <!-- IMAGE DE FOND -->
 <!-- ======================= -->
+
+<img src="background.jpg" class="bg" alt="ALPHARK">
+
+<!-- ======================= -->
+<!-- MENU PRINCIPAL -->
+<!-- ======================= -->
+
+<a href="pages/serveurgeneral.html" class="zone serveur" title="Serveur"></a>
+
+<a href="pages/evenements.html" class="zone events" title="Événements"></a>
+
+<a href="pages/tribu.html" class="zone tribu" title="Tribus"></a>
+
+<a href="pages/joueurs.html" class="zone joueurs" title="Joueurs"></a>
+
+<a href="pages/bot.html" class="zone bot" title="Bots"></a>
+
+<a href="pages/mod.html" class="zone mod" title="Mods"></a>
+
+
+<!-- ======================= -->
+<!-- REJOINDRE ALPHARK -->
+<!-- ======================= -->
+
+<a
+href="https://discord.gg/"
+class="zone rejoindre"
+title="Rejoindre le Discord ALPHARK">
+</a>
+
+
+<!-- ======================= -->
+<!-- DISCORD -->
+<!-- ======================= -->
+
+<a
+href="https://discord.gg/"
+class="zone discord"
+title="Discord ALPHARK">
+</a>
+
+
+<!-- ======================= -->
+<!-- CONNEXION DISCORD -->
+<!-- ======================= -->
+
+<div class="auth">
+
+    <a
+    href="https://discord.com/oauth2/authorize?client_id=1478681103228342384&response_type=token&redirect_uri=https%3A%2F%2Falphark.fr%2Fdiscord.html&scope=identify"
+    class="login-btn">
+
+        🔵 CONNEXION DISCORD
+
+    </a>
+
+
+    <!-- Utilisateur connecté -->
+
+    <div id="user-info"></div>
+
+</div>
+
+
+<!-- ======================= -->
+<!-- ESPACE JOUEUR -->
+<!-- ======================= -->
+
+<div id="member-menu" class="member-menu">
+
+    <div class="member-title">
+        ⚔️ ESPACE ALPHARK
+    </div>
+
+    <div class="member-links">
+
+        <a href="pages/maps.html">
+            🗺️ MAPS
+        </a>
+
+        <a href="pages/boutique.html">
+            🛒 BOUTIQUE
+        </a>
+
+        <a href="pages/calendrier.html">
+            📅 CALENDRIER
+        </a>
+
+        <a href="pages/forum.html">
+            📖 FORUM
+        </a>
+
+        <a href="pages/profil.html">
+            👤 MON PROFIL
+        </a>
+
+    </div>
+
+</div>
+
+
+</div>
+
+
+<!-- ======================= -->
+<!-- SCRIPT -->
+<!-- ======================= -->
+
+<script type="module" src="script.js"></script>
+
+
+<script>
+
+/* ======================= */
+/* UTILISATEUR DISCORD */
+/* ======================= */
+
+const user = localStorage.getItem("discord_user");
+
+const loginButton = document.querySelector(".login-btn");
+
+const userInfo = document.getElementById("user-info");
+
+const memberMenu = document.getElementById("member-menu");
+
+
+/* ======================= */
+/* SI UTILISATEUR CONNECTE */
+/* ======================= */
+
+if(user){
+
+    try{
+
+        const data = JSON.parse(user);
+
+        /* Masquer connexion */
+
+        loginButton.style.display = "none";
+
+
+        /* Afficher utilisateur */
+
+        userInfo.innerHTML = `
+
+            <div class="connected-user">
+
+                <img
+                src="${data.avatar || ''}"
+                class="avatar"
+                alt="Avatar Discord">
+
+                <span>
+                    🟢 ${data.username || "Joueur"}
+                </span>
+
+                <button
+                class="logout-btn"
+                onclick="logout()"
+                title="Déconnexion">
+
+                    ⏻
+
+                </button>
+
+            </div>
+
+        `;
+
+
+        /* Afficher espace membre */
+
+        memberMenu.classList.add("visible");
+
+    }
+
+    catch(error){
+
+        console.error("Erreur utilisateur Discord :", error);
+
+        localStorage.removeItem("discord_user");
+
+    }
+
+}
+
+
+/* ======================= */
+/* DECONNEXION */
+/* ======================= */
+
+function logout(){
+
+    localStorage.removeItem("discord_user");
+
+    location.reload();
+
+}
+
+</script>
+
+</body>
+
+</html>
