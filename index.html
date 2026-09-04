@@ -1,3 +1,4 @@
+index.html
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -6,7 +7,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Alphark</title>
+<title>ALPHARK | ARK Survival Ascended</title>
 
 <link rel="stylesheet" href="style.css">
 
@@ -16,68 +17,210 @@
 
 <div class="site">
 
-<img src="background.jpg" class="bg">
+<!-- ======================= -->
+<!-- IMAGE DE FOND -->
+<!-- ======================= -->
 
-<!-- MENU -->
+<img src="background.jpg" class="bg" alt="ALPHARK">
 
-<a href="pages/serveurgeneral.html" class="zone serveur"></a>
-<a href="pages/evenements.html" class="zone events"></a>
-<a href="pages/tribu.html" class="zone tribu"></a>
-<a href="pages/joueurs.html" class="zone joueurs"></a>
-<a href="pages/bot.html" class="zone bot"></a>
-<a href="pages/mod.html" class="zone mod"></a>
+<!-- ======================= -->
+<!-- MENU PRINCIPAL -->
+<!-- ======================= -->
 
-<!-- BOUTON REJOINDRE -->
+<a href="pages/serveurgeneral.html" class="zone serveur" title="Serveur"></a>
 
-<a href="pages/serveur.html" class="zone rejoindre"></a>
+<a href="pages/evenements.html" class="zone events" title="Événements"></a>
 
+<a href="pages/tribu.html" class="zone tribu" title="Tribus"></a>
+
+<a href="pages/joueurs.html" class="zone joueurs" title="Joueurs"></a>
+
+<a href="pages/bot.html" class="zone bot" title="Bots"></a>
+
+<a href="pages/mod.html" class="zone mod" title="Mods"></a>
+
+
+<!-- ======================= -->
+<!-- REJOINDRE ALPHARK -->
+<!-- ======================= -->
+
+<a
+href="https://discord.gg/"
+class="zone rejoindre"
+title="Rejoindre le Discord ALPHARK">
+</a>
+
+
+<!-- ======================= -->
 <!-- DISCORD -->
+<!-- ======================= -->
 
-<a href="https://discord.gg/" class="zone discord"></a>
+<a
+href="https://discord.gg/"
+class="zone discord"
+title="Discord ALPHARK">
+</a>
 
 
+<!-- ======================= -->
 <!-- CONNEXION DISCORD -->
-
+<!-- ======================= -->
 
 <div class="auth">
 
-<a href="https://discord.com/oauth2/authorize?client_id=1478681103228342384&response_type=token&redirect_uri=https%3A%2F%2Falphark.fr%2Fdiscord.html&scope=identify"
-class="login-btn">
+    <a
+    href="https://discord.com/oauth2/authorize?client_id=1478681103228342384&response_type=token&redirect_uri=https%3A%2F%2Falphark.fr%2Fdiscord.html&scope=identify"
+    class="login-btn">
 
-Connexion Discord
+        🔵 CONNEXION DISCORD
 
-</a>
+    </a>
 
-<div id="user-info"></div>
+
+    <!-- Utilisateur connecté -->
+
+    <div id="user-info"></div>
 
 </div>
 
-<!-- SCRIPT DISCORD -->
+
+<!-- ======================= -->
+<!-- ESPACE JOUEUR -->
+<!-- ======================= -->
+
+<div id="member-menu" class="member-menu">
+
+    <div class="member-title">
+        ⚔️ ESPACE ALPHARK
+    </div>
+
+    <div class="member-links">
+
+        <a href="pages/maps.html">
+            🗺️ MAPS
+        </a>
+
+        <a href="pages/boutique.html">
+            🛒 BOUTIQUE
+        </a>
+
+        <a href="pages/calendrier.html">
+            📅 CALENDRIER
+        </a>
+
+        <a href="pages/forum.html">
+            📖 FORUM
+        </a>
+
+        <a href="pages/profil.html">
+            👤 MON PROFIL
+        </a>
+
+    </div>
+
+</div>
+
+
+</div>
+
+
+<!-- ======================= -->
+<!-- SCRIPT -->
+<!-- ======================= -->
 
 <script type="module" src="script.js"></script>
+
+
 <script>
+
+/* ======================= */
+/* UTILISATEUR DISCORD */
+/* ======================= */
 
 const user = localStorage.getItem("discord_user");
 
+const loginButton = document.querySelector(".login-btn");
+
+const userInfo = document.getElementById("user-info");
+
+const memberMenu = document.getElementById("member-menu");
+
+
+/* ======================= */
+/* SI UTILISATEUR CONNECTE */
+/* ======================= */
+
 if(user){
 
-const data = JSON.parse(user);
+    try{
 
-document.querySelector(".login-btn").style.display="none";
+        const data = JSON.parse(user);
 
-document.getElementById("user-info").innerHTML = `
-<img src="${data.avatar}" class="avatar">
-🟢 ${data.username}
-<span onclick="logout()" style="cursor:pointer;color:red;">⏻</span>
-`;
+        /* Masquer connexion */
+
+        loginButton.style.display = "none";
+
+
+        /* Afficher utilisateur */
+
+        userInfo.innerHTML = `
+
+            <div class="connected-user">
+
+                <img
+                src="${data.avatar || ''}"
+                class="avatar"
+                alt="Avatar Discord">
+
+                <span>
+                    🟢 ${data.username || "Joueur"}
+                </span>
+
+                <button
+                class="logout-btn"
+                onclick="logout()"
+                title="Déconnexion">
+
+                    ⏻
+
+                </button>
+
+            </div>
+
+        `;
+
+
+        /* Afficher espace membre */
+
+        memberMenu.classList.add("visible");
+
+    }
+
+    catch(error){
+
+        console.error("Erreur utilisateur Discord :", error);
+
+        localStorage.removeItem("discord_user");
+
+    }
 
 }
 
+
+/* ======================= */
+/* DECONNEXION */
+/* ======================= */
+
 function logout(){
-localStorage.removeItem("discord_user");
-location.reload();
+
+    localStorage.removeItem("discord_user");
+
+    location.reload();
+
 }
 
 </script>
+
 </body>
+
 </html>
