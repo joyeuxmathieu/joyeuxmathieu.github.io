@@ -90,17 +90,26 @@ height:4%;
 }
 
 /* ======================= */
-/* DISCORD */
+/* BOUTON REJOINDRE */
 /* ======================= */
 
-.discord{
+.rejoindre{
 top:65%;
 left:33%;
 width:35%;
 height:7%;
 }
 
+/* ======================= */
+/* DISCORD */
+/* ======================= */
 
+.discord{
+top:90%;
+left:38%;
+width:25%;
+height:6%;
+}
 
 /* ========================= */
 /* PAGE CONTENU */
