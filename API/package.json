@@ -1,0 +1,19 @@
+{
+  "name": "alphark-api",
+  "version": "1.0.0",
+  "description": "API ALPHARK - Connexion Discord et vérification des membres",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "express-session": "^1.18.2",
+    "discord.js": "^14.27.0"
+  }
+}
