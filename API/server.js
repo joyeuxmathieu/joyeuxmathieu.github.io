@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import session from "express-session";
 import crypto from "crypto";
+import { GameDig } from "gamedig";
 
 const app = express();
 
@@ -22,7 +23,6 @@ if (!DISCORD_REDIRECT_URI) console.error("❌ DISCORD_REDIRECT_URI manquant");
 if (!SESSION_SECRET) console.error("❌ SESSION_SECRET manquant");
 
 app.set("trust proxy", 1);
-
 app.use(express.json());
 
 app.use(cors({
@@ -46,6 +46,26 @@ app.use(session({
     }
 }));
 
+// ==========================================
+// SERVEURS ALPHARK
+// Les ports ci-dessous correspondent aux ports
+// de requête indiqués dans ton serveur.html.
+// ==========================================
+
+const ARK_SERVERS = [
+    { name: "Événement Valguero", host: "213.239.204.205", port: 7962, maxPlayers: 70 },
+    { name: "The Island",          host: "213.239.204.205", port: 7812, maxPlayers: 70 },
+    { name: "The Center",          host: "213.239.204.205", port: 7822, maxPlayers: 70 },
+    { name: "Scorched Earth",      host: "213.239.204.205", port: 7832, maxPlayers: 70 },
+    { name: "Aberration",           host: "213.239.204.205", port: 7842, maxPlayers: 70 },
+    { name: "Extinction",           host: "213.239.204.205", port: 7852, maxPlayers: 70 },
+    { name: "La colonie perdue",    host: "213.239.204.205", port: 7862, maxPlayers: 70 },
+    { name: "Amissa",               host: "213.239.204.205", port: 7872, maxPlayers: 70 },
+    { name: "Ragnarok",             host: "213.239.204.205", port: 7882, maxPlayers: 70 },
+    { name: "Valguero",             host: "213.239.204.205", port: 7952, maxPlayers: 70 },
+    { name: "Astraeos",             host: "213.239.204.205", port: 7902, maxPlayers: 70 },
+    { name: "Genèse 1",             host: "213.239.204.205", port: 7912, maxPlayers: 70 }
+];
 
 // ==========================================
 // ACCUEIL API
@@ -55,10 +75,9 @@ app.get("/", (req, res) => {
     res.json({
         status: "online",
         service: "ALPHARK API",
-        version: "1.1.0"
+        version: "1.2.0"
     });
 });
-
 
 // ==========================================
 // CONNEXION DISCORD
@@ -75,7 +94,7 @@ app.get("/auth/discord", (req, res) => {
         response_type: "code",
         redirect_uri: DISCORD_REDIRECT_URI,
         scope: "identify",
-        state: state,
+        state,
         prompt: "consent"
     });
 
@@ -87,7 +106,6 @@ app.get("/auth/discord", (req, res) => {
 
     res.redirect(discordUrl);
 });
-
 
 // ==========================================
 // CALLBACK DISCORD
@@ -120,26 +138,23 @@ app.get("/auth/discord/callback", async (req, res) => {
 
         delete req.session.oauthState;
 
-
         // ==========================================
-        // RÉCUPÉRATION DU TOKEN DISCORD
+        // TOKEN DISCORD
         // ==========================================
 
         const tokenResponse = await fetch(
             "https://discord.com/api/v10/oauth2/token",
             {
                 method: "POST",
-
                 headers: {
                     "Content-Type":
                         "application/x-www-form-urlencoded"
                 },
-
                 body: new URLSearchParams({
                     client_id: DISCORD_CLIENT_ID,
                     client_secret: DISCORD_CLIENT_SECRET,
                     grant_type: "authorization_code",
-                    code: code,
+                    code,
                     redirect_uri: DISCORD_REDIRECT_URI
                 })
             }
@@ -162,9 +177,8 @@ app.get("/auth/discord/callback", async (req, res) => {
         const tokenData =
             await tokenResponse.json();
 
-
         // ==========================================
-        // RÉCUPÉRATION DU COMPTE DISCORD
+        // COMPTE DISCORD
         // ==========================================
 
         const userResponse = await fetch(
@@ -195,7 +209,6 @@ app.get("/auth/discord/callback", async (req, res) => {
             `👤 Discord : ${user.username} (${user.id})`
         );
 
-
         // ==========================================
         // VÉRIFICATION MEMBRE ALPHARK
         // ==========================================
@@ -209,7 +222,6 @@ app.get("/auth/discord/callback", async (req, res) => {
                 }
             }
         );
-
 
         if (!memberResponse.ok) {
 
@@ -237,7 +249,6 @@ app.get("/auth/discord/callback", async (req, res) => {
             );
         }
 
-
         // ==========================================
         // UTILISATEUR MEMBRE ALPHARK
         // ==========================================
@@ -246,21 +257,16 @@ app.get("/auth/discord/callback", async (req, res) => {
             `✅ ${user.username} est membre d'ALPHARK`
         );
 
-
         req.session.user = {
-
             id: user.id,
-
             username:
                 user.global_name ||
                 user.username,
-
             avatar:
                 user.avatar
                     ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`
                     : `https://cdn.discordapp.com/embed/avatars/0.png`
         };
-
 
         req.session.save((error) => {
 
@@ -298,7 +304,6 @@ app.get("/auth/discord/callback", async (req, res) => {
     }
 });
 
-
 // ==========================================
 // UTILISATEUR CONNECTÉ
 // ==========================================
@@ -318,50 +323,17 @@ app.get("/api/me", (req, res) => {
     });
 });
 
-
-// ==========================================
-// DÉCONNEXION
-// ==========================================
-
-app.get("/auth/logout", (req, res) => {
-
-    req.session.destroy((error) => {
-
-        if (error) {
-
-            console.error(
-                "❌ Erreur déconnexion :",
-                error
-            );
-
-            return res.status(500).send(
-                "Erreur lors de la déconnexion."
-            );
-        }
-
-        res.redirect(
-            "https://www.alphark.fr/"
-        );
-    });
-});
-
-
-// ==========================================
-// DÉMARRAGE
-// ==========================================
 // ==========================================
 // JOUEURS CONNECTÉS AU SITE
 // ==========================================
 
 const onlinePlayers = new Map();
-
 const PRESENCE_TIMEOUT = 5 * 60 * 1000;
 
-
-// Enregistrer / actualiser la présence
 app.post("/api/presence", (req, res) => {
 
     if (!req.session.user) {
+
         return res.status(401).json({
             loggedIn: false
         });
@@ -381,11 +353,10 @@ app.post("/api/presence", (req, res) => {
     });
 });
 
-
-// Liste des joueurs connectés
 app.get("/api/online", (req, res) => {
 
     if (!req.session.user) {
+
         return res.status(401).json({
             loggedIn: false
         });
@@ -393,13 +364,11 @@ app.get("/api/online", (req, res) => {
 
     const now = Date.now();
 
-    // Supprimer les présences expirées
     for (const [id, player] of onlinePlayers.entries()) {
 
         if (now - player.lastSeen > PRESENCE_TIMEOUT) {
             onlinePlayers.delete(id);
         }
-
     }
 
     const players = Array.from(
@@ -410,19 +379,101 @@ app.get("/api/online", (req, res) => {
         avatar: player.avatar
     }));
 
+    res.json({
+        loggedIn: true,
+        players
+    });
+});
+
+// ==========================================
+// STATUT DES SERVEURS ARK
+// ==========================================
+// GameDig interroge les serveurs depuis Render.
+// Si un serveur ne répond pas, il est simplement
+// retourné comme hors ligne.
+// ==========================================
+
+app.get("/api/servers", async (req, res) => {
+
+    if (!req.session.user) {
+
+        return res.status(401).json({
+            loggedIn: false
+        });
+    }
+
+    const results = await Promise.all(
+        ARK_SERVERS.map(async (server) => {
+
+            try {
+
+                const state = await GameDig.query({
+                    type: "arkse",
+                    host: server.host,
+                    port: server.port,
+                    socketTimeout: 3000,
+                    attemptTimeout: 5000
+                });
+
+                const players =
+                    Array.isArray(state.players)
+                        ? state.players.length
+                        : Number(state.numplayers || 0);
+
+                const maxPlayers =
+                    Number(state.maxplayers) ||
+                    server.maxPlayers;
+
+                console.log(
+                    `🟢 ${server.name} : ${players}/${maxPlayers}`
+                );
+
+                return {
+                    name: server.name,
+                    online: true,
+                    players,
+                    maxPlayers,
+                    ping: Number(state.ping || 0)
+                };
+
+            } catch (error) {
+
+                console.log(
+                    `🔴 ${server.name} : hors ligne`
+                );
+
+                return {
+                    name: server.name,
+                    online: false,
+                    players: 0,
+                    maxPlayers: server.maxPlayers,
+                    ping: null
+                };
+            }
+        })
+    );
+
+    const online = results.filter(
+        server => server.online
+    ).length;
 
     res.json({
         loggedIn: true,
-        players: players
+        servers: results,
+        online,
+        total: results.length,
+        updatedAt: new Date().toISOString()
     });
-
 });
 
+// ==========================================
+// DÉCONNEXION
+// ==========================================
 
-// Retirer immédiatement un joueur lors de sa déconnexion
 app.get("/auth/logout", (req, res) => {
 
-    const userId = req.session.user?.id;
+    const userId =
+        req.session.user?.id;
 
     if (userId) {
         onlinePlayers.delete(userId);
@@ -445,10 +496,12 @@ app.get("/auth/logout", (req, res) => {
         res.redirect(
             "https://www.alphark.fr/"
         );
-
     });
-
 });
+
+// ==========================================
+// DÉMARRAGE
+// ==========================================
 
 app.listen(PORT, () => {
 
@@ -456,4 +509,7 @@ app.listen(PORT, () => {
         `🚀 API ALPHARK démarrée sur le port ${PORT}`
     );
 
+    console.log(
+        `🦖 ${ARK_SERVERS.length} serveurs ARK configurés`
+    );
 });
