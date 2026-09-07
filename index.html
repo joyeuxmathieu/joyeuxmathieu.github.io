@@ -757,33 +757,19 @@ document.addEventListener(
         const list =
             document.getElementById("online-list");
 
-
-        button.addEventListener(
-            "click",
-            () => {
-
-                if (
-                    list.style.display === "block"
-                ) {
-
-                    list.style.display =
-                        "none";
-
+        if (button && list) {
+            button.addEventListener(
+                "click",
+                () => {
+                    if (list.style.display === "block") {
+                        list.style.display = "none";
+                    } else {
+                        list.style.display = "block";
+                        loadOnlinePlayers();
+                    }
                 }
-
-                else {
-
-                    list.style.display =
-                        "block";
-
-                    loadOnlinePlayers();
-
-                }
-
-            }
-        );
-
-    }
+            );
+        }
 
         const mapsButton =
             document.getElementById("maps-button");
@@ -792,21 +778,20 @@ document.addEventListener(
             document.getElementById("maps-list");
 
         if (mapsButton && mapsList) {
-
-            mapsButton.addEventListener("click", () => {
-
-                if (mapsList.style.display === "block") {
-                    mapsList.style.display = "none";
-                } else {
-                    mapsList.style.display = "block";
-                    loadArkServers();
+            mapsButton.addEventListener(
+                "click",
+                () => {
+                    if (mapsList.style.display === "block") {
+                        mapsList.style.display = "none";
+                    } else {
+                        mapsList.style.display = "block";
+                        loadArkServers();
+                    }
                 }
-
-            });
-
+            );
         }
-
     }
+);
 
 
 // ==========================================
