@@ -439,6 +439,174 @@ right:10px;
 
 .zone{
 transform:scale(1.2);
-}
+
+  /* ========================================= */
+/* MENU JOUEURS CONNECTÉS */
+/* ========================================= */
+
+.member-menu{
+
+    position:fixed;
+
+    top:85px;
+    right:25px;
+
+    z-index:99998;
+
+    display:none;
 
 }
+
+
+/* ========================================= */
+/* BOUTON JOUEURS CONNECTÉS */
+/* ========================================= */
+
+.online-button{
+
+    padding:12px 20px;
+
+    color:white;
+
+    background:linear-gradient(
+        180deg,
+        rgba(25,80,135,0.98),
+        rgba(5,20,40,0.98)
+    );
+
+    border:2px solid #00eaff;
+
+    border-radius:8px;
+
+    font-size:15px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 0 8px #00eaff,
+        0 0 20px rgba(0,234,255,0.4);
+
+    transition:0.25s;
+
+}
+
+
+.online-button:hover{
+
+    background:#00eaff;
+
+    color:black;
+
+    box-shadow:
+        0 0 15px #00eaff,
+        0 0 30px #00eaff;
+
+}
+
+
+/* ========================================= */
+/* LISTE */
+/* ========================================= */
+
+.online-list{
+
+    display:none;
+
+    margin-top:8px;
+
+    padding:10px;
+
+    width:230px;
+
+    max-height:350px;
+
+    overflow-y:auto;
+
+    background:rgba(2,10,25,0.97);
+
+    border:2px solid #00eaff;
+
+    border-radius:10px;
+
+    box-shadow:
+        0 0 12px #00eaff,
+        0 0 25px rgba(0,234,255,0.4);
+
+}
+
+
+/* ========================================= */
+/* JOUEUR */
+/* ========================================= */
+
+.online-player{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    padding:8px;
+
+    margin-bottom:5px;
+
+    color:white;
+
+    background:rgba(10,35,65,0.8);
+
+    border-radius:6px;
+
+    font-weight:bold;
+
+}
+
+
+.online-player:last-child{
+
+    margin-bottom:0;
+
+}
+
+
+/* ========================================= */
+/* AVATAR */
+/* ========================================= */
+
+.online-avatar{
+
+    width:32px;
+
+    height:32px;
+
+    border-radius:50%;
+
+    border:2px solid #00ff6a;
+
+}
+
+
+/* ========================================= */
+/* MOBILE */
+/* ========================================= */
+
+@media(max-width:900px){
+
+    .member-menu{
+
+        top:75px;
+
+        right:10px;
+
+    }
+
+    .online-list{
+
+        width:200px;
+
+    }
+
+}
+
