@@ -18,7 +18,10 @@
 
 <img src="background.jpg" class="bg">
 
-<!-- MENU -->
+
+<!-- ======================= -->
+<!-- MENU PRINCIPAL -->
+<!-- ======================= -->
 
 <a href="pages/serveurgeneral.html" class="zone serveur"></a>
 
@@ -33,19 +36,23 @@
 <a href="pages/mod.html" class="zone mod"></a>
 
 
+<!-- ======================= -->
 <!-- BOUTON REJOINDRE -->
+<!-- ======================= -->
 
 <a href="pages/serveur.html" class="zone rejoindre"></a>
 
 
+<!-- ======================= -->
 <!-- DISCORD -->
+<!-- ======================= -->
 
 <a href="https://discord.gg/vANw6nyGM" class="zone discord"></a>
 
 
-<!-- ================================= -->
+<!-- ======================= -->
 <!-- CONNEXION DISCORD -->
-<!-- ================================= -->
+<!-- ======================= -->
 
 <div class="auth">
 
@@ -54,7 +61,7 @@
         class="discord-login"
         id="discord-login"
     >
-        🔵 Connexion Discord
+        🔵 CONNEXION DISCORD
     </a>
 
     <div id="user-info"></div>
@@ -62,17 +69,60 @@
 </div>
 
 
-<!-- ================================= -->
-<!-- CONNEXION AVEC L'API ALPHARK -->
-<!-- ================================= -->
+<!-- ======================= -->
+<!-- MENU JOUEUR CONNECTÉ -->
+<!-- ======================= -->
+
+<div
+    id="member-menu"
+    class="member-menu"
+>
+
+    <button
+        id="online-button"
+        class="online-button"
+    >
+        👥 JOUEURS CONNECTÉS
+    </button>
+
+    <div
+        id="online-list"
+        class="online-list"
+    ></div>
+
+</div>
+
+
+<!-- ======================= -->
+<!-- SCRIPT -->
+<!-- ======================= -->
 
 <script>
 
 const API_URL = "https://api.alphark.fr";
 
+let onlineTimer = null;
 
-// Vérification de la connexion
+
+// ==========================================
+// VÉRIFICATION DE LA CONNEXION
+// ==========================================
+
 async function checkDiscordConnection() {
+
+    const loginButton =
+        document.getElementById("discord-login");
+
+    const userInfo =
+        document.getElementById("user-info");
+
+    const memberMenu =
+        document.getElementById("member-menu");
+
+
+    // Caché par défaut
+    memberMenu.style.display = "none";
+
 
     try {
 
@@ -83,38 +133,39 @@ async function checkDiscordConnection() {
             }
         );
 
+
+        // ==============================
+        // PAS CONNECTÉ
+        // ==============================
+
         if (!response.ok) {
 
-            document.getElementById("discord-login").style.display = "inline-block";
+            loginButton.style.display = "inline-block";
+
+            userInfo.innerHTML = "";
 
             return;
         }
 
-        const data = await response.json();
+
+        const data =
+            await response.json();
+
+
+        // ==============================
+        // CONNECTÉ
+        // ==============================
 
         if (data.loggedIn && data.user) {
 
-            const loginButton =
-                document.getElementById("discord-login");
-
-            const userInfo =
-                document.getElementById("user-info");
-
-
-            // Cacher le bouton connexion
+            // Cacher connexion
             loginButton.style.display = "none";
 
 
-            // Afficher l'utilisateur
+            // Afficher utilisateur
             userInfo.innerHTML = `
 
-                <div style="
-                    display:flex;
-                    align-items:center;
-                    gap:8px;
-                    color:#00ff6a;
-                    font-weight:bold;
-                ">
+                <div class="user-connected">
 
                     <img
                         src="${data.user.avatar}"
@@ -126,28 +177,54 @@ async function checkDiscordConnection() {
                         🟢 ${data.user.username}
                     </span>
 
-                    <span
-                        onclick="logout()"
+                    <a
+                        href="${API_URL}/auth/logout"
+                        class="logout"
                         title="Déconnexion"
-                        style="
-                            cursor:pointer;
-                            color:#ff4444;
-                            font-size:20px;
-                            margin-left:5px;
-                        "
                     >
                         ⏻
-                    </span>
+                    </a>
 
                 </div>
 
             `;
+
+
+            // Afficher menu membre
+            memberMenu.style.display = "block";
+
+
+            // Enregistrer présence
+            await updatePresence();
+
+
+            // Charger les joueurs
+            await loadOnlinePlayers();
+
+
+            // Actualiser toutes les 60 secondes
+            if (!onlineTimer) {
+
+                onlineTimer = setInterval(
+                    async () => {
+
+                        await updatePresence();
+                        await loadOnlinePlayers();
+
+                    },
+                    60000
+                );
+
+            }
+
         }
 
-    } catch (error) {
+    }
+
+    catch (error) {
 
         console.error(
-            "Erreur connexion API ALPHARK :",
+            "❌ Erreur API ALPHARK :",
             error
         );
 
@@ -156,16 +233,211 @@ async function checkDiscordConnection() {
 }
 
 
-// Déconnexion
-function logout() {
+// ==========================================
+// ENREGISTRER NOTRE PRÉSENCE
+// ==========================================
 
-    window.location.href =
-        API_URL + "/auth/logout";
+async function updatePresence() {
+
+    try {
+
+        await fetch(
+            API_URL + "/api/presence",
+            {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "❌ Erreur présence :",
+            error
+        );
+
+    }
 
 }
 
 
-// Vérification au chargement
+// ==========================================
+// CHARGER LES JOUEURS CONNECTÉS
+// ==========================================
+
+async function loadOnlinePlayers() {
+
+    const list =
+        document.getElementById("online-list");
+
+
+    try {
+
+        const response = await fetch(
+            API_URL + "/api/online",
+            {
+                credentials: "include"
+            }
+        );
+
+
+        if (!response.ok) {
+
+            list.innerHTML =
+                "<p>Impossible de charger les joueurs.</p>";
+
+            return;
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !data.loggedIn ||
+            !data.players
+        ) {
+
+            list.innerHTML =
+                "<p>Connexion requise.</p>";
+
+            return;
+        }
+
+
+        // ==============================
+        // AUCUN JOUEUR
+        // ==============================
+
+        if (data.players.length === 0) {
+
+            list.innerHTML =
+                "<p>🟢 Aucun joueur connecté.</p>";
+
+            return;
+        }
+
+
+        // ==============================
+        // AFFICHAGE
+        // ==============================
+
+        list.innerHTML = "";
+
+        data.players.forEach(player => {
+
+            const playerElement =
+                document.createElement("div");
+
+            playerElement.className =
+                "online-player";
+
+
+            playerElement.innerHTML = `
+
+                <img
+                    src="${player.avatar}"
+                    class="online-avatar"
+                    alt=""
+                >
+
+                <span>
+                    🟢 ${escapeHtml(player.username)}
+                </span>
+
+            `;
+
+
+            list.appendChild(
+                playerElement
+            );
+
+        });
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "❌ Erreur joueurs connectés :",
+            error
+        );
+
+    }
+
+}
+
+
+// ==========================================
+// PROTECTION AFFICHAGE PSEUDO
+// ==========================================
+
+function escapeHtml(text) {
+
+    const div =
+        document.createElement("div");
+
+    div.textContent = text;
+
+    return div.innerHTML;
+
+}
+
+
+// ==========================================
+// BOUTON JOUEURS CONNECTÉS
+// ==========================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        const button =
+            document.getElementById("online-button");
+
+        const list =
+            document.getElementById("online-list");
+
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                if (
+                    list.style.display === "block"
+                ) {
+
+                    list.style.display =
+                        "none";
+
+                }
+
+                else {
+
+                    list.style.display =
+                        "block";
+
+                    loadOnlinePlayers();
+
+                }
+
+            }
+        );
+
+    }
+);
+
+
+// ==========================================
+// LANCEMENT
+// ==========================================
+
 checkDiscordConnection();
 
 </script>
