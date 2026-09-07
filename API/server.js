@@ -349,6 +349,106 @@ app.get("/auth/logout", (req, res) => {
 // ==========================================
 // DÉMARRAGE
 // ==========================================
+// ==========================================
+// JOUEURS CONNECTÉS AU SITE
+// ==========================================
+
+const onlinePlayers = new Map();
+
+const PRESENCE_TIMEOUT = 5 * 60 * 1000;
+
+
+// Enregistrer / actualiser la présence
+app.post("/api/presence", (req, res) => {
+
+    if (!req.session.user) {
+        return res.status(401).json({
+            loggedIn: false
+        });
+    }
+
+    const user = req.session.user;
+
+    onlinePlayers.set(user.id, {
+        id: user.id,
+        username: user.username,
+        avatar: user.avatar,
+        lastSeen: Date.now()
+    });
+
+    res.json({
+        success: true
+    });
+});
+
+
+// Liste des joueurs connectés
+app.get("/api/online", (req, res) => {
+
+    if (!req.session.user) {
+        return res.status(401).json({
+            loggedIn: false
+        });
+    }
+
+    const now = Date.now();
+
+    // Supprimer les présences expirées
+    for (const [id, player] of onlinePlayers.entries()) {
+
+        if (now - player.lastSeen > PRESENCE_TIMEOUT) {
+            onlinePlayers.delete(id);
+        }
+
+    }
+
+    const players = Array.from(
+        onlinePlayers.values()
+    ).map(player => ({
+        id: player.id,
+        username: player.username,
+        avatar: player.avatar
+    }));
+
+
+    res.json({
+        loggedIn: true,
+        players: players
+    });
+
+});
+
+
+// Retirer immédiatement un joueur lors de sa déconnexion
+app.get("/auth/logout", (req, res) => {
+
+    const userId = req.session.user?.id;
+
+    if (userId) {
+        onlinePlayers.delete(userId);
+    }
+
+    req.session.destroy((error) => {
+
+        if (error) {
+
+            console.error(
+                "❌ Erreur déconnexion :",
+                error
+            );
+
+            return res.status(500).send(
+                "Erreur lors de la déconnexion."
+            );
+        }
+
+        res.redirect(
+            "https://www.alphark.fr/"
+        );
+
+    });
+
+});
 
 app.listen(PORT, () => {
 
