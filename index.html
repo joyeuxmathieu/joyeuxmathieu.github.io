@@ -21,65 +21,155 @@
 <!-- MENU -->
 
 <a href="pages/serveurgeneral.html" class="zone serveur"></a>
+
 <a href="pages/evenements.html" class="zone events"></a>
+
 <a href="pages/tribu.html" class="zone tribu"></a>
+
 <a href="pages/joueurs.html" class="zone joueurs"></a>
+
 <a href="pages/bot.html" class="zone bot"></a>
+
 <a href="pages/mod.html" class="zone mod"></a>
+
 
 <!-- BOUTON REJOINDRE -->
 
 <a href="pages/serveur.html" class="zone rejoindre"></a>
+
 
 <!-- DISCORD -->
 
 <a href="https://discord.gg/vANw6nyGM" class="zone discord"></a>
 
 
+<!-- ================================= -->
 <!-- CONNEXION DISCORD -->
-
+<!-- ================================= -->
 
 <div class="auth">
 
-<a href="https://api.alphark.fr/auth/discord" class="discord-login">
-    🔵 Connexion Discord
-</a>
+    <a
+        href="https://api.alphark.fr/auth/discord"
+        class="discord-login"
+        id="discord-login"
+    >
+        🔵 Connexion Discord
+    </a>
 
-<div id="user-info"></div>
+    <div id="user-info"></div>
 
 </div>
 
-<!-- SCRIPT DISCORD -->
 
-<script type="module" src="script.js"></script>
+<!-- ================================= -->
+<!-- CONNEXION AVEC L'API ALPHARK -->
+<!-- ================================= -->
 
 <script>
 
-const user = localStorage.getItem("discord_user");
+const API_URL = "https://api.alphark.fr";
 
-if(user){
 
-const data = JSON.parse(user);
+// Vérification de la connexion
+async function checkDiscordConnection() {
 
-document.querySelector(".login-btn").style.display="none";
+    try {
 
-document.getElementById("user-info").innerHTML = `
-<img src="${data.avatar}" class="avatar">
-🟢 ${data.username}
-<span onclick="logout()" style="cursor:pointer;color:red;">⏻</span>
-`;
+        const response = await fetch(
+            API_URL + "/api/me",
+            {
+                credentials: "include"
+            }
+        );
+
+        if (!response.ok) {
+
+            document.getElementById("discord-login").style.display = "inline-block";
+
+            return;
+        }
+
+        const data = await response.json();
+
+        if (data.loggedIn && data.user) {
+
+            const loginButton =
+                document.getElementById("discord-login");
+
+            const userInfo =
+                document.getElementById("user-info");
+
+
+            // Cacher le bouton connexion
+            loginButton.style.display = "none";
+
+
+            // Afficher l'utilisateur
+            userInfo.innerHTML = `
+
+                <div style="
+                    display:flex;
+                    align-items:center;
+                    gap:8px;
+                    color:#00ff6a;
+                    font-weight:bold;
+                ">
+
+                    <img
+                        src="${data.user.avatar}"
+                        class="avatar"
+                        alt="Avatar Discord"
+                    >
+
+                    <span>
+                        🟢 ${data.user.username}
+                    </span>
+
+                    <span
+                        onclick="logout()"
+                        title="Déconnexion"
+                        style="
+                            cursor:pointer;
+                            color:#ff4444;
+                            font-size:20px;
+                            margin-left:5px;
+                        "
+                    >
+                        ⏻
+                    </span>
+
+                </div>
+
+            `;
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Erreur connexion API ALPHARK :",
+            error
+        );
+
+    }
 
 }
 
-function logout(){
 
-localStorage.removeItem("discord_user");
+// Déconnexion
+function logout() {
 
-location.reload();
+    window.location.href =
+        API_URL + "/auth/logout";
 
 }
+
+
+// Vérification au chargement
+checkDiscordConnection();
 
 </script>
+
 
 </div>
 
