@@ -588,17 +588,200 @@ transform:scale(1.2);
 }
 
 
-/* ========================================= */
+/* ======================= */
 /* MOBILE */
+/* ======================= */
+
+@media(max-width:900px){
+
+    .auth{
+        top:10px;
+        right:10px;
+    }
+
+    .zone{
+        transform:scale(1.2);
+    }
+
+}
+
+
+/* ========================================= */
+/* MENU JOUEURS CONNECTÉS */
+/* ========================================= */
+
+.member-menu{
+
+    position:fixed !important;
+
+    top:75px !important;
+    right:25px !important;
+
+    left:auto !important;
+    bottom:auto !important;
+
+    z-index:99999 !important;
+
+    display:none;
+
+    width:250px;
+
+}
+
+
+/* ========================================= */
+/* BOUTON JOUEURS CONNECTÉS */
+/* ========================================= */
+
+.online-button{
+
+    width:250px;
+
+    padding:12px 15px;
+
+    color:white;
+
+    background:linear-gradient(
+        180deg,
+        #174c82,
+        #061426
+    );
+
+    border:2px solid #00eaff;
+
+    border-radius:8px;
+
+    font-size:14px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 0 8px #00eaff,
+        0 0 20px rgba(0,234,255,0.5);
+
+    transition:0.25s;
+
+}
+
+
+.online-button:hover{
+
+    background:#00eaff;
+
+    color:black;
+
+    box-shadow:
+        0 0 15px #00eaff,
+        0 0 30px #00eaff;
+
+}
+
+
+/* ========================================= */
+/* LISTE DES JOUEURS */
+/* ========================================= */
+
+.online-list{
+
+    display:none;
+
+    width:230px;
+
+    margin-top:8px;
+
+    padding:10px;
+
+    max-height:350px;
+
+    overflow-y:auto;
+
+    background:rgba(2,10,25,0.97);
+
+    border:2px solid #00eaff;
+
+    border-radius:10px;
+
+    box-shadow:
+        0 0 12px #00eaff,
+        0 0 25px rgba(0,234,255,0.5);
+
+}
+
+
+/* ========================================= */
+/* JOUEUR */
+/* ========================================= */
+
+.online-player{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    padding:8px;
+
+    margin-bottom:5px;
+
+    color:white;
+
+    background:rgba(10,35,65,0.85);
+
+    border-radius:6px;
+
+    font-weight:bold;
+
+}
+
+
+.online-player:last-child{
+
+    margin-bottom:0;
+
+}
+
+
+/* ========================================= */
+/* AVATAR JOUEUR */
+/* ========================================= */
+
+.online-avatar{
+
+    width:32px;
+
+    height:32px;
+
+    border-radius:50%;
+
+    border:2px solid #00ff6a;
+
+}
+
+
+/* ========================================= */
+/* VERSION MOBILE */
 /* ========================================= */
 
 @media(max-width:900px){
 
     .member-menu{
 
-        top:75px;
+        top:70px !important;
 
-        right:10px;
+        right:10px !important;
+
+        width:220px;
+
+    }
+
+    .online-button{
+
+        width:220px;
+
+        font-size:13px;
 
     }
 
