@@ -236,6 +236,17 @@
     box-sizing: border-box;
 }
 
+
+/* MENU MAPS */
+#maps-menu{position:fixed!important;top:125px!important;right:25px!important;width:250px!important;z-index:999998!important;display:none}
+#maps-button{display:block;width:250px!important;box-sizing:border-box;padding:12px 15px;color:white;background:linear-gradient(180deg,#174c82,#061426);border:2px solid #00eaff;border-radius:8px;font-size:14px;font-weight:bold;cursor:pointer;box-shadow:0 0 8px #00eaff,0 0 20px rgba(0,234,255,.5)}
+#maps-button:hover{background:#00eaff;color:#000}
+#maps-list{display:none;width:250px!important;max-height:430px;overflow-y:auto;margin-top:8px;padding:10px;box-sizing:border-box;background:rgba(2,10,25,.97);border:2px solid #00eaff;border-radius:10px;box-shadow:0 0 12px #00eaff,0 0 25px rgba(0,234,255,.5)}
+.map-server{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px;margin-bottom:6px;color:white;background:rgba(10,35,65,.85);border-radius:6px;font-weight:bold}
+.map-name{flex:1;min-width:0}.map-status{white-space:nowrap;font-size:12px}.map-online{color:#00ff6a}.map-offline{color:#ff3b3b}.map-loading,.map-error{color:white;text-align:center;padding:8px;margin:0}
+#maps-count{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;margin-left:7px;padding:0 6px;color:white;background:#00aaff;border:1px solid #00eaff;border-radius:50%;font-size:12px;font-weight:bold;box-sizing:border-box}
+@media(max-width:900px){#maps-menu{top:120px!important;right:10px!important;width:220px!important}#maps-button,#maps-list{width:220px!important}}
+
 </style>
 
 </head>
@@ -318,6 +329,20 @@
 
     <div id="online-list"></div>
 
+</div>
+
+<!-- ======================= -->
+<!-- MAPS / SERVEURS ARK -->
+<!-- ======================= -->
+
+<div id="maps-menu">
+    <button id="maps-button" type="button">
+        🗺️ MAPS
+        <span id="maps-count">0</span>
+    </button>
+    <div id="maps-list">
+        <p class="map-loading">⏳ Chargement des serveurs...</p>
+    </div>
 </div>
 
 
@@ -427,10 +452,19 @@ async function checkDiscordConnection() {
             `;
 
 
-            // Afficher menu joueurs
+            // Afficher menus membres + maps
 
             memberMenu.style.display =
                 "block";
+
+            const mapsMenu =
+                document.getElementById("maps-menu");
+
+            if (mapsMenu) {
+                mapsMenu.style.display = "block";
+            }
+
+            await loadArkServers();
 
 
             // Enregistrer présence
@@ -629,6 +663,71 @@ async function loadOnlinePlayers() {
 
 
 // ==========================================
+// SERVEURS ARK / MAPS
+// ==========================================
+
+async function loadArkServers() {
+    const list = document.getElementById("maps-list");
+    const count = document.getElementById("maps-count");
+    if (!list) return;
+
+    try {
+        const response = await fetch(API_URL + "/api/servers", {
+            credentials: "include",
+            cache: "no-store"
+        });
+
+        if (!response.ok) {
+            if (count) count.textContent = "0";
+            list.innerHTML = "<p class=\"map-error\">🔴 Statut des serveurs indisponible.</p>";
+            return;
+        }
+
+        const data = await response.json();
+
+        if (!Array.isArray(data.servers)) {
+            if (count) count.textContent = "0";
+            list.innerHTML = "<p class=\"map-error\">⚠️ Aucune donnée serveur.</p>";
+            return;
+        }
+
+        const onlineCount = data.servers.filter(server => server.online === true).length;
+        if (count) count.textContent = onlineCount;
+
+        list.innerHTML = "";
+
+        if (data.servers.length === 0) {
+            list.innerHTML = "<p class=\"map-error\">🔴 Aucun serveur configuré.</p>";
+            return;
+        }
+
+        data.servers.forEach(server => {
+            const element = document.createElement("div");
+            element.className = "map-server";
+
+            const online = server.online === true;
+            const players = Number.isFinite(server.players) ? server.players : 0;
+            const maxPlayers = Number.isFinite(server.maxPlayers) ? server.maxPlayers : 70;
+
+            element.innerHTML = `
+                <span class="map-name">${escapeHtml(server.name || "Map")}</span>
+                <span class="map-status ${online ? "map-online" : "map-offline"}">
+                    ${online ? "🟢 " + players + "/" + maxPlayers : "🔴 HORS LIGNE"}
+                </span>
+            `;
+
+            list.appendChild(element);
+        });
+
+    } catch (error) {
+        if (count) count.textContent = "0";
+        list.innerHTML = "<p class=\"map-error\">⚠️ API serveur inaccessible.</p>";
+        console.error("❌ Erreur statut ARK :", error);
+    }
+}
+
+
+// ==========================================
 // PROTECTION HTML
 // ==========================================
 
@@ -685,7 +784,29 @@ document.addEventListener(
         );
 
     }
-);
+
+        const mapsButton =
+            document.getElementById("maps-button");
+
+        const mapsList =
+            document.getElementById("maps-list");
+
+        if (mapsButton && mapsList) {
+
+            mapsButton.addEventListener("click", () => {
+
+                if (mapsList.style.display === "block") {
+                    mapsList.style.display = "none";
+                } else {
+                    mapsList.style.display = "block";
+                    loadArkServers();
+                }
+
+            });
+
+        }
+
+    }
 
 
 // ==========================================
