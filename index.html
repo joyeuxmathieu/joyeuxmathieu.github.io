@@ -10,11 +10,219 @@
 
 <link rel="stylesheet" href="style.css">
 
+
+<!-- ========================================= -->
+<!-- STYLE MENU JOUEURS CONNECTÉS -->
+<!-- ========================================= -->
+
+<style>
+
+/* MENU */
+
+#member-menu {
+
+    position: fixed !important;
+
+    top: 75px !important;
+    right: 25px !important;
+
+    left: auto !important;
+    bottom: auto !important;
+
+    width: 250px !important;
+
+    z-index: 999999 !important;
+
+    display: none;
+
+}
+
+
+/* BOUTON */
+
+#online-button {
+
+    display: block;
+
+    width: 250px !important;
+
+    box-sizing: border-box;
+
+    padding: 12px 15px;
+
+    color: white;
+
+    background: linear-gradient(
+        180deg,
+        #174c82,
+        #061426
+    );
+
+    border: 2px solid #00eaff;
+
+    border-radius: 8px;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 0 8px #00eaff,
+        0 0 20px rgba(0,234,255,0.5);
+
+    transition: 0.25s;
+
+}
+
+
+#online-button:hover {
+
+    background: #00eaff;
+
+    color: black;
+
+    box-shadow:
+        0 0 15px #00eaff,
+        0 0 30px #00eaff;
+
+}
+
+
+/* LISTE */
+
+#online-list {
+
+    display: none;
+
+    width: 230px !important;
+
+    max-height: 350px;
+
+    overflow-y: auto;
+
+    margin-top: 8px;
+
+    padding: 10px;
+
+    box-sizing: border-box;
+
+    background: rgba(2,10,25,0.97);
+
+    border: 2px solid #00eaff;
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 0 12px #00eaff,
+        0 0 25px rgba(0,234,255,0.5);
+
+}
+
+
+/* JOUEUR */
+
+.online-player {
+
+    display: flex !important;
+
+    align-items: center;
+
+    gap: 8px;
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 8px;
+
+    margin-bottom: 5px;
+
+    color: white !important;
+
+    background: rgba(10,35,65,0.85);
+
+    border-radius: 6px;
+
+    font-weight: bold;
+
+}
+
+
+/* AVATAR JOUEUR */
+
+.online-avatar {
+
+    width: 32px !important;
+
+    height: 32px !important;
+
+    min-width: 32px !important;
+
+    max-width: 32px !important;
+
+    border-radius: 50%;
+
+    border: 2px solid #00ff6a;
+
+    object-fit: cover;
+
+}
+
+
+/* UTILISATEUR CONNECTÉ */
+
+.user-connected {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    gap: 6px;
+
+}
+
+
+/* MOBILE */
+
+@media(max-width:900px) {
+
+    #member-menu {
+
+        top: 70px !important;
+
+        right: 10px !important;
+
+        width: 220px !important;
+
+    }
+
+    #online-button {
+
+        width: 220px !important;
+
+    }
+
+    #online-list {
+
+        width: 200px !important;
+
+    }
+
+}
+
+</style>
+
 </head>
+
 
 <body>
 
 <div class="site">
+
 
 <img src="background.jpg" class="bg">
 
@@ -47,7 +255,10 @@
 <!-- DISCORD -->
 <!-- ======================= -->
 
-<a href="https://discord.gg/vANw6nyGM" class="zone discord"></a>
+<a
+    href="https://discord.gg/vANw6nyGM"
+    class="zone discord">
+</a>
 
 
 <!-- ======================= -->
@@ -70,25 +281,19 @@
 
 
 <!-- ======================= -->
-<!-- MENU JOUEUR CONNECTÉ -->
+<!-- JOUEURS CONNECTÉS -->
 <!-- ======================= -->
 
-<div
-    id="member-menu"
-    class="member-menu"
->
+<div id="member-menu">
 
     <button
         id="online-button"
-        class="online-button"
+        type="button"
     >
         👥 JOUEURS CONNECTÉS
     </button>
 
-    <div
-        id="online-list"
-        class="online-list"
-    ></div>
+    <div id="online-list"></div>
 
 </div>
 
@@ -105,7 +310,7 @@ let onlineTimer = null;
 
 
 // ==========================================
-// VÉRIFICATION DE LA CONNEXION
+// VÉRIFICATION CONNEXION
 // ==========================================
 
 async function checkDiscordConnection() {
@@ -120,7 +325,8 @@ async function checkDiscordConnection() {
         document.getElementById("member-menu");
 
 
-    // Caché par défaut
+    // Menu caché par défaut
+
     memberMenu.style.display = "none";
 
 
@@ -134,17 +340,19 @@ async function checkDiscordConnection() {
         );
 
 
-        // ==============================
+        // ==================================
         // PAS CONNECTÉ
-        // ==============================
+        // ==================================
 
         if (!response.ok) {
 
-            loginButton.style.display = "inline-block";
+            loginButton.style.display =
+                "inline-block";
 
             userInfo.innerHTML = "";
 
             return;
+
         }
 
 
@@ -152,17 +360,23 @@ async function checkDiscordConnection() {
             await response.json();
 
 
-        // ==============================
+        // ==================================
         // CONNECTÉ
-        // ==============================
+        // ==================================
 
-        if (data.loggedIn && data.user) {
+        if (
+            data.loggedIn &&
+            data.user
+        ) {
 
-            // Cacher connexion
-            loginButton.style.display = "none";
+            // Cacher bouton connexion
+
+            loginButton.style.display =
+                "none";
 
 
             // Afficher utilisateur
+
             userInfo.innerHTML = `
 
                 <div class="user-connected">
@@ -174,7 +388,7 @@ async function checkDiscordConnection() {
                     >
 
                     <span>
-                        🟢 ${data.user.username}
+                        🟢 ${escapeHtml(data.user.username)}
                     </span>
 
                     <a
@@ -190,25 +404,31 @@ async function checkDiscordConnection() {
             `;
 
 
-            // Afficher menu membre
-            memberMenu.style.display = "block";
+            // Afficher menu joueurs
+
+            memberMenu.style.display =
+                "block";
 
 
             // Enregistrer présence
+
             await updatePresence();
 
 
-            // Charger les joueurs
+            // Charger joueurs
+
             await loadOnlinePlayers();
 
 
-            // Actualiser toutes les 60 secondes
+            // Actualisation toutes les 60 secondes
+
             if (!onlineTimer) {
 
                 onlineTimer = setInterval(
                     async () => {
 
                         await updatePresence();
+
                         await loadOnlinePlayers();
 
                     },
@@ -234,7 +454,7 @@ async function checkDiscordConnection() {
 
 
 // ==========================================
-// ENREGISTRER NOTRE PRÉSENCE
+// PRÉSENCE
 // ==========================================
 
 async function updatePresence() {
@@ -245,9 +465,12 @@ async function updatePresence() {
             API_URL + "/api/presence",
             {
                 method: "POST",
+
                 credentials: "include",
+
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type":
+                        "application/json"
                 }
             }
         );
@@ -267,7 +490,7 @@ async function updatePresence() {
 
 
 // ==========================================
-// CHARGER LES JOUEURS CONNECTÉS
+// CHARGER JOUEURS CONNECTÉS
 // ==========================================
 
 async function loadOnlinePlayers() {
@@ -292,6 +515,7 @@ async function loadOnlinePlayers() {
                 "<p>Impossible de charger les joueurs.</p>";
 
             return;
+
         }
 
 
@@ -308,12 +532,13 @@ async function loadOnlinePlayers() {
                 "<p>Connexion requise.</p>";
 
             return;
+
         }
 
 
-        // ==============================
+        // ==================================
         // AUCUN JOUEUR
-        // ==============================
+        // ==================================
 
         if (data.players.length === 0) {
 
@@ -321,19 +546,22 @@ async function loadOnlinePlayers() {
                 "<p>🟢 Aucun joueur connecté.</p>";
 
             return;
+
         }
 
 
-        // ==============================
+        // ==================================
         // AFFICHAGE
-        // ==============================
+        // ==================================
 
         list.innerHTML = "";
+
 
         data.players.forEach(player => {
 
             const playerElement =
                 document.createElement("div");
+
 
             playerElement.className =
                 "online-player";
@@ -375,7 +603,7 @@ async function loadOnlinePlayers() {
 
 
 // ==========================================
-// PROTECTION AFFICHAGE PSEUDO
+// PROTECTION HTML
 // ==========================================
 
 function escapeHtml(text) {
@@ -391,7 +619,7 @@ function escapeHtml(text) {
 
 
 // ==========================================
-// BOUTON JOUEURS CONNECTÉS
+// BOUTON JOUEURS
 // ==========================================
 
 document.addEventListener(
@@ -435,7 +663,7 @@ document.addEventListener(
 
 
 // ==========================================
-// LANCEMENT
+// DÉMARRAGE
 // ==========================================
 
 checkDiscordConnection();
