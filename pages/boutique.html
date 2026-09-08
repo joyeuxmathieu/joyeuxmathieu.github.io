@@ -1,1 +1,452 @@
+<!DOCTYPE html>
+<html lang="fr">
 
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>ALPHARK — Boutique</title>
+
+    <link
+        rel="stylesheet"
+        href="../style.css"
+    >
+
+    <style>
+
+        .shop-intro {
+            max-width: 850px;
+            margin-bottom: 45px;
+        }
+
+        .shop-intro p {
+            color: #9bb1bb;
+            font-size: 20px;
+            line-height: 1.6;
+        }
+
+        .shop-card {
+            position: relative;
+            padding: 32px;
+            background:
+                linear-gradient(
+                    145deg,
+                    #0d1c25,
+                    #071016
+                );
+            border: 1px solid #183441;
+            border-radius: 16px;
+            transition: .3s ease;
+        }
+
+        .shop-card:hover {
+            transform: translateY(-5px);
+            border-color: #19d9ff;
+            box-shadow:
+                0 15px 40px rgba(25,217,255,.10);
+        }
+
+        .shop-icon {
+            font-size: 42px;
+            margin-bottom: 18px;
+        }
+
+        .shop-card h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 22px;
+            margin-bottom: 12px;
+        }
+
+        .shop-card p {
+            color: #819aa5;
+            line-height: 1.5;
+        }
+
+        .member-box {
+            margin-top: 45px;
+            padding: 40px;
+            border: 1px solid #205164;
+            border-radius: 18px;
+            background:
+                linear-gradient(
+                    100deg,
+                    #09202a,
+                    #0a1420
+                );
+            text-align: center;
+        }
+
+        .member-box h2 {
+            font-family: 'Orbitron', sans-serif;
+            margin-bottom: 15px;
+        }
+
+        .member-box p {
+            max-width: 700px;
+            margin: 0 auto 25px;
+            color: #8ea8b6;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ==========================================
+     NAVIGATION
+========================================== -->
+
+<header class="navbar">
+
+    <a
+        href="../index.html"
+        class="logo"
+    >
+        <span>ALPHA</span>RK
+    </a>
+
+
+    <nav>
+
+        <a href="../index.html">
+            🏠 Accueil
+        </a>
+
+        <a href="jeux.html">
+            🎮 Jeux
+        </a>
+
+        <a href="serveurs.html">
+            🖥️ Serveurs
+        </a>
+
+        <a
+            href="boutique.html"
+            class="active"
+        >
+            🛒 Boutique
+        </a>
+
+        <a href="evenements.html">
+            🏆 Événements
+        </a>
+
+        <a href="reglement.html">
+            📜 Règlement
+        </a>
+
+        <a href="infos.html">
+            ℹ️ Infos
+        </a>
+
+        <a
+            href="https://discord.gg/"
+            target="_blank"
+            class="discord-button"
+        >
+            💬 Discord
+        </a>
+
+    </nav>
+
+</header>
+
+
+<!-- ==========================================
+     HERO
+========================================== -->
+
+<section
+    class="hero"
+    style="min-height: 500px;"
+>
+
+    <div class="hero-content hero-loaded">
+
+        <div class="hero-label">
+            ALPHARK • BOUTIQUE
+        </div>
+
+
+        <h1>
+
+            LA
+            <span>BOUTIQUE</span>
+
+        </h1>
+
+
+        <p>
+
+            Retrouve les packs, dinos, offres et
+            récompenses disponibles sur ALPHARK.
+
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- ==========================================
+     BOUTIQUE
+========================================== -->
+
+<section class="section">
+
+
+    <div class="shop-intro">
+
+        <div class="section-title">
+
+            <div>
+
+                <span>
+                    BOUTIQUE ALPHARK
+                </span>
+
+                <h2>
+                    NOS OFFRES
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <p>
+
+            La boutique permet aux membres de retrouver
+            les différents packs et offres disponibles
+            sur le serveur.
+
+            <br><br>
+
+            Les achats et les informations personnelles
+            sont accessibles uniquement après connexion
+            à ton compte ALPHARK.
+
+        </p>
+
+    </div>
+
+
+    <div class="cards">
+
+
+        <!-- PACK BN -->
+
+        <article class="shop-card">
+
+            <div class="shop-icon">
+                ❄️
+            </div>
+
+            <h3>
+                PACKS BN
+            </h3>
+
+            <p>
+
+                Découvre les différents packs utilisant
+                la monnaie BN d'ALPHARK.
+
+                <br><br>
+
+                Plusieurs montants et récompenses
+                pourront être proposés.
+
+            </p>
+
+        </article>
+
+
+        <!-- PACK EURO -->
+
+        <article class="shop-card">
+
+            <div class="shop-icon">
+                💳
+            </div>
+
+            <h3>
+                PACKS EURO
+            </h3>
+
+            <p>
+
+                Retrouvez les différents packs proposés
+                en euros avec leurs récompenses.
+
+                <br><br>
+
+                Le contenu détaillé sera visible
+                dans la boutique membre.
+
+            </p>
+
+        </article>
+
+
+        <!-- DINOS -->
+
+        <article class="shop-card">
+
+            <div class="shop-icon">
+                🦖
+            </div>
+
+            <h3>
+                DINOS
+            </h3>
+
+            <p>
+
+                Découvrez les dinos disponibles,
+                leurs niveaux, statistiques et
+                éventuelles offres spéciales.
+
+            </p>
+
+        </article>
+
+
+        <!-- OFFRES -->
+
+        <article class="shop-card">
+
+            <div class="shop-icon">
+                🔥
+            </div>
+
+            <h3>
+                OFFRES SPÉCIALES
+            </h3>
+
+            <p>
+
+                Retrouvez les offres temporaires,
+                promotions et événements spéciaux
+                proposés par ALPHARK.
+
+            </p>
+
+        </article>
+
+
+        <!-- FIDÉLITÉ -->
+
+        <article class="shop-card">
+
+            <div class="shop-icon">
+                ⭐
+            </div>
+
+            <h3>
+                PACK FIDÉLITÉ
+            </h3>
+
+            <p>
+
+                Des récompenses réservées aux membres
+                fidèles de la communauté ALPHARK.
+
+            </p>
+
+        </article>
+
+
+        <!-- RÉCOMPENSES -->
+
+        <article class="shop-card">
+
+            <div class="shop-icon">
+                🎁
+            </div>
+
+            <h3>
+                RÉCOMPENSES
+            </h3>
+
+            <p>
+
+                Retrouve les récompenses et avantages
+                disponibles pour les membres.
+
+            </p>
+
+        </article>
+
+
+    </div>
+
+
+    <!-- ==========================================
+         CONNEXION
+    ========================================== -->
+
+    <div class="member-box">
+
+        <h2>
+            🔐 BOUTIQUE MEMBRE
+        </h2>
+
+
+        <p>
+
+            Pour accéder aux achats, à ton solde BN,
+            à ton historique et à tes packs,
+            tu dois être connecté à ton compte ALPHARK.
+
+        </p>
+
+
+        <a
+            href="../index.html"
+            class="button primary"
+        >
+            🔐 SE CONNECTER
+        </a>
+
+    </div>
+
+
+</section>
+
+
+<!-- ==========================================
+     FOOTER
+========================================== -->
+
+<footer>
+
+    <div class="footer-logo">
+
+        <span>ALPHA</span>RK
+
+    </div>
+
+
+    <p>
+        © ALPHARK — ARK Survival Ascended
+    </p>
+
+
+    <p>
+        Communauté francophone
+    </p>
+
+</footer>
+
+
+</body>
+
+</html>
