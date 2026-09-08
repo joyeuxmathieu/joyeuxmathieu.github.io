@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import session from "express-session";
 import crypto from "crypto";
+import { GameDig } from "gamedig";
 
 const app = express();
 
@@ -47,6 +48,25 @@ app.use(session({
 }));
 
 // ==========================================
+// MAPS ALPHARK
+// ==========================================
+
+const ARK_SERVERS = [
+    { name: "Événement Valguero", host: "213.239.204.205", port: 7962, maxPlayers: 70 },
+    { name: "The Island", host: "213.239.204.205", port: 7812, maxPlayers: 70 },
+    { name: "The Center", host: "213.239.204.205", port: 7822, maxPlayers: 70 },
+    { name: "Scorched Earth", host: "213.239.204.205", port: 7832, maxPlayers: 70 },
+    { name: "Aberration", host: "213.239.204.205", port: 7842, maxPlayers: 70 },
+    { name: "Extinction", host: "213.239.204.205", port: 7852, maxPlayers: 70 },
+    { name: "La colonie perdue", host: "213.239.204.205", port: 7862, maxPlayers: 70 },
+    { name: "Amissa", host: "213.239.204.205", port: 7872, maxPlayers: 70 },
+    { name: "Ragnarok", host: "213.239.204.205", port: 7882, maxPlayers: 70 },
+    { name: "Valguero", host: "213.239.204.205", port: 7952, maxPlayers: 70 },
+    { name: "Astraeos", host: "213.239.204.205", port: 7902, maxPlayers: 70 },
+    { name: "Genèse 1", host: "213.239.204.205", port: 7912, maxPlayers: 70 }
+];
+
+// ==========================================
 // ACCUEIL API
 // ==========================================
 
@@ -54,7 +74,7 @@ app.get("/", (req, res) => {
     res.json({
         status: "online",
         service: "ALPHARK API",
-        version: "1.1.1"
+        version: "1.2.0"
     });
 });
 
@@ -73,17 +93,39 @@ app.get("/auth/discord", (req, res) => {
         response_type: "code",
         redirect_uri: DISCORD_REDIRECT_URI,
         scope: "identify",
-        state: state,
+        state,
         prompt: "consent"
     });
+
+    const discordUrl =
+        "https://discord.com/oauth2/authorize?" +
+        params.toString();
 
     console.log("🔵 Connexion Discord lancée");
     console.log("🔗 Redirect URI :", DISCORD_REDIRECT_URI);
 
-    res.redirect(
-        "https://discord.com/oauth2/authorize?" +
-        params.toString()
-    );
+    // IMPORTANT :
+    // sauvegarder la session avant d'aller sur Discord
+    req.session.save((error) => {
+
+        if (error) {
+
+            console.error(
+                "❌ Erreur sauvegarde session OAuth :",
+                error
+            );
+
+            return res.status(500).send(
+                "Impossible de démarrer la connexion Discord."
+            );
+        }
+
+        console.log("✅ Session OAuth sauvegardée");
+
+        res.setHeader("Cache-Control", "no-store");
+
+        res.redirect(discordUrl);
+    });
 });
 
 // ==========================================
@@ -105,7 +147,6 @@ app.get("/auth/discord/callback", async (req, res) => {
         console.log("State reçu :", state ? "OUI" : "NON");
 
         if (!code) {
-            console.error("❌ Aucun code Discord");
             return res.status(400).send(
                 "Code Discord manquant."
             );
@@ -114,6 +155,11 @@ app.get("/auth/discord/callback", async (req, res) => {
         if (!state || state !== req.session.oauthState) {
 
             console.error("❌ State Discord invalide");
+
+            console.error(
+                "Session OAuth présente :",
+                req.session.oauthState ? "OUI" : "NON"
+            );
 
             return res.status(400).send(
                 "Connexion Discord invalide ou expirée."
@@ -126,21 +172,21 @@ app.get("/auth/discord/callback", async (req, res) => {
         // TOKEN DISCORD
         // ==========================================
 
-        console.log("🔄 Demande du token Discord...");
-
         const tokenResponse = await fetch(
             "https://discord.com/api/v10/oauth2/token",
             {
                 method: "POST",
+
                 headers: {
                     "Content-Type":
                         "application/x-www-form-urlencoded"
                 },
+
                 body: new URLSearchParams({
                     client_id: DISCORD_CLIENT_ID,
                     client_secret: DISCORD_CLIENT_SECRET,
                     grant_type: "authorization_code",
-                    code: code,
+                    code,
                     redirect_uri: DISCORD_REDIRECT_URI
                 })
             }
@@ -157,7 +203,7 @@ app.get("/auth/discord/callback", async (req, res) => {
                 await tokenResponse.text();
 
             console.error(
-                "❌ DISCORD TOKEN ERROR :",
+                "❌ Erreur token Discord :",
                 errorText
             );
 
@@ -183,11 +229,6 @@ app.get("/auth/discord/callback", async (req, res) => {
                         `Bearer ${tokenData.access_token}`
                 }
             }
-        );
-
-        console.log(
-            "📡 Réponse compte Discord :",
-            userResponse.status
         );
 
         if (!userResponse.ok) {
@@ -240,12 +281,12 @@ app.get("/auth/discord/callback", async (req, res) => {
                 );
             }
 
-            const errorText =
+            const memberError =
                 await memberResponse.text();
 
             console.error(
-                "❌ Erreur membre ALPHARK :",
-                errorText
+                "❌ Erreur vérification membre :",
+                memberError
             );
 
             return res.status(500).send(
@@ -253,15 +294,17 @@ app.get("/auth/discord/callback", async (req, res) => {
             );
         }
 
-        // ==========================================
-        // SESSION UTILISATEUR
-        // ==========================================
+        console.log(
+            `✅ ${user.username} est membre d'ALPHARK`
+        );
 
         req.session.user = {
             id: user.id,
+
             username:
                 user.global_name ||
                 user.username,
+
             avatar:
                 user.avatar
                     ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`
@@ -294,7 +337,7 @@ app.get("/auth/discord/callback", async (req, res) => {
     } catch (error) {
 
         console.error(
-            "❌ ERREUR CALLBACK DISCORD :",
+            "❌ Erreur connexion Discord :",
             error
         );
 
@@ -380,6 +423,7 @@ app.get("/api/online", (req, res) => {
             now - player.lastSeen >
             PRESENCE_TIMEOUT
         ) {
+
             onlinePlayers.delete(id);
         }
     }
@@ -396,6 +440,103 @@ app.get("/api/online", (req, res) => {
     res.json({
         loggedIn: true,
         players
+    });
+});
+
+// ==========================================
+// STATUT DES MAPS ARK ASA
+// ==========================================
+
+app.get("/api/servers", async (req, res) => {
+
+    if (!req.session.user) {
+
+        return res.status(401).json({
+            loggedIn: false
+        });
+    }
+
+    const servers =
+        await Promise.all(
+            ARK_SERVERS.map(
+                async (server) => {
+
+                    try {
+
+                        const state =
+                            await GameDig.query({
+                                type: "asa",
+                                host: server.host,
+                                port: server.port,
+                                givenPortOnly: true,
+                                socketTimeout: 3000,
+                                attemptTimeout: 7000,
+                                maxRetries: 1
+                            });
+
+                        const players =
+                            Number.isFinite(
+                                state.numplayers
+                            )
+                                ? Number(state.numplayers)
+                                : 0;
+
+                        const maxPlayers =
+                            Number(state.maxplayers) ||
+                            server.maxPlayers;
+
+                        console.log(
+                            `🟢 ${server.name} : ${players}/${maxPlayers}`
+                        );
+
+                        return {
+                            name: server.name,
+                            online: true,
+                            players,
+                            maxPlayers,
+                            ping:
+                                Number(state.ping || 0),
+                            map:
+                                state.map || ""
+                        };
+
+                    } catch (error) {
+
+                        console.log(
+                            `🔴 ${server.name} : ${
+                                error?.message ||
+                                "hors ligne"
+                            }`
+                        );
+
+                        return {
+                            name: server.name,
+                            online: false,
+                            players: 0,
+                            maxPlayers:
+                                server.maxPlayers,
+                            ping: null,
+                            map: ""
+                        };
+                    }
+                }
+            )
+        );
+
+    res.json({
+        loggedIn: true,
+        servers,
+
+        online:
+            servers.filter(
+                server => server.online
+            ).length,
+
+        total:
+            servers.length,
+
+        updatedAt:
+            new Date().toISOString()
     });
 });
 
@@ -442,4 +583,7 @@ app.listen(PORT, () => {
         `🚀 API ALPHARK démarrée sur le port ${PORT}`
     );
 
+    console.log(
+        `🦖 ${ARK_SERVERS.length} maps configurées`
+    );
 });
