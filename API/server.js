@@ -23,7 +23,6 @@ if (!DISCORD_REDIRECT_URI) console.error("❌ DISCORD_REDIRECT_URI manquant");
 if (!SESSION_SECRET) console.error("❌ SESSION_SECRET manquant");
 
 app.set("trust proxy", 1);
-
 app.use(express.json());
 
 app.use(cors({
@@ -48,7 +47,29 @@ app.use(session({
 }));
 
 // ==========================================
-// MAPS ALPHARK
+// ÉTATS OAUTH DISCORD
+// ==========================================
+
+const oauthStates = new Map();
+
+const OAUTH_STATE_TIMEOUT = 10 * 60 * 1000;
+
+// Nettoyage automatique des anciens states
+setInterval(() => {
+
+    const now = Date.now();
+
+    for (const [state, createdAt] of oauthStates.entries()) {
+
+        if (now - createdAt > OAUTH_STATE_TIMEOUT) {
+            oauthStates.delete(state);
+        }
+    }
+
+}, 60 * 1000);
+
+// ==========================================
+// SERVEURS ARK
 // ==========================================
 
 const ARK_SERVERS = [
@@ -71,11 +92,13 @@ const ARK_SERVERS = [
 // ==========================================
 
 app.get("/", (req, res) => {
+
     res.json({
         status: "online",
         service: "ALPHARK API",
-        version: "1.2.0"
+        version: "1.3.0"
     });
+
 });
 
 // ==========================================
@@ -84,48 +107,39 @@ app.get("/", (req, res) => {
 
 app.get("/auth/discord", (req, res) => {
 
-    const state = crypto.randomBytes(32).toString("hex");
+    const state =
+        crypto.randomBytes(32).toString("hex");
 
-    req.session.oauthState = state;
-
-    const params = new URLSearchParams({
-        client_id: DISCORD_CLIENT_ID,
-        response_type: "code",
-        redirect_uri: DISCORD_REDIRECT_URI,
-        scope: "identify",
+    oauthStates.set(
         state,
-        prompt: "consent"
-    });
+        Date.now()
+    );
+
+    const params =
+        new URLSearchParams({
+            client_id: DISCORD_CLIENT_ID,
+            response_type: "code",
+            redirect_uri: DISCORD_REDIRECT_URI,
+            scope: "identify",
+            state,
+            prompt: "consent"
+        });
 
     const discordUrl =
         "https://discord.com/oauth2/authorize?" +
         params.toString();
 
-    console.log("🔵 Connexion Discord lancée");
-    console.log("🔗 Redirect URI :", DISCORD_REDIRECT_URI);
+    console.log("==========================================");
+    console.log("🔵 CONNEXION DISCORD");
+    console.log("==========================================");
+    console.log("🔐 Nouveau state OAuth créé");
 
-    // IMPORTANT :
-    // sauvegarder la session avant d'aller sur Discord
-    req.session.save((error) => {
+    res.setHeader(
+        "Cache-Control",
+        "no-store"
+    );
 
-        if (error) {
-
-            console.error(
-                "❌ Erreur sauvegarde session OAuth :",
-                error
-            );
-
-            return res.status(500).send(
-                "Impossible de démarrer la connexion Discord."
-            );
-        }
-
-        console.log("✅ Session OAuth sauvegardée");
-
-        res.setHeader("Cache-Control", "no-store");
-
-        res.redirect(discordUrl);
-    });
+    res.redirect(discordUrl);
 });
 
 // ==========================================
@@ -143,54 +157,89 @@ app.get("/auth/discord/callback", async (req, res) => {
         const code = req.query.code;
         const state = req.query.state;
 
-        console.log("Code reçu :", code ? "OUI" : "NON");
-        console.log("State reçu :", state ? "OUI" : "NON");
+        console.log(
+            "Code reçu :",
+            code ? "OUI" : "NON"
+        );
+
+        console.log(
+            "State reçu :",
+            state ? "OUI" : "NON"
+        );
 
         if (!code) {
+
             return res.status(400).send(
                 "Code Discord manquant."
             );
+
         }
 
-        if (!state || state !== req.session.oauthState) {
-
-            console.error("❌ State Discord invalide");
+        if (!state) {
 
             console.error(
-                "Session OAuth présente :",
-                req.session.oauthState ? "OUI" : "NON"
+                "❌ Aucun state Discord"
+            );
+
+            return res.status(400).send(
+                "State Discord manquant."
+            );
+
+        }
+
+        // Vérification du state
+        if (!oauthStates.has(state)) {
+
+            console.error(
+                "❌ State Discord invalide ou expiré"
             );
 
             return res.status(400).send(
                 "Connexion Discord invalide ou expirée."
             );
+
         }
 
-        delete req.session.oauthState;
+        // State utilisé une seule fois
+        oauthStates.delete(state);
+
+        console.log(
+            "✅ State Discord validé"
+        );
 
         // ==========================================
         // TOKEN DISCORD
         // ==========================================
 
-        const tokenResponse = await fetch(
-            "https://discord.com/api/v10/oauth2/token",
-            {
-                method: "POST",
+        const tokenResponse =
+            await fetch(
+                "https://discord.com/api/v10/oauth2/token",
+                {
+                    method: "POST",
 
-                headers: {
-                    "Content-Type":
-                        "application/x-www-form-urlencoded"
-                },
+                    headers: {
+                        "Content-Type":
+                            "application/x-www-form-urlencoded"
+                    },
 
-                body: new URLSearchParams({
-                    client_id: DISCORD_CLIENT_ID,
-                    client_secret: DISCORD_CLIENT_SECRET,
-                    grant_type: "authorization_code",
-                    code,
-                    redirect_uri: DISCORD_REDIRECT_URI
-                })
-            }
-        );
+                    body:
+                        new URLSearchParams({
+                            client_id:
+                                DISCORD_CLIENT_ID,
+
+                            client_secret:
+                                DISCORD_CLIENT_SECRET,
+
+                            grant_type:
+                                "authorization_code",
+
+                            code,
+
+                            redirect_uri:
+                                DISCORD_REDIRECT_URI
+                        })
+                }
+            );
 
         console.log(
             "📡 Réponse Discord token :",
@@ -210,26 +259,30 @@ app.get("/auth/discord/callback", async (req, res) => {
             return res.status(401).send(
                 "Impossible de valider la connexion Discord."
             );
+
         }
 
         const tokenData =
             await tokenResponse.json();
 
-        console.log("✅ Token Discord récupéré");
+        console.log(
+            "✅ Token Discord récupéré"
+        );
 
         // ==========================================
         // COMPTE DISCORD
         // ==========================================
 
-        const userResponse = await fetch(
-            "https://discord.com/api/v10/users/@me",
-            {
-                headers: {
-                    Authorization:
-                        `Bearer ${tokenData.access_token}`
+        const userResponse =
+            await fetch(
+                "https://discord.com/api/v10/users/@me",
+                {
+                    headers: {
+                        Authorization:
+                            `Bearer ${tokenData.access_token}`
+                    }
                 }
-            }
-        );
+            );
 
         if (!userResponse.ok) {
 
@@ -240,6 +293,7 @@ app.get("/auth/discord/callback", async (req, res) => {
             return res.status(401).send(
                 "Impossible de récupérer votre compte Discord."
             );
+
         }
 
         const user =
@@ -253,15 +307,16 @@ app.get("/auth/discord/callback", async (req, res) => {
         // VÉRIFICATION MEMBRE ALPHARK
         // ==========================================
 
-        const memberResponse = await fetch(
-            `https://discord.com/api/v10/guilds/${DISCORD_GUILD_ID}/members/${user.id}`,
-            {
-                headers: {
-                    Authorization:
-                        `Bot ${DISCORD_BOT_TOKEN}`
+        const memberResponse =
+            await fetch(
+                `https://discord.com/api/v10/guilds/${DISCORD_GUILD_ID}/members/${user.id}`,
+                {
+                    headers: {
+                        Authorization:
+                            `Bot ${DISCORD_BOT_TOKEN}`
+                    }
                 }
-            }
-        );
+            );
 
         console.log(
             "📡 Réponse membre ALPHARK :",
@@ -279,6 +334,7 @@ app.get("/auth/discord/callback", async (req, res) => {
                 return res.redirect(
                     "https://www.alphark.fr/?discord=not_member"
                 );
+
             }
 
             const memberError =
@@ -292,14 +348,21 @@ app.get("/auth/discord/callback", async (req, res) => {
             return res.status(500).send(
                 "Impossible de vérifier votre appartenance au serveur ALPHARK."
             );
+
         }
 
         console.log(
             `✅ ${user.username} est membre d'ALPHARK`
         );
 
+        // ==========================================
+        // SESSION
+        // ==========================================
+
         req.session.user = {
-            id: user.id,
+
+            id:
+                user.id,
 
             username:
                 user.global_name ||
@@ -323,6 +386,7 @@ app.get("/auth/discord/callback", async (req, res) => {
                 return res.status(500).send(
                     "Impossible de créer votre session."
                 );
+
             }
 
             console.log(
@@ -332,6 +396,7 @@ app.get("/auth/discord/callback", async (req, res) => {
             res.redirect(
                 "https://www.alphark.fr/?discord=connected"
             );
+
         });
 
     } catch (error) {
@@ -344,7 +409,9 @@ app.get("/auth/discord/callback", async (req, res) => {
         res.status(500).send(
             "Erreur interne ALPHARK."
         );
+
     }
+
 });
 
 // ==========================================
@@ -358,19 +425,22 @@ app.get("/api/me", (req, res) => {
         return res.status(401).json({
             loggedIn: false
         });
+
     }
 
     res.json({
         loggedIn: true,
         user: req.session.user
     });
+
 });
 
 // ==========================================
-// JOUEURS CONNECTÉS AU SITE
+// JOUEURS CONNECTÉS
 // ==========================================
 
-const onlinePlayers = new Map();
+const onlinePlayers =
+    new Map();
 
 const PRESENCE_TIMEOUT =
     5 * 60 * 1000;
@@ -382,6 +452,7 @@ app.post("/api/presence", (req, res) => {
         return res.status(401).json({
             loggedIn: false
         });
+
     }
 
     const user =
@@ -390,16 +461,24 @@ app.post("/api/presence", (req, res) => {
     onlinePlayers.set(
         user.id,
         {
-            id: user.id,
-            username: user.username,
-            avatar: user.avatar,
-            lastSeen: Date.now()
+            id:
+                user.id,
+
+            username:
+                user.username,
+
+            avatar:
+                user.avatar,
+
+            lastSeen:
+                Date.now()
         }
     );
 
     res.json({
         success: true
     });
+
 });
 
 app.get("/api/online", (req, res) => {
@@ -409,6 +488,7 @@ app.get("/api/online", (req, res) => {
         return res.status(401).json({
             loggedIn: false
         });
+
     }
 
     const now =
@@ -425,26 +505,36 @@ app.get("/api/online", (req, res) => {
         ) {
 
             onlinePlayers.delete(id);
+
         }
+
     }
 
     const players =
         Array.from(
             onlinePlayers.values()
-        ).map(player => ({
-            id: player.id,
-            username: player.username,
-            avatar: player.avatar
-        }));
+        ).map(
+            player => ({
+                id:
+                    player.id,
+
+                username:
+                    player.username,
+
+                avatar:
+                    player.avatar
+            })
+        );
 
     res.json({
         loggedIn: true,
         players
     });
+
 });
 
 // ==========================================
-// STATUT DES MAPS ARK ASA
+// MAPS ARK ASA
 // ==========================================
 
 app.get("/api/servers", async (req, res) => {
@@ -454,24 +544,41 @@ app.get("/api/servers", async (req, res) => {
         return res.status(401).json({
             loggedIn: false
         });
+
     }
 
     const servers =
         await Promise.all(
+
             ARK_SERVERS.map(
-                async (server) => {
+                async server => {
 
                     try {
 
                         const state =
                             await GameDig.query({
-                                type: "asa",
-                                host: server.host,
-                                port: server.port,
-                                givenPortOnly: true,
-                                socketTimeout: 3000,
-                                attemptTimeout: 7000,
-                                maxRetries: 1
+
+                                type:
+                                    "asa",
+
+                                host:
+                                    server.host,
+
+                                port:
+                                    server.port,
+
+                                givenPortOnly:
+                                    true,
+
+                                socketTimeout:
+                                    3000,
+
+                                attemptTimeout:
+                                    7000,
+
+                                maxRetries:
+                                    1
+
                             });
 
                         const players =
@@ -482,7 +589,9 @@ app.get("/api/servers", async (req, res) => {
                                 : 0;
 
                         const maxPlayers =
-                            Number(state.maxplayers) ||
+                            Number(
+                                state.maxplayers
+                            ) ||
                             server.maxPlayers;
 
                         console.log(
@@ -490,14 +599,25 @@ app.get("/api/servers", async (req, res) => {
                         );
 
                         return {
-                            name: server.name,
-                            online: true,
+
+                            name:
+                                server.name,
+
+                            online:
+                                true,
+
                             players,
+
                             maxPlayers,
+
                             ping:
-                                Number(state.ping || 0),
+                                Number(
+                                    state.ping || 0
+                                ),
+
                             map:
                                 state.map || ""
+
                         };
 
                     } catch (error) {
@@ -510,26 +630,45 @@ app.get("/api/servers", async (req, res) => {
                         );
 
                         return {
-                            name: server.name,
-                            online: false,
-                            players: 0,
+
+                            name:
+                                server.name,
+
+                            online:
+                                false,
+
+                            players:
+                                0,
+
                             maxPlayers:
                                 server.maxPlayers,
-                            ping: null,
-                            map: ""
+
+                            ping:
+                                null,
+
+                            map:
+                                ""
+
                         };
+
                     }
+
                 }
             )
+
         );
 
     res.json({
-        loggedIn: true,
+
+        loggedIn:
+            true,
+
         servers,
 
         online:
             servers.filter(
-                server => server.online
+                server =>
+                    server.online
             ).length,
 
         total:
@@ -537,7 +676,9 @@ app.get("/api/servers", async (req, res) => {
 
         updatedAt:
             new Date().toISOString()
+
     });
+
 });
 
 // ==========================================
@@ -550,27 +691,36 @@ app.get("/auth/logout", (req, res) => {
         req.session.user?.id;
 
     if (userId) {
-        onlinePlayers.delete(userId);
+
+        onlinePlayers.delete(
+            userId
+        );
+
     }
 
-    req.session.destroy((error) => {
+    req.session.destroy(
+        error => {
 
-        if (error) {
+            if (error) {
 
-            console.error(
-                "❌ Erreur déconnexion :",
-                error
+                console.error(
+                    "❌ Erreur déconnexion :",
+                    error
+                );
+
+                return res.status(500).send(
+                    "Erreur lors de la déconnexion."
+                );
+
+            }
+
+            res.redirect(
+                "https://www.alphark.fr/"
             );
 
-            return res.status(500).send(
-                "Erreur lors de la déconnexion."
-            );
         }
+    );
 
-        res.redirect(
-            "https://www.alphark.fr/"
-        );
-    });
 });
 
 // ==========================================
@@ -586,4 +736,5 @@ app.listen(PORT, () => {
     console.log(
         `🦖 ${ARK_SERVERS.length} maps configurées`
     );
+
 });
