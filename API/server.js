@@ -380,18 +380,80 @@ discordClient.once("ready", () => {
 // CONNEXION DU BOT
 // ======================================================
 
-if (process.env.DISCORD_BOT_TOKEN) {
+// ======================================================
+// DIAGNOSTIC DISCORD
+// ======================================================
+
+console.log("🔎 Vérification configuration Discord...");
+
+console.log(
+    "DISCORD_CLIENT_ID :",
+    process.env.DISCORD_CLIENT_ID ? "✅ présent" : "❌ MANQUANT"
+);
+
+console.log(
+    "DISCORD_CLIENT_SECRET :",
+    process.env.DISCORD_CLIENT_SECRET ? "✅ présent" : "❌ MANQUANT"
+);
+
+console.log(
+    "DISCORD_BOT_TOKEN :",
+    process.env.DISCORD_BOT_TOKEN ? "✅ présent" : "❌ MANQUANT"
+);
+
+console.log(
+    "DISCORD_GUILD_ID :",
+    process.env.DISCORD_GUILD_ID ? "✅ présent" : "❌ MANQUANT"
+);
+
+console.log(
+    "SESSION_SECRET :",
+    process.env.SESSION_SECRET ? "✅ présent" : "❌ MANQUANT"
+);
+
+console.log(
+    "DISCORD_REDIRECT_URI :",
+    process.env.DISCORD_REDIRECT_URI ? "✅ présent" : "❌ MANQUANT"
+);
+
+
+// ======================================================
+// CONNEXION BOT DISCORD
+// ======================================================
+
+if (!process.env.DISCORD_BOT_TOKEN) {
+
+    console.error(
+        "❌ IMPOSSIBLE DE CONNECTER DISCORD : DISCORD_BOT_TOKEN MANQUANT"
+    );
+
+} else {
+
+    console.log(
+        "🔐 Tentative de connexion du Bot Starter à Discord..."
+    );
 
     discordClient.login(process.env.DISCORD_BOT_TOKEN)
         .then(() => {
-            console.log("🔐 Connexion au Gateway Discord demandée...");
+
+            console.log(
+                "✅ Demande de connexion Discord envoyée."
+            );
+
         })
         .catch((error) => {
-            console.error("❌ ERREUR CONNEXION DISCORD :");
-            console.error(error);
-        });
 
-} else {
+            console.error(
+                "❌ ERREUR DE CONNEXION DISCORD"
+            );
+
+            console.error(
+                error.message
+            );
+
+        });
+}
+{
 
     console.error("❌ DISCORD_BOT_TOKEN manquant dans Render.");
 
