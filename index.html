@@ -247,6 +247,71 @@
 #maps-count{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;margin-left:7px;padding:0 6px;color:white;background:#00aaff;border:1px solid #00eaff;border-radius:50%;font-size:12px;font-weight:bold;box-sizing:border-box}
 @media(max-width:900px){#maps-menu{top:120px!important;right:10px!important;width:220px!important}#maps-button,#maps-list{width:220px!important}}
 
+
+/* ========================================= */
+/* CONNEXION ALPHARK PAR CODE */
+/* ========================================= */
+
+.discord-login {
+    border: 0;
+    font-family: inherit;
+    appearance: none;
+    cursor: pointer;
+}
+
+#login-code-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+    background: rgba(0,0,0,0.80);
+}
+
+#login-code-box {
+    width: min(430px, 100%);
+    padding: 24px;
+    box-sizing: border-box;
+    text-align: center;
+    color: white;
+    background: linear-gradient(180deg, rgba(20,50,85,0.98), rgba(3,13,27,0.99));
+    border: 2px solid #00eaff;
+    border-radius: 12px;
+    box-shadow: 0 0 15px #00eaff, 0 0 40px rgba(0,234,255,0.45);
+}
+
+#login-code-box h2 { margin: 0 0 10px; font-size: 22px; }
+#login-code-box p { margin: 8px 0; line-height: 1.45; }
+
+#login-code {
+    margin: 18px 0;
+    padding: 12px 18px;
+    font-size: 32px;
+    font-weight: bold;
+    letter-spacing: 6px;
+    color: #00ffea;
+    background: rgba(0,0,0,0.35);
+    border: 2px solid #00eaff;
+    border-radius: 8px;
+}
+
+#login-code-status { min-height: 24px; margin: 12px 0; color: #dffcff; }
+
+#login-code-close {
+    margin-top: 8px;
+    padding: 9px 18px;
+    color: white;
+    background: #193550;
+    border: 1px solid #00eaff;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+#login-code-close:hover { background: #00eaff; color: black; }
+
 </style>
 
 </head>
@@ -300,16 +365,33 @@
 
 <div class="auth">
 
-    <a
-        href="https://api.alphark.fr/auth/discord"
+    <button
+        type="button"
         class="discord-login"
         id="discord-login"
     >
-        🔵 CONNEXION DISCORD
-    </a>
+        🔐 CONNEXION ALPHARK
+    </button>
 
     <div id="user-info"></div>
 
+</div>
+
+
+<!-- ======================= -->
+<!-- CONNEXION ALPHARK PAR CODE -->
+<!-- ======================= -->
+
+<div id="login-code-modal">
+    <div id="login-code-box">
+        <h2>🔐 CONNEXION ALPHARK</h2>
+        <p>Ton code de connexion est :</p>
+        <div id="login-code">------</div>
+        <p>Dans Discord, sur le serveur <strong>ALPHARK</strong>, tape :</p>
+        <p><strong>*connexion <span id="login-code-command">------</span></strong></p>
+        <div id="login-code-status">⏳ En attente de validation...</div>
+        <button type="button" id="login-code-close">Fermer</button>
+    </div>
 </div>
 
 
@@ -355,6 +437,140 @@
 const API_URL = "https://api.alphark.fr";
 
 let onlineTimer = null;
+
+
+let loginCodeTimer = null;
+let loginCodeBusy = false;
+
+async function startSiteLogin() {
+    if (loginCodeBusy) return;
+
+    const modal = document.getElementById("login-code-modal");
+    const codeElement = document.getElementById("login-code");
+    const commandElement = document.getElementById("login-code-command");
+    const statusElement = document.getElementById("login-code-status");
+
+    loginCodeBusy = true;
+    modal.style.display = "flex";
+    codeElement.textContent = "......";
+    commandElement.textContent = "......";
+    statusElement.textContent = "⏳ Génération du code...";
+
+    if (loginCodeTimer) {
+        clearInterval(loginCodeTimer);
+        loginCodeTimer = null;
+    }
+
+    try {
+        const response = await fetch(API_URL + "/auth/code/start", {
+            credentials: "include",
+            cache: "no-store"
+        });
+
+        if (!response.ok) {
+            throw new Error("HTTP " + response.status);
+        }
+
+        const data = await response.json();
+
+        if (!data.success || !data.code) {
+            throw new Error("Aucun code reçu.");
+        }
+
+        codeElement.textContent = data.code;
+        commandElement.textContent = data.code;
+        statusElement.textContent =
+            "⏳ En attente de validation dans Discord...";
+
+        loginCodeTimer = setInterval(
+            checkSiteLoginStatus,
+            2000
+        );
+
+    } catch (error) {
+        console.error("❌ Connexion ALPHARK :", error);
+        statusElement.textContent =
+            "❌ Impossible de générer le code.";
+    } finally {
+        loginCodeBusy = false;
+    }
+}
+
+async function checkSiteLoginStatus() {
+    try {
+        const response = await fetch(
+            API_URL + "/auth/code/status",
+            {
+                credentials: "include",
+                cache: "no-store"
+            }
+        );
+
+        if (!response.ok) return;
+
+        const data = await response.json();
+        const statusElement =
+            document.getElementById("login-code-status");
+
+        if (data.status === "connected" && data.loggedIn) {
+            if (loginCodeTimer) {
+                clearInterval(loginCodeTimer);
+                loginCodeTimer = null;
+            }
+
+            statusElement.textContent =
+                "✅ Connexion réussie !";
+
+            setTimeout(() => {
+                closeSiteLoginModal();
+                checkDiscordConnection();
+            }, 700);
+
+            return;
+        }
+
+        if (data.status === "expired") {
+            if (loginCodeTimer) {
+                clearInterval(loginCodeTimer);
+                loginCodeTimer = null;
+            }
+
+            statusElement.textContent =
+                "❌ Le code a expiré.";
+            return;
+        }
+
+        if (data.status === "verified") {
+            statusElement.textContent =
+                "✅ Code validé par le Bot Starter...";
+            return;
+        }
+
+        statusElement.textContent =
+            "⏳ En attente de validation dans Discord...";
+
+    } catch (error) {
+        console.error(
+            "❌ Erreur statut connexion :",
+            error
+        );
+    }
+}
+
+function closeSiteLoginModal() {
+    if (loginCodeTimer) {
+        clearInterval(loginCodeTimer);
+        loginCodeTimer = null;
+    }
+
+    const modal =
+        document.getElementById("login-code-modal");
+
+    if (modal) {
+        modal.style.display = "none";
+    }
+}
+
 
 
 // ==========================================
@@ -750,6 +966,41 @@ function escapeHtml(text) {
 document.addEventListener(
     "DOMContentLoaded",
     () => {
+
+        const loginButton =
+            document.getElementById("discord-login");
+
+        const loginClose =
+            document.getElementById("login-code-close");
+
+        const loginModal =
+            document.getElementById("login-code-modal");
+
+        if (loginButton) {
+            loginButton.addEventListener(
+                "click",
+                startSiteLogin
+            );
+        }
+
+        if (loginClose) {
+            loginClose.addEventListener(
+                "click",
+                closeSiteLoginModal
+            );
+        }
+
+        if (loginModal) {
+            loginModal.addEventListener(
+                "click",
+                (event) => {
+                    if (event.target === loginModal) {
+                        closeSiteLoginModal();
+                    }
+                }
+            );
+        }
+
 
         const button =
             document.getElementById("online-button");
