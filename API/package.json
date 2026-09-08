@@ -1,7 +1,7 @@
 {
   "name": "alphark-api",
   "version": "1.2.0",
-  "description": "API ALPHARK - Connexion Discord, joueurs connectés et statut des serveurs ARK",
+  "description": "API ALPHARK",
   "main": "server.js",
   "type": "module",
   "scripts": {
