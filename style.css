@@ -1,1 +1,1400 @@
+/* ==========================================
+   ALPHARK — STYLE PRINCIPAL
+   ========================================== */
 
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800&family=Rajdhani:wght@400;500;600;700&display=swap');
+
+
+/* ==========================================
+   VARIABLES
+   ========================================== */
+
+:root {
+
+    --bg-main: #03080d;
+    --bg-secondary: #07131c;
+    --bg-card: #0b1822;
+
+    --cyan: #19d9ff;
+    --cyan-dark: #087d9c;
+
+    --blue: #1685ff;
+
+    --orange: #ff7b22;
+
+    --green: #35e58a;
+
+    --text: #f1faff;
+    --text-secondary: #a9c0ca;
+    --text-muted: #718b96;
+
+    --border: #183441;
+
+    --shadow: rgba(0, 0, 0, 0.55);
+
+}
+
+
+/* ==========================================
+   RESET
+   ========================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+body {
+
+    background:
+
+        radial-gradient(
+            circle at 75% 10%,
+            rgba(19, 89, 116, 0.35),
+            transparent 30%
+        ),
+
+        radial-gradient(
+            circle at 15% 70%,
+            rgba(0, 109, 146, 0.15),
+            transparent 30%
+        ),
+
+        linear-gradient(
+            135deg,
+            #020609,
+            #07131b 55%,
+            #020609
+        );
+
+    color: var(--text);
+
+    font-family:
+        'Rajdhani',
+        Arial,
+        sans-serif;
+
+    font-size: 18px;
+
+    min-height: 100vh;
+
+}
+
+
+/* ==========================================
+   LIENS
+   ========================================== */
+
+a {
+
+    color: inherit;
+
+    text-decoration: none;
+
+}
+
+
+/* ==========================================
+   NAVBAR
+   ========================================== */
+
+.navbar {
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 1000;
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 25px;
+
+    padding: 15px 4vw;
+
+    background:
+        rgba(3, 8, 13, 0.88);
+
+    backdrop-filter: blur(18px);
+
+    -webkit-backdrop-filter: blur(18px);
+
+    border-bottom:
+        1px solid rgba(25, 217, 255, 0.15);
+
+    transition:
+        0.3s ease;
+
+}
+
+
+.navbar.scrolled {
+
+    background:
+        rgba(2, 7, 11, 0.97);
+
+    box-shadow:
+        0 10px 35px rgba(0, 0, 0, 0.45);
+
+}
+
+
+/* ==========================================
+   LOGO
+   ========================================== */
+
+.logo {
+
+    font-family:
+        'Orbitron',
+        sans-serif;
+
+    font-size: 25px;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+
+    white-space: nowrap;
+
+}
+
+
+.logo span {
+
+    color: var(--cyan);
+
+    text-shadow:
+        0 0 15px rgba(25, 217, 255, 0.5);
+
+}
+
+
+/* ==========================================
+   MENU
+   ========================================== */
+
+.navbar nav {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    flex-wrap: wrap;
+
+    gap: 5px;
+
+}
+
+
+.navbar nav a {
+
+    position: relative;
+
+    padding: 9px 11px;
+
+    border-radius: 7px;
+
+    color: #b7cbd4;
+
+    font-weight: 600;
+
+    transition:
+        0.25s ease;
+
+}
+
+
+.navbar nav a:hover {
+
+    color: white;
+
+    background:
+        rgba(25, 217, 255, 0.08);
+
+}
+
+
+.navbar nav a.active {
+
+    color: white;
+
+    background:
+        rgba(25, 217, 255, 0.09);
+
+    box-shadow:
+        inset 0 -2px 0 var(--cyan);
+
+}
+
+
+/* ==========================================
+   DISCORD
+   ========================================== */
+
+.discord-button {
+
+    border:
+        1px solid rgba(25, 217, 255, 0.35);
+
+    background:
+        rgba(25, 217, 255, 0.06);
+
+}
+
+
+.discord-button:hover {
+
+    border-color:
+        var(--cyan) !important;
+
+    box-shadow:
+        0 0 18px rgba(25, 217, 255, 0.2);
+
+}
+
+
+/* ==========================================
+   HERO
+   ========================================== */
+
+.hero {
+
+    position: relative;
+
+    min-height: 700px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    padding:
+        120px 7vw 60px;
+
+    overflow: hidden;
+
+    background:
+
+        linear-gradient(
+            90deg,
+            rgba(2, 7, 11, 0.98) 0%,
+            rgba(3, 10, 15, 0.82) 45%,
+            rgba(3, 10, 15, 0.45) 75%,
+            rgba(3, 10, 15, 0.75) 100%
+        ),
+
+        radial-gradient(
+            ellipse at 78% 40%,
+            #15536c 0%,
+            transparent 45%
+        );
+
+}
+
+
+.hero::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+
+        radial-gradient(
+            ellipse at center,
+            transparent 25%,
+            rgba(0, 0, 0, 0.5) 100%
+        );
+
+    pointer-events: none;
+
+}
+
+
+.hero::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 900px;
+
+    height: 350px;
+
+    right: -200px;
+
+    bottom: -180px;
+
+    background:
+        radial-gradient(
+            ellipse,
+            rgba(25, 217, 255, 0.25),
+            transparent 70%
+        );
+
+    filter:
+        blur(20px);
+
+    pointer-events: none;
+
+}
+
+
+/* ==========================================
+   HERO CONTENT
+   ========================================== */
+
+.hero-content {
+
+    position: relative;
+
+    z-index: 2;
+
+    max-width: 850px;
+
+    opacity: 0;
+
+    transform:
+        translateY(25px);
+
+    transition:
+        0.8s ease;
+
+}
+
+
+.hero-content.hero-loaded {
+
+    opacity: 1;
+
+    transform:
+        translateY(0);
+
+}
+
+
+.hero-label {
+
+    color:
+        var(--cyan);
+
+    font-family:
+        'Orbitron',
+        sans-serif;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    letter-spacing: 3px;
+
+}
+
+
+.hero h1 {
+
+    margin:
+        18px 0;
+
+    font-family:
+        'Orbitron',
+        sans-serif;
+
+    font-size:
+        clamp(42px, 7vw, 88px);
+
+    font-weight: 800;
+
+    line-height: 1.02;
+
+}
+
+
+.hero h1 span {
+
+    display: block;
+
+    color:
+        var(--cyan);
+
+    text-shadow:
+        0 0 30px rgba(25, 217, 255, 0.45);
+
+}
+
+
+.hero p {
+
+    max-width: 720px;
+
+    color:
+        #c0d2da;
+
+    font-size: 23px;
+
+    line-height: 1.5;
+
+}
+
+
+/* ==========================================
+   HERO BUTTONS
+   ========================================== */
+
+.hero-buttons {
+
+    display: flex;
+
+    gap: 14px;
+
+    flex-wrap: wrap;
+
+    margin-top: 30px;
+
+}
+
+
+/* ==========================================
+   BUTTONS
+   ========================================== */
+
+.button {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding:
+        13px 21px;
+
+    border:
+        1px solid #2a5263;
+
+    border-radius: 9px;
+
+    background:
+        #091720;
+
+    font-weight: 700;
+
+    transition:
+        0.25s ease;
+
+}
+
+
+.button:hover {
+
+    transform:
+        translateY(-3px);
+
+    border-color:
+        var(--cyan);
+
+}
+
+
+.button.primary {
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #087f9f,
+            #1264d6
+        );
+
+    border-color:
+        #2de0ff;
+
+    box-shadow:
+        0 0 28px rgba(25, 217, 255, 0.18);
+
+}
+
+
+.button.primary:hover {
+
+    box-shadow:
+        0 0 35px rgba(25, 217, 255, 0.32);
+
+}
+
+
+.button.secondary {
+
+    background:
+        rgba(7, 19, 28, 0.85);
+
+}
+
+
+/* ==========================================
+   HERO STATS
+   ========================================== */
+
+.hero-stats {
+
+    position: relative;
+
+    z-index: 2;
+
+    display: flex;
+
+    gap: 12px;
+
+    flex-wrap: wrap;
+
+    margin-top: 55px;
+
+}
+
+
+.stat-box {
+
+    min-width: 125px;
+
+    padding:
+        18px 20px;
+
+    text-align: center;
+
+    background:
+        rgba(7, 21, 29, 0.88);
+
+    border:
+        1px solid #1e4252;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 12px 30px var(--shadow);
+
+}
+
+
+.stat-box strong {
+
+    display: block;
+
+    color:
+        var(--orange);
+
+    font-family:
+        'Orbitron',
+        sans-serif;
+
+    font-size: 25px;
+
+}
+
+
+.stat-box span {
+
+    color:
+        #9ab0ba;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+
+}
+
+
+/* ==========================================
+   SECTIONS
+   ========================================== */
+
+.section {
+
+    padding:
+        80px 7vw;
+
+}
+
+
+.server-section {
+
+    background:
+        rgba(4, 13, 19, 0.65);
+
+    border-top:
+        1px solid rgba(25, 217, 255, 0.08);
+
+    border-bottom:
+        1px solid rgba(25, 217, 255, 0.08);
+
+}
+
+
+.events-section {
+
+    background:
+        rgba(5, 14, 20, 0.85);
+
+}
+
+
+/* ==========================================
+   SECTION TITLE
+   ========================================== */
+
+.section-title {
+
+    display: flex;
+
+    align-items: flex-end;
+
+    justify-content: space-between;
+
+    gap: 25px;
+
+    margin-bottom: 32px;
+
+}
+
+
+.section-title > div > span {
+
+    color:
+        var(--cyan);
+
+    font-family:
+        'Orbitron',
+        sans-serif;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+
+}
+
+
+.section-title h2 {
+
+    margin-top: 8px;
+
+    font-family:
+        'Orbitron',
+        sans-serif;
+
+    font-size:
+        clamp(28px, 4vw, 45px);
+
+    font-weight: 800;
+
+}
+
+
+.section-title > a {
+
+    color:
+        var(--cyan);
+
+    font-weight: 700;
+
+}
+
+
+/* ==========================================
+   CARDS
+   ========================================== */
+
+.cards {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 20px;
+
+}
+
+
+.info-card,
+.event-card {
+
+    position: relative;
+
+    padding:
+        30px;
+
+    background:
+
+        linear-gradient(
+            145deg,
+            #0d1c25,
+            #071016
+        );
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 14px 40px rgba(0, 0, 0, 0.35);
+
+    transition:
+        0.3s ease;
+
+}
+
+
+.info-card:hover,
+.event-card:hover {
+
+    transform:
+        translateY(-6px);
+
+    border-color:
+        #287b91;
+
+    box-shadow:
+        0 18px 45px rgba(0, 0, 0, 0.5),
+        0 0 25px rgba(25, 217, 255, 0.08);
+
+}
+
+
+/* ==========================================
+   CARD ICON
+   ========================================== */
+
+.card-icon,
+.event-icon {
+
+    font-size:
+        38px;
+
+    margin-bottom:
+        20px;
+
+}
+
+
+.info-card h3,
+.event-card h3 {
+
+    font-family:
+        'Orbitron',
+        sans-serif;
+
+    font-size:
+        21px;
+
+    margin-bottom:
+        12px;
+
+}
+
+
+.info-card p,
+.event-card p {
+
+    color:
+        var(--text-muted);
+
+    line-height:
+        1.55;
+
+}
+
+
+/* ==========================================
+   SERVER PREVIEW
+   ========================================== */
+
+.server-preview {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 20px;
+
+}
+
+
+.server-preview-card {
+
+    padding:
+        25px;
+
+    background:
+
+        linear-gradient(
+            145deg,
+            #0d1c25,
+            #071016
+        );
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        14px;
+
+    transition:
+        0.3s ease;
+
+}
+
+
+.server-preview-card:hover {
+
+    transform:
+        translateY(-5px);
+
+    border-color:
+        #287b91;
+
+}
+
+
+.server-preview-card h3 {
+
+    margin:
+        12px 0 7px;
+
+    font-family:
+        'Orbitron',
+        sans-serif;
+
+    font-size:
+        22px;
+
+}
+
+
+.server-preview-card p {
+
+    color:
+        var(--text-muted);
+
+}
+
+
+/* ==========================================
+   SERVER STATUS
+   ========================================== */
+
+.server-status {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding:
+        6px 11px;
+
+    border-radius:
+        20px;
+
+    background:
+        rgba(35, 170, 98, 0.12);
+
+    color:
+        var(--green);
+
+    font-size:
+        13px;
+
+    font-weight:
+        700;
+
+}
+
+
+.server-status i {
+
+    width:
+        8px;
+
+    height:
+        8px;
+
+    display:
+        block;
+
+    border-radius:
+        50%;
+
+    background:
+        var(--green);
+
+    box-shadow:
+        0 0 10px var(--green);
+
+}
+
+
+/* ==========================================
+   RATES
+   ========================================== */
+
+.rates {
+
+    display:
+        flex;
+
+    flex-wrap:
+        wrap;
+
+    gap:
+        7px;
+
+    margin-top:
+        20px;
+
+}
+
+
+.rates span {
+
+    padding:
+        7px 9px;
+
+    border:
+        1px solid #19404d;
+
+    border-radius:
+        7px;
+
+    background:
+        #0c222c;
+
+    color:
+        #b8d1da;
+
+    font-size:
+        13px;
+
+    font-weight:
+        600;
+
+}
+
+
+/* ==========================================
+   EVENT STATUS
+   ========================================== */
+
+.event-status {
+
+    display:
+        inline-block;
+
+    margin-top:
+        20px;
+
+    padding:
+        5px 11px;
+
+    border-radius:
+        20px;
+
+    background:
+        rgba(35, 170, 98, 0.14);
+
+    color:
+        #61e59a;
+
+    font-size:
+        13px;
+
+    font-weight:
+        700;
+
+}
+
+
+/* ==========================================
+   DISCORD SECTION
+   ========================================== */
+
+.discord-section {
+
+    margin:
+        70px 7vw;
+
+    padding:
+        45px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        space-between;
+
+    gap:
+        30px;
+
+    border:
+        1px solid #205164;
+
+    border-radius:
+        18px;
+
+    background:
+
+        linear-gradient(
+            100deg,
+            #09202a,
+            #0a1420
+        );
+
+    box-shadow:
+        0 15px 45px rgba(0, 0, 0, 0.35);
+
+}
+
+
+.discord-section > div > span {
+
+    color:
+        var(--cyan);
+
+    font-family:
+        'Orbitron',
+        sans-serif;
+
+    font-size:
+        13px;
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        2px;
+
+}
+
+
+.discord-section h2 {
+
+    margin:
+        10px 0;
+
+    font-family:
+        'Orbitron',
+        sans-serif;
+
+    font-size:
+        clamp(25px, 4vw, 42px);
+
+}
+
+
+.discord-section p {
+
+    max-width:
+        650px;
+
+    color:
+        var(--text-muted);
+
+}
+
+
+/* ==========================================
+   FOOTER
+   ========================================== */
+
+footer {
+
+    padding:
+        35px 20px;
+
+    text-align:
+        center;
+
+    border-top:
+        1px solid #132731;
+
+    background:
+        #02070b;
+
+    color:
+        #718894;
+
+}
+
+
+.footer-logo {
+
+    margin-bottom:
+        10px;
+
+    font-family:
+        'Orbitron',
+        sans-serif;
+
+    font-size:
+        22px;
+
+    font-weight:
+        800;
+
+}
+
+
+.footer-logo span {
+
+    color:
+        var(--cyan);
+
+}
+
+
+/* ==========================================
+   ANIMATIONS
+   ========================================== */
+
+.hidden {
+
+    opacity:
+        0;
+
+    transform:
+        translateY(25px);
+
+}
+
+
+.show {
+
+    opacity:
+        1;
+
+    transform:
+        translateY(0);
+
+    transition:
+        opacity 0.7s ease,
+        transform 0.7s ease;
+
+}
+
+
+.button-hover {
+
+    transform:
+        translateY(-3px) scale(1.02);
+
+}
+
+
+/* ==========================================
+   RESPONSIVE
+   ========================================== */
+
+@media (max-width: 1100px) {
+
+    .navbar {
+
+        align-items:
+            flex-start;
+
+        flex-direction:
+            column;
+
+    }
+
+
+    .navbar nav {
+
+        justify-content:
+            flex-start;
+
+    }
+
+
+    .cards {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+    }
+
+}
+
+
+@media (max-width: 850px) {
+
+    .hero {
+
+        min-height:
+            620px;
+
+        padding:
+            90px 5vw 50px;
+
+    }
+
+
+    .section {
+
+        padding:
+            60px 5vw;
+
+    }
+
+
+    .cards {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .server-preview {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .section-title {
+
+        align-items:
+            flex-start;
+
+        flex-direction:
+            column;
+
+    }
+
+
+    .discord-section {
+
+        margin:
+            40px 5vw;
+
+        align-items:
+            flex-start;
+
+        flex-direction:
+            column;
+
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    body {
+
+        font-size:
+            16px;
+
+    }
+
+
+    .navbar {
+
+        padding:
+            13px 4vw;
+
+    }
+
+
+    .navbar nav {
+
+        width:
+            100%;
+
+        gap:
+            3px;
+
+    }
+
+
+    .navbar nav a {
+
+        padding:
+            7px 8px;
+
+        font-size:
+            14px;
+
+    }
+
+
+    .hero h1 {
+
+        font-size:
+            42px;
+
+    }
+
+
+    .hero p {
+
+        font-size:
+            19px;
+
+    }
+
+
+    .hero-stats {
+
+        margin-top:
+            40px;
+
+    }
+
+
+    .stat-box {
+
+        min-width:
+            100px;
+
+    }
+
+
+    .info-card,
+    .event-card,
+    .server-preview-card {
+
+        padding:
+            23px;
+
+    }
+
+}
