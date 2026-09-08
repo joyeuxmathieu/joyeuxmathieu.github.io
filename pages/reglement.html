@@ -1,1 +1,573 @@
+<!DOCTYPE html>
+<html lang="fr">
 
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>ALPHARK — Règlement</title>
+
+    <link
+        rel="stylesheet"
+        href="../style.css"
+    >
+
+    <style>
+
+        .rules-intro {
+            max-width: 850px;
+            margin-bottom: 45px;
+        }
+
+        .rules-intro p {
+            color: #9bb1bb;
+            font-size: 20px;
+            line-height: 1.6;
+        }
+
+        .rules-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 22px;
+        }
+
+        .rule-card {
+            padding: 30px;
+            background:
+                linear-gradient(
+                    145deg,
+                    #0d1c25,
+                    #071016
+                );
+            border: 1px solid #183441;
+            border-radius: 16px;
+            transition: .3s ease;
+        }
+
+        .rule-card:hover {
+            transform: translateY(-5px);
+            border-color: #19d9ff;
+            box-shadow:
+                0 15px 40px rgba(25,217,255,.08);
+        }
+
+        .rule-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            margin-bottom: 18px;
+            border-radius: 50%;
+            background:
+                rgba(25,217,255,.10);
+            border: 1px solid #19d9ff;
+            color: #19d9ff;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+        }
+
+        .rule-card h3 {
+            margin-bottom: 13px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 21px;
+        }
+
+        .rule-card p {
+            color: #819aa5;
+            line-height: 1.6;
+        }
+
+        .rule-card ul {
+            margin-top: 15px;
+            padding-left: 22px;
+            color: #819aa5;
+            line-height: 1.8;
+        }
+
+        .sanctions-box {
+            margin-top: 45px;
+            padding: 35px;
+            border: 1px solid #633c27;
+            border-radius: 18px;
+            background:
+                linear-gradient(
+                    100deg,
+                    #21140d,
+                    #110d0a
+                );
+        }
+
+        .sanctions-box h2 {
+            margin-bottom: 15px;
+            color: #ff9b5b;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .sanctions-box p {
+            color: #a99487;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 850px) {
+
+            .rules-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ==========================================
+     NAVIGATION
+========================================== -->
+
+<header class="navbar">
+
+    <a
+        href="../index.html"
+        class="logo"
+    >
+        <span>ALPHA</span>RK
+    </a>
+
+
+    <nav>
+
+        <a href="../index.html">
+            🏠 Accueil
+        </a>
+
+        <a href="jeux.html">
+            🎮 Jeux
+        </a>
+
+        <a href="serveurs.html">
+            🖥️ Serveurs
+        </a>
+
+        <a href="boutique.html">
+            🛒 Boutique
+        </a>
+
+        <a href="evenements.html">
+            🏆 Événements
+        </a>
+
+        <a
+            href="reglement.html"
+            class="active"
+        >
+            📜 Règlement
+        </a>
+
+        <a href="infos.html">
+            ℹ️ Infos
+        </a>
+
+        <a
+            href="https://discord.gg/"
+            target="_blank"
+            class="discord-button"
+        >
+            💬 Discord
+        </a>
+
+    </nav>
+
+</header>
+
+
+<!-- ==========================================
+     HERO
+========================================== -->
+
+<section
+    class="hero"
+    style="min-height: 500px;"
+>
+
+    <div class="hero-content hero-loaded">
+
+        <div class="hero-label">
+            ALPHARK • RÈGLEMENT
+        </div>
+
+
+        <h1>
+
+            LE
+            <span>RÈGLEMENT</span>
+
+        </h1>
+
+
+        <p>
+
+            Les règles permettent de garder une
+            communauté agréable, équilibrée et respectueuse
+            pour tous les joueurs.
+
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- ==========================================
+     RÈGLEMENT
+========================================== -->
+
+<section class="section">
+
+
+    <div class="rules-intro">
+
+        <div class="section-title">
+
+            <div>
+
+                <span>
+                    ALPHARK COMMUNITY
+                </span>
+
+                <h2>
+                    RÈGLES DU SERVEUR
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <p>
+
+            En rejoignant ALPHARK, chaque joueur accepte
+            de respecter les règles du serveur, du Discord
+            et les décisions du staff.
+
+            <br><br>
+
+            Le règlement peut évoluer afin de garantir
+            le bon fonctionnement de la communauté.
+
+        </p>
+
+    </div>
+
+
+    <div class="rules-grid">
+
+
+        <!-- RÈGLE 1 -->
+
+        <article class="rule-card">
+
+            <div class="rule-number">
+                01
+            </div>
+
+            <h3>
+                RESPECT DES JOUEURS
+            </h3>
+
+            <p>
+
+                Chaque membre doit respecter les autres
+                joueurs ainsi que les membres du staff.
+
+            </p>
+
+            <ul>
+
+                <li>
+                    Pas d'insultes ou de harcèlement.
+                </li>
+
+                <li>
+                    Pas de comportement volontairement toxique.
+                </li>
+
+                <li>
+                    Respect des nouveaux joueurs.
+                </li>
+
+            </ul>
+
+        </article>
+
+
+        <!-- RÈGLE 2 -->
+
+        <article class="rule-card">
+
+            <div class="rule-number">
+                02
+            </div>
+
+            <h3>
+                GAMEPLAY
+            </h3>
+
+            <p>
+
+                Les joueurs doivent respecter les règles
+                de gameplay propres au serveur.
+
+            </p>
+
+            <ul>
+
+                <li>
+                    Pas de triche.
+                </li>
+
+                <li>
+                    Pas d'exploitation volontaire de bugs.
+                </li>
+
+                <li>
+                    Pas de logiciels donnant un avantage injuste.
+                </li>
+
+            </ul>
+
+        </article>
+
+
+        <!-- RÈGLE 3 -->
+
+        <article class="rule-card">
+
+            <div class="rule-number">
+                03
+            </div>
+
+            <h3>
+                TRIBUS
+            </h3>
+
+            <p>
+
+                Les tribus doivent respecter les règles
+                concernant les constructions, territoires
+                et interactions entre joueurs.
+
+            </p>
+
+            <ul>
+
+                <li>
+                    Ne pas bloquer volontairement les autres joueurs.
+                </li>
+
+                <li>
+                    Respecter les constructions existantes.
+                </li>
+
+                <li>
+                    Les conflits doivent rester dans le cadre du serveur.
+                </li>
+
+            </ul>
+
+        </article>
+
+
+        <!-- RÈGLE 4 -->
+
+        <article class="rule-card">
+
+            <div class="rule-number">
+                04
+            </div>
+
+            <h3>
+                PVE / PVP
+            </h3>
+
+            <p>
+
+                Les règles peuvent varier selon la map.
+                Vérifie toujours le fonctionnement
+                spécifique de celle-ci.
+
+            </p>
+
+            <ul>
+
+                <li>
+                    Respecter le type de serveur.
+                </li>
+
+                <li>
+                    Respecter les zones et règles spécifiques.
+                </li>
+
+                <li>
+                    Aucun abus volontaire.
+                </li>
+
+            </ul>
+
+        </article>
+
+
+        <!-- RÈGLE 5 -->
+
+        <article class="rule-card">
+
+            <div class="rule-number">
+                05
+            </div>
+
+            <h3>
+                ÉCONOMIE
+            </h3>
+
+            <p>
+
+                L'économie ALPHARK doit rester équilibrée
+                et respecter les règles définies par le staff.
+
+            </p>
+
+            <ul>
+
+                <li>
+                    Pas de fraude.
+                </li>
+
+                <li>
+                    Pas de duplication volontaire.
+                </li>
+
+                <li>
+                    Respect des règles concernant les échanges.
+                </li>
+
+            </ul>
+
+        </article>
+
+
+        <!-- RÈGLE 6 -->
+
+        <article class="rule-card">
+
+            <div class="rule-number">
+                06
+            </div>
+
+            <h3>
+                DISCORD
+            </h3>
+
+            <p>
+
+                Les mêmes règles de respect s'appliquent
+                sur le Discord ALPHARK.
+
+            </p>
+
+            <ul>
+
+                <li>
+                    Respecter les salons.
+                </li>
+
+                <li>
+                    Ne pas spammer.
+                </li>
+
+                <li>
+                    Respecter les décisions du staff.
+                </li>
+
+            </ul>
+
+        </article>
+
+
+    </div>
+
+
+    <!-- ==========================================
+         SANCTIONS
+    ========================================== -->
+
+    <div class="sanctions-box">
+
+        <h2>
+            ⚠️ SANCTIONS
+        </h2>
+
+
+        <p>
+
+            En cas de non-respect du règlement,
+            le staff peut appliquer une sanction
+            adaptée à la situation.
+
+            <br><br>
+
+            Selon la gravité des faits, cela peut aller
+            d'un avertissement jusqu'à une exclusion
+            temporaire ou définitive du serveur.
+
+            <br><br>
+
+            Les tentatives de triche, de fraude,
+            d'exploitation volontaire de bugs ou de
+            contournement des sanctions peuvent entraîner
+            une sanction plus importante.
+
+        </p>
+
+    </div>
+
+
+</section>
+
+
+<!-- ==========================================
+     FOOTER
+========================================== -->
+
+<footer>
+
+    <div class="footer-logo">
+
+        <span>ALPHA</span>RK
+
+    </div>
+
+
+    <p>
+        © ALPHARK — ARK Survival Ascended
+    </p>
+
+
+    <p>
+        Communauté francophone
+    </p>
+
+</footer>
+
+
+</body>
+
+</html>
