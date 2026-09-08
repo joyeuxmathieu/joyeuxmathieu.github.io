@@ -1,193 +1,1719 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Serveurs — ALPHARK</title>
-<link rel="stylesheet" href="../style.css">
-<style>
-.server-page{min-height:100vh}
-.serverHero{padding:145px 10% 55px;position:relative;overflow:hidden;background:
-linear-gradient(90deg,rgba(3,11,14,.97),rgba(4,17,21,.76) 48%,rgba(4,17,21,.55)),
-radial-gradient(circle at 22% 35%,rgba(31,155,190,.25),transparent 34%),
-radial-gradient(circle at 80% 20%,rgba(255,126,32,.10),transparent 30%)}
-.serverHero:before{content:"";position:absolute;inset:0;pointer-events:none;background:
-linear-gradient(rgba(34,216,255,.045) 1px,transparent 1px),
-linear-gradient(90deg,rgba(34,216,255,.045) 1px,transparent 1px);background-size:58px 58px;mask-image:linear-gradient(#000,transparent 90%)}
-.serverHeroContent{position:relative;z-index:2;max-width:900px}
-.serverHero h1{font:700 clamp(48px,6vw,82px) Rajdhani;margin:20px 0 15px;letter-spacing:-1px}
-.serverHero h1 strong{color:#f4f6f3}
-.serverHero p{max-width:800px;color:#b9c6c8;font-size:18px;line-height:1.55;margin:0}
-.heroStats{margin-top:35px}
-.filters{display:flex;gap:10px;flex-wrap:wrap;margin-top:30px}
-.filter{border:1px solid #ffffff18;background:#071116;color:#9db1b6;padding:10px 15px;border-radius:8px;font:700 11px Rajdhani;letter-spacing:1px;cursor:pointer}
-.filter.active,.filter:hover{color:#20d8ff;border-color:#20d8ff66;background:#0b2028}
-.serverSection{padding-top:50px}
-.serverTopLine{display:flex;justify-content:space-between;align-items:end;margin-bottom:25px}
-.serverTopLine h2{font:600 38px Rajdhani;margin:7px 0}
-.serverTopLine h2 strong{color:#20d8ff}
-.serverTopLine p{margin:0;color:#7f9499;font-size:12px}
-.serverGrid{grid-template-columns:1fr 1fr}
-.server .image{height:175px}
-.server .image.theisland{background:linear-gradient(135deg,#183d42,#1e3420 55%,#0b1717)}
-.server .image.center{background:linear-gradient(135deg,#31586a,#102e38 50%,#16231e)}
-.server .image.scorched{background:linear-gradient(135deg,#6b3e20,#3b2117 50%,#101517)}
-.server .image.aberration{background:linear-gradient(135deg,#2a1d43,#153c3d 50%,#071315)}
-.server .image.extinction{background:linear-gradient(135deg,#263f45,#283b2b 50%,#0a1317)}
-.server .image.lost{background:linear-gradient(135deg,#263c55,#35412d 50%,#0a1519)}
-.server .image.amissa{background:linear-gradient(135deg,#365b52,#273b29 50%,#0a1515)}
-.server .image.ragnarok{background:linear-gradient(135deg,#425b65,#514028 50%,#10171a)}
-.server .image.valguero{background:linear-gradient(135deg,#40635b,#314b32 50%,#091516)}
-.server .image.astraeos{background:linear-gradient(135deg,#31557a,#254b56 50%,#091419)}
-.server .image.eventr{background:linear-gradient(135deg,#53351f,#3a2020 50%,#111217)}
-.server .image.eventv{background:linear-gradient(135deg,#274f56,#244034 50%,#0a1416)}
-.mapName{position:absolute;left:25px;bottom:17px;z-index:2;font:700 28px Rajdhani;text-shadow:0 3px 15px #000}
-.mapCode{position:absolute;right:25px;bottom:20px;z-index:2;color:#b7c9cd;font:700 10px Rajdhani;letter-spacing:2px}
-.server .badges{top:17px}
-.server .image:after{background:linear-gradient(180deg,rgba(0,0,0,.05) 20%,rgba(4,12,15,.94) 100%)}
-.liveBadge{padding:7px 12px;border:1px solid #2cf09a55;background:#09251dcc;color:#2cf09a;border-radius:9px;font:700 10px Rajdhani;letter-spacing:1px}
-.liveBadge.offline{color:#8c9da1;border-color:#ffffff18;background:#071014cc}
-.liveBadge i{display:inline-block;width:6px;height:6px;border-radius:50%;background:currentColor;margin-right:6px;box-shadow:0 0 8px currentColor}
-.serverFoot .mods{color:#20d8ff}
-.loadingNote{display:none;padding:20px;margin-bottom:20px;border:1px solid #20d8ff22;background:#09191f;color:#9fb2b6;font-size:13px}
-@media(max-width:800px){.serverHero{padding:125px 22px 45px}.serverSection{padding-left:22px;padding-right:22px}.serverTopLine{display:block}.serverGrid{grid-template-columns:1fr}}
-</style>
-</head>
-<body class="server-page">
 
-<header class="top">
-<a class="logo" href="../index.html"><b>A</b><span>ALPHARK<small>ARK SURVIVAL ASCENDED</small></span></a>
-<nav>
-<a href="../index.html">⌂ Accueil</a>
-<details><summary>🎮 Jeux⌄</summary><div class="drop">
-<a href="jeux.html">ARK Survival Ascended <i>ACTIF</i></a>
-<a href="jeux.html">ARK Survival Evolved <i>BIENTÔT</i></a>
-<a href="jeux.html">GTA <i>BIENTÔT</i></a>
-<a href="jeux.html">Call of Duty <i>BIENTÔT</i></a>
-<a href="jeux.html">Minecraft <i>BIENTÔT</i></a>
-<a href="jeux.html">Palworld <i>BIENTÔT</i></a>
-</div></details>
-<a class="active" href="serveurs.html">🖥️ Serveurs</a>
-<a href="boutique.html">🛒 Boutique</a>
-<a href="evenements.html">🏆 Événements</a>
-<a href="reglement.html">📜 Règlement</a>
-<a href="infos.html">ℹ️ Infos</a>
-</nav>
-<div class="actions"><a href="#" onclick="discord();return false">💬 Discord</a><button class="login" onclick="login()">🔐 Connexion</button></div>
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>ALPHARK — Serveurs</title>
+
+    <link
+        rel="stylesheet"
+        href="../style.css"
+    >
+
+    <style>
+
+        /* ==========================================
+           SERVEURS
+        ========================================== */
+
+        .servers-page {
+
+            padding:
+                70px 7vw;
+
+        }
+
+
+        .server-filters {
+
+            display:
+                flex;
+
+            gap:
+                10px;
+
+            flex-wrap:
+                wrap;
+
+            margin-bottom:
+                30px;
+
+        }
+
+
+        .server-filter {
+
+            padding:
+                10px 18px;
+
+            border:
+                1px solid #214655;
+
+            border-radius:
+                8px;
+
+            background:
+                #091720;
+
+            color:
+                #aac0c9;
+
+            cursor:
+                pointer;
+
+            font-family:
+                'Rajdhani',
+                sans-serif;
+
+            font-size:
+                16px;
+
+            font-weight:
+                700;
+
+        }
+
+
+        .server-filter:hover,
+        .server-filter.active {
+
+            color:
+                white;
+
+            border-color:
+                #19d9ff;
+
+            background:
+                rgba(25, 217, 255, 0.1);
+
+        }
+
+
+        .servers-grid {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap:
+                22px;
+
+        }
+
+
+        .server-card {
+
+            position:
+                relative;
+
+            overflow:
+                hidden;
+
+            padding:
+                28px;
+
+            border:
+                1px solid #1a3947;
+
+            border-radius:
+                16px;
+
+            background:
+
+                linear-gradient(
+                    145deg,
+                    #0d1c25,
+                    #061016
+                );
+
+            box-shadow:
+                0 15px 40px rgba(0,0,0,.35);
+
+            transition:
+                .3s ease;
+
+        }
+
+
+        .server-card:hover {
+
+            transform:
+                translateY(-5px);
+
+            border-color:
+                #19d9ff;
+
+            box-shadow:
+                0 15px 45px rgba(25,217,255,.1);
+
+        }
+
+
+        .server-top {
+
+            display:
+                flex;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                center;
+
+            gap:
+                15px;
+
+            margin-bottom:
+                18px;
+
+        }
+
+
+        .server-type {
+
+            display:
+                inline-block;
+
+            padding:
+                5px 10px;
+
+            border-radius:
+                20px;
+
+            background:
+                rgba(22,133,255,.12);
+
+            color:
+                #62cfff;
+
+            font-size:
+                12px;
+
+            font-weight:
+                700;
+
+            letter-spacing:
+                1px;
+
+        }
+
+
+        .server-status {
+
+            display:
+                inline-flex;
+
+            align-items:
+                center;
+
+            gap:
+                7px;
+
+            padding:
+                5px 10px;
+
+            border-radius:
+                20px;
+
+            background:
+                rgba(53,229,138,.1);
+
+            color:
+                #35e58a;
+
+            font-size:
+                12px;
+
+            font-weight:
+                700;
+
+        }
+
+
+        .server-status-dot {
+
+            width:
+                8px;
+
+            height:
+                8px;
+
+            border-radius:
+                50%;
+
+            background:
+                #35e58a;
+
+            box-shadow:
+                0 0 10px #35e58a;
+
+        }
+
+
+        .server-status.offline {
+
+            color:
+                #ff6868;
+
+            background:
+                rgba(255,70,70,.1);
+
+        }
+
+
+        .server-status.offline
+        .server-status-dot {
+
+            background:
+                #ff6868;
+
+            box-shadow:
+                0 0 10px #ff6868;
+
+        }
+
+
+        .server-card h3 {
+
+            margin-bottom:
+                7px;
+
+            font-family:
+                'Orbitron',
+                sans-serif;
+
+            font-size:
+                23px;
+
+        }
+
+
+        .server-subtitle {
+
+            color:
+                #819aa5;
+
+            margin-bottom:
+                20px;
+
+        }
+
+
+        .player-count {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            gap:
+                10px;
+
+            padding:
+                13px;
+
+            border:
+                1px solid #173441;
+
+            border-radius:
+                9px;
+
+            background:
+                #08151d;
+
+            margin-bottom:
+                17px;
+
+        }
+
+
+        .player-count strong {
+
+            color:
+                #19d9ff;
+
+            font-family:
+                'Orbitron',
+                sans-serif;
+
+        }
+
+
+        .player-count span {
+
+            color:
+                #8da7b2;
+
+            font-size:
+                14px;
+
+        }
+
+
+        .server-rates {
+
+            display:
+                flex;
+
+            flex-wrap:
+                wrap;
+
+            gap:
+                7px;
+
+        }
+
+
+        .server-rates span {
+
+            padding:
+                7px 9px;
+
+            border:
+                1px solid #19404d;
+
+            border-radius:
+                7px;
+
+            background:
+                #0c222c;
+
+            color:
+                #b8d1da;
+
+            font-size:
+                13px;
+
+            font-weight:
+                600;
+
+        }
+
+
+        .server-bottom {
+
+            display:
+                flex;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                center;
+
+            gap:
+                15px;
+
+            margin-top:
+                22px;
+
+            padding-top:
+                18px;
+
+            border-top:
+                1px solid #142c37;
+
+        }
+
+
+        .server-slots {
+
+            color:
+                #8da7b2;
+
+            font-size:
+                14px;
+
+        }
+
+
+        .mods-button {
+
+            padding:
+                9px 13px;
+
+            border:
+                1px solid #275666;
+
+            border-radius:
+                7px;
+
+            color:
+                #19d9ff;
+
+            font-weight:
+                700;
+
+            font-size:
+                14px;
+
+        }
+
+
+        .mods-button:hover {
+
+            border-color:
+                #19d9ff;
+
+            background:
+                rgba(25,217,255,.08);
+
+        }
+
+
+        @media (max-width: 850px) {
+
+            .servers-grid {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ==========================================
+     NAVIGATION
+========================================== -->
+
+<header class="navbar">
+
+    <a
+        href="../index.html"
+        class="logo"
+    >
+        <span>ALPHA</span>RK
+    </a>
+
+
+    <nav>
+
+        <a href="../index.html">
+            🏠 Accueil
+        </a>
+
+        <a href="jeux.html">
+            🎮 Jeux
+        </a>
+
+        <a
+            href="serveurs.html"
+            class="active"
+        >
+            🖥️ Serveurs
+        </a>
+
+        <a href="boutique.html">
+            🛒 Boutique
+        </a>
+
+        <a href="evenements.html">
+            🏆 Événements
+        </a>
+
+        <a href="reglement.html">
+            📜 Règlement
+        </a>
+
+        <a href="infos.html">
+            ℹ️ Infos
+        </a>
+
+        <a
+            href="https://discord.gg/"
+            target="_blank"
+            class="discord-button"
+        >
+            💬 Discord
+        </a>
+
+    </nav>
+
 </header>
 
-<section class="serverHero">
-<div class="serverHeroContent">
-<label class="eyebrow">◆ RÉSEAU DE SERVEURS</label>
-<h1>Serveurs <strong>ALPHARK</strong></h1>
-<p>Retrouve les maps du cluster ALPHARK, leur état, leur capacité et les paramètres principaux. Une présentation claire pour trouver ton serveur en quelques secondes.</p>
-<div class="heroStats">
-<div class="stat"><b>12</b><span>SERVEURS</span></div>
-<div class="stat"><b id="onlineMaps">—</b><span>EN LIGNE</span></div>
-<div class="stat"><b>70</b><span>SLOTS / MAP</span></div>
-</div>
-<div class="filters">
-<button class="filter active" data-filter="all">TOUS</button>
-<button class="filter" data-filter="pve">PVE</button>
-<button class="filter" data-filter="event">ÉVÉNEMENTS</button>
-</div>
-</div>
+
+<!-- ==========================================
+     HERO
+========================================== -->
+
+<section
+    class="hero"
+    style="min-height: 500px;"
+>
+
+    <div class="hero-content hero-loaded">
+
+        <div class="hero-label">
+            ARK SURVIVAL ASCENDED • CLUSTER ALPHARK
+        </div>
+
+
+        <h1>
+
+            NOS
+            <span>SERVEURS</span>
+
+        </h1>
+
+
+        <p>
+
+            Découvre les maps du cluster ALPHARK,
+            leurs rates et leur état en temps réel.
+
+        </p>
+
+    </div>
+
+
+    <div class="hero-stats">
+
+        <div class="stat-box">
+
+            <strong>12</strong>
+
+            <span>MAPS</span>
+
+        </div>
+
+
+        <div class="stat-box">
+
+            <strong>70</strong>
+
+            <span>SLOTS / MAP</span>
+
+        </div>
+
+
+        <div class="stat-box">
+
+            <strong>x60</strong>
+
+            <span>TAMING</span>
+
+        </div>
+
+    </div>
+
 </section>
 
-<section class="section serverSection">
-<div class="serverTopLine"><div><label class="eyebrow">CLUSTER ALPHARK</label><h2>Nos <strong>12 maps</strong></h2></div><p>Configuration actuelle • Taming x60 • Farm x15</p></div>
-<div id="loadingNote" class="loadingNote">Actualisation du statut des serveurs…</div>
-<div class="serverGrid" id="serverGrid"></div>
-<div class="notice">🟢 <b>Configuration ALPHARK :</b> Farm x15 • Taming x60 • Incubation x300 • Maturation x300 • niveau maximum dinos 300 • Tek 360 • Wyvern / Drake 380.</div>
+
+<!-- ==========================================
+     SERVEURS
+========================================== -->
+
+<section class="servers-page">
+
+
+    <div class="section-title">
+
+        <div>
+
+            <span>
+                CLUSTER ALPHARK
+            </span>
+
+            <h2>
+                TOUS NOS SERVEURS
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    <!-- FILTRES -->
+
+    <div class="server-filters">
+
+        <button
+            class="server-filter active"
+            data-filter="all"
+        >
+            TOUS
+        </button>
+
+        <button
+            class="server-filter"
+            data-filter="pve"
+        >
+            PVE
+        </button>
+
+        <button
+            class="server-filter"
+            data-filter="event"
+        >
+            ÉVÉNEMENTS
+        </button>
+
+    </div>
+
+
+    <!-- SERVEURS -->
+
+    <div
+        class="servers-grid"
+        id="serversGrid"
+    >
+
+
+        <!-- THE ISLAND -->
+
+        <article
+            class="server-card"
+            data-type="pve"
+        >
+
+            <div class="server-top">
+
+                <span class="server-type">
+                    PVE
+                </span>
+
+                <span class="server-status">
+
+                    <i class="server-status-dot"></i>
+
+                    EN LIGNE
+
+                </span>
+
+            </div>
+
+
+            <h3>
+                THE ISLAND
+            </h3>
+
+
+            <div class="server-subtitle">
+                ARK Survival Ascended
+            </div>
+
+
+            <div class="player-count">
+
+                👥
+
+                <strong>
+                    0 / 70
+                </strong>
+
+                <span>
+                    joueurs connectés
+                </span>
+
+            </div>
+
+
+            <div class="server-rates">
+
+                <span>
+                    XP x15
+                </span>
+
+                <span>
+                    FARM x15
+                </span>
+
+                <span>
+                    TAME x60
+                </span>
+
+                <span>
+                    ŒUFS x300
+                </span>
+
+                <span>
+                    MATURATION x300
+                </span>
+
+            </div>
+
+
+            <div class="server-bottom">
+
+                <span class="server-slots">
+                    70 slots
+                </span>
+
+                <a
+                    href="#"
+                    class="mods-button"
+                >
+                    MODS →
+                </a>
+
+            </div>
+
+        </article>
+
+
+        <!-- THE CENTER -->
+
+        <article
+            class="server-card"
+            data-type="pve"
+        >
+
+            <div class="server-top">
+
+                <span class="server-type">
+                    PVE
+                </span>
+
+                <span class="server-status">
+
+                    <i class="server-status-dot"></i>
+
+                    EN LIGNE
+
+                </span>
+
+            </div>
+
+
+            <h3>
+                THE CENTER
+            </h3>
+
+
+            <div class="server-subtitle">
+                ARK Survival Ascended
+            </div>
+
+
+            <div class="player-count">
+
+                👥
+
+                <strong>
+                    0 / 70
+                </strong>
+
+                <span>
+                    joueurs connectés
+                </span>
+
+            </div>
+
+
+            <div class="server-rates">
+
+                <span>XP x15</span>
+                <span>FARM x15</span>
+                <span>TAME x60</span>
+                <span>ŒUFS x300</span>
+                <span>MATURATION x300</span>
+
+            </div>
+
+
+            <div class="server-bottom">
+
+                <span class="server-slots">
+                    70 slots
+                </span>
+
+                <a
+                    href="#"
+                    class="mods-button"
+                >
+                    MODS →
+                </a>
+
+            </div>
+
+        </article>
+
+
+        <!-- SCORCHED EARTH -->
+
+        <article
+            class="server-card"
+            data-type="pve"
+        >
+
+            <div class="server-top">
+
+                <span class="server-type">
+                    PVE
+                </span>
+
+                <span class="server-status">
+
+                    <i class="server-status-dot"></i>
+
+                    EN LIGNE
+
+                </span>
+
+            </div>
+
+
+            <h3>
+                SCORCHED EARTH
+            </h3>
+
+
+            <div class="server-subtitle">
+                ARK Survival Ascended
+            </div>
+
+
+            <div class="player-count">
+
+                👥
+
+                <strong>
+                    0 / 70
+                </strong>
+
+                <span>
+                    joueurs connectés
+                </span>
+
+            </div>
+
+
+            <div class="server-rates">
+
+                <span>XP x15</span>
+                <span>FARM x15</span>
+                <span>TAME x60</span>
+                <span>ŒUFS x300</span>
+                <span>MATURATION x300</span>
+
+            </div>
+
+
+            <div class="server-bottom">
+
+                <span class="server-slots">
+                    70 slots
+                </span>
+
+                <a
+                    href="#"
+                    class="mods-button"
+                >
+                    MODS →
+                </a>
+
+            </div>
+
+        </article>
+
+
+        <!-- ABERRATION -->
+
+        <article
+            class="server-card"
+            data-type="pve"
+        >
+
+            <div class="server-top">
+
+                <span class="server-type">
+                    PVE
+                </span>
+
+                <span class="server-status">
+
+                    <i class="server-status-dot"></i>
+
+                    EN LIGNE
+
+                </span>
+
+            </div>
+
+
+            <h3>
+                ABERRATION
+            </h3>
+
+
+            <div class="server-subtitle">
+                ARK Survival Ascended
+            </div>
+
+
+            <div class="player-count">
+
+                👥
+
+                <strong>
+                    0 / 70
+                </strong>
+
+                <span>
+                    joueurs connectés
+                </span>
+
+            </div>
+
+
+            <div class="server-rates">
+
+                <span>XP x15</span>
+                <span>FARM x15</span>
+                <span>TAME x60</span>
+                <span>ŒUFS x300</span>
+                <span>MATURATION x300</span>
+
+            </div>
+
+
+            <div class="server-bottom">
+
+                <span class="server-slots">
+                    70 slots
+                </span>
+
+                <a
+                    href="#"
+                    class="mods-button"
+                >
+                    MODS →
+                </a>
+
+            </div>
+
+        </article>
+
+
+        <!-- EXTINCTION -->
+
+        <article
+            class="server-card"
+            data-type="pve"
+        >
+
+            <div class="server-top">
+
+                <span class="server-type">
+                    PVE
+                </span>
+
+                <span class="server-status">
+
+                    <i class="server-status-dot"></i>
+
+                    EN LIGNE
+
+                </span>
+
+            </div>
+
+
+            <h3>
+                EXTINCTION
+            </h3>
+
+
+            <div class="server-subtitle">
+                ARK Survival Ascended
+            </div>
+
+
+            <div class="player-count">
+
+                👥
+
+                <strong>
+                    0 / 70
+                </strong>
+
+                <span>
+                    joueurs connectés
+                </span>
+
+            </div>
+
+
+            <div class="server-rates">
+
+                <span>XP x15</span>
+                <span>FARM x15</span>
+                <span>TAME x60</span>
+                <span>ŒUFS x300</span>
+                <span>MATURATION x300</span>
+
+            </div>
+
+
+            <div class="server-bottom">
+
+                <span class="server-slots">
+                    70 slots
+                </span>
+
+                <a
+                    href="#"
+                    class="mods-button"
+                >
+                    MODS →
+                </a>
+
+            </div>
+
+        </article>
+
+
+        <!-- LOST COLONY -->
+
+        <article
+            class="server-card"
+            data-type="pve"
+        >
+
+            <div class="server-top">
+
+                <span class="server-type">
+                    PVE
+                </span>
+
+                <span class="server-status">
+
+                    <i class="server-status-dot"></i>
+
+                    EN LIGNE
+
+                </span>
+
+            </div>
+
+
+            <h3>
+                LOST COLONY
+            </h3>
+
+
+            <div class="server-subtitle">
+                ARK Survival Ascended
+            </div>
+
+
+            <div class="player-count">
+
+                👥
+
+                <strong>
+                    0 / 70
+                </strong>
+
+                <span>
+                    joueurs connectés
+                </span>
+
+            </div>
+
+
+            <div class="server-rates">
+
+                <span>XP x15</span>
+                <span>FARM x15</span>
+                <span>TAME x60</span>
+                <span>ŒUFS x300</span>
+                <span>MATURATION x300</span>
+
+            </div>
+
+
+            <div class="server-bottom">
+
+                <span class="server-slots">
+                    70 slots
+                </span>
+
+                <a
+                    href="#"
+                    class="mods-button"
+                >
+                    MODS →
+                </a>
+
+            </div>
+
+        </article>
+
+
+        <!-- AMISSA -->
+
+        <article
+            class="server-card"
+            data-type="pve"
+        >
+
+            <div class="server-top">
+
+                <span class="server-type">
+                    PVE
+                </span>
+
+                <span class="server-status">
+
+                    <i class="server-status-dot"></i>
+
+                    EN LIGNE
+
+                </span>
+
+            </div>
+
+
+            <h3>
+                AMISSA
+            </h3>
+
+
+            <div class="server-subtitle">
+                ARK Survival Ascended
+            </div>
+
+
+            <div class="player-count">
+
+                👥
+
+                <strong>
+                    0 / 70
+                </strong>
+
+                <span>
+                    joueurs connectés
+                </span>
+
+            </div>
+
+
+            <div class="server-rates">
+
+                <span>XP x15</span>
+                <span>FARM x15</span>
+                <span>TAME x60</span>
+                <span>ŒUFS x300</span>
+                <span>MATURATION x300</span>
+
+            </div>
+
+
+            <div class="server-bottom">
+
+                <span class="server-slots">
+                    70 slots
+                </span>
+
+                <a
+                    href="#"
+                    class="mods-button"
+                >
+                    MODS →
+                </a>
+
+            </div>
+
+        </article>
+
+
+        <!-- RAGNAROK -->
+
+        <article
+            class="server-card"
+            data-type="pve"
+        >
+
+            <div class="server-top">
+
+                <span class="server-type">
+                    PVE
+                </span>
+
+                <span class="server-status">
+
+                    <i class="server-status-dot"></i>
+
+                    EN LIGNE
+
+                </span>
+
+            </div>
+
+
+            <h3>
+                RAGNAROK
+            </h3>
+
+
+            <div class="server-subtitle">
+                ARK Survival Ascended
+            </div>
+
+
+            <div class="player-count">
+
+                👥
+
+                <strong>
+                    0 / 70
+                </strong>
+
+                <span>
+                    joueurs connectés
+                </span>
+
+            </div>
+
+
+            <div class="server-rates">
+
+                <span>XP x15</span>
+                <span>FARM x15</span>
+                <span>TAME x60</span>
+                <span>ŒUFS x300</span>
+                <span>MATURATION x300</span>
+
+            </div>
+
+
+            <div class="server-bottom">
+
+                <span class="server-slots">
+                    70 slots
+                </span>
+
+                <a
+                    href="#"
+                    class="mods-button"
+                >
+                    MODS →
+                </a>
+
+            </div>
+
+        </article>
+
+
+        <!-- VALGUERO -->
+
+        <article
+            class="server-card"
+            data-type="pve"
+        >
+
+            <div class="server-top">
+
+                <span class="server-type">
+                    PVE
+                </span>
+
+                <span class="server-status">
+
+                    <i class="server-status-dot"></i>
+
+                    EN LIGNE
+
+                </span>
+
+            </div>
+
+
+            <h3>
+                VALGUERO
+            </h3>
+
+
+            <div class="server-subtitle">
+                ARK Survival Ascended
+            </div>
+
+
+            <div class="player-count">
+
+                👥
+
+                <strong>
+                    0 / 70
+                </strong>
+
+                <span>
+                    joueurs connectés
+                </span>
+
+            </div>
+
+
+            <div class="server-rates">
+
+                <span>XP x15</span>
+                <span>FARM x15</span>
+                <span>TAME x60</span>
+                <span>ŒUFS x300</span>
+                <span>MATURATION x300</span>
+
+            </div>
+
+
+            <div class="server-bottom">
+
+                <span class="server-slots">
+                    70 slots
+                </span>
+
+                <a
+                    href="#"
+                    class="mods-button"
+                >
+                    MODS →
+                </a>
+
+            </div>
+
+        </article>
+
+
+        <!-- ASTRAEOS -->
+
+        <article
+            class="server-card"
+            data-type="pve"
+        >
+
+            <div class="server-top">
+
+                <span class="server-type">
+                    PVE
+                </span>
+
+                <span class="server-status">
+
+                    <i class="server-status-dot"></i>
+
+                    EN LIGNE
+
+                </span>
+
+            </div>
+
+
+            <h3>
+                ASTRAEOS
+            </h3>
+
+
+            <div class="server-subtitle">
+                ARK Survival Ascended
+            </div>
+
+
+            <div class="player-count">
+
+                👥
+
+                <strong>
+                    0 / 70
+                </strong>
+
+                <span>
+                    joueurs connectés
+                </span>
+
+            </div>
+
+
+            <div class="server-rates">
+
+                <span>XP x15</span>
+                <span>FARM x15</span>
+                <span>TAME x60</span>
+                <span>ŒUFS x300</span>
+                <span>MATURATION x300</span>
+
+            </div>
+
+
+            <div class="server-bottom">
+
+                <span class="server-slots">
+                    70 slots
+                </span>
+
+                <a
+                    href="#"
+                    class="mods-button"
+                >
+                    MODS →
+                </a>
+
+            </div>
+
+        </article>
+
+
+        <!-- RAGNAROK EVENT -->
+
+        <article
+            class="server-card"
+            data-type="event"
+        >
+
+            <div class="server-top">
+
+                <span class="server-type">
+                    EVENT
+                </span>
+
+                <span class="server-status">
+
+                    <i class="server-status-dot"></i>
+
+                    EN LIGNE
+
+                </span>
+
+            </div>
+
+
+            <h3>
+                RAGNAROK EVENT
+            </h3>
+
+
+            <div class="server-subtitle">
+                Serveur événementiel
+            </div>
+
+
+            <div class="player-count">
+
+                👥
+
+                <strong>
+                    0 / 70
+                </strong>
+
+                <span>
+                    joueurs connectés
+                </span>
+
+            </div>
+
+
+            <div class="server-rates">
+
+                <span>XP x15</span>
+                <span>FARM x15</span>
+                <span>TAME x60</span>
+                <span>ŒUFS x300</span>
+                <span>MATURATION x300</span>
+
+            </div>
+
+
+            <div class="server-bottom">
+
+                <span class="server-slots">
+                    70 slots
+                </span>
+
+                <a
+                    href="#"
+                    class="mods-button"
+                >
+                    MODS →
+                </a>
+
+            </div>
+
+        </article>
+
+
+        <!-- VALGUERO EVENT -->
+
+        <article
+            class="server-card"
+            data-type="event"
+        >
+
+            <div class="server-top">
+
+                <span class="server-type">
+                    EVENT
+                </span>
+
+                <span class="server-status">
+
+                    <i class="server-status-dot"></i>
+
+                    EN LIGNE
+
+                </span>
+
+            </div>
+
+
+            <h3>
+                VALGUERO EVENT
+            </h3>
+
+
+            <div class="server-subtitle">
+                Serveur événementiel
+            </div>
+
+
+            <div class="player-count">
+
+                👥
+
+                <strong>
+                    0 / 70
+                </strong>
+
+                <span>
+                    joueurs connectés
+                </span>
+
+            </div>
+
+
+            <div class="server-rates">
+
+                <span>XP x15</span>
+                <span>FARM x15</span>
+                <span>TAME x60</span>
+                <span>ŒUFS x300</span>
+                <span>MATURATION x300</span>
+
+            </div>
+
+
+            <div class="server-bottom">
+
+                <span class="server-slots">
+                    70 slots
+                </span>
+
+                <a
+                    href="#"
+                    class="mods-button"
+                >
+                    MODS →
+                </a>
+
+            </div>
+
+        </article>
+
+
+    </div>
+
 </section>
 
-<footer><div class="logo"><b>A</b><span>ALPHARK<small>ARK COMMUNITY</small></span></div><div>Serveurs · Événements · Boutique · Contact</div><small>© 2026 ALPHARK</small></footer>
 
-<div class="modal" id="modal"><div class="box"><button class="close" onclick="closeLogin()">×</button><label class="eyebrow">ESPACE MEMBRE</label><h2>Connexion <strong>ALPHARK</strong></h2><p>La connexion se fait avec ton compte Discord via un code temporaire.</p><div class="code" id="code">------</div><p>Dans Discord, tape :</p><code>*connexion <span id="cmd">CODE</span></code><small id="status">Génération du code…</small></div></div>
+<!-- ==========================================
+     FOOTER
+========================================== -->
+
+<footer>
+
+    <div class="footer-logo">
+
+        <span>ALPHA</span>RK
+
+    </div>
+
+
+    <p>
+        © ALPHARK — ARK Survival Ascended
+    </p>
+
+
+    <p>
+        Communauté francophone
+    </p>
+
+</footer>
+
+
+<!-- ==========================================
+     FILTRES SERVEURS
+========================================== -->
 
 <script>
-const API='https://api.alphark.fr';
 
-const servers=[
- {id:'island',name:'The Island',code:'THEISLAND_WP',mode:'pve',class:'theisland'},
- {id:'center',name:'The Center',code:'THECENTER_WP',mode:'pve',class:'center'},
- {id:'scorched',name:'Scorched Earth',code:'SCORCHEDEARTH_WP',mode:'pve',class:'scorched'},
- {id:'aberration',name:'Aberration',code:'ABERRATION_WP',mode:'pve',class:'aberration'},
- {id:'extinction',name:'Extinction',code:'EXTINCTION_WP',mode:'pve',class:'extinction'},
- {id:'lost',name:'Lost Colony',code:'LOSTCOLONY_WP',mode:'pve',class:'lost'},
- {id:'amissa',name:'Amissa',code:'AMISSA_WP',mode:'pve',class:'amissa'},
- {id:'ragnarok',name:'Ragnarok',code:'RAGNAROK_WP',mode:'pve',class:'ragnarok'},
- {id:'valguero',name:'Valguero',code:'VALGUERO_WP',mode:'pve',class:'valguero'},
- {id:'astraeos',name:'Astraeos',code:'ASTRAEOS_WP',mode:'pve',class:'astraeos'},
- {id:'ragnarok-event',name:'Ragnarok Event',code:'RAGNAROK_WP • EVENT',mode:'event',class:'eventr'},
- {id:'valguero-event',name:'Valguero Event',code:'VALGUERO EVENT',mode:'event',class:'eventv'}
-];
+const filters =
+    document.querySelectorAll(".server-filter");
 
-const ports={
- island:27801,center:27802,scorched:27803,aberration:27804,extinction:27805,lost:27806,
- amissa:27807,ragnarok:27808,valguero:27809,astraeos:27810,'ragnarok-event':27800,'valguero-event':27821
-};
+const servers =
+    document.querySelectorAll(".server-card");
 
-function card(s,data={}){
- const online=data.online===true;
- const players=Number.isFinite(Number(data.players))?Number(data.players):0;
- const label=online?'EN LIGNE':'EN ATTENTE';
- const badge=online?'liveBadge':'liveBadge offline';
- return `<article class="server" data-mode="${s.mode}" data-id="${s.id}">
- <div class="image ${s.class}">
-  <div class="badges"><span class="badge ${s.mode==='event'?'pvp':''}">${s.mode==='event'?'EVENT':'PVE'}</span><span class="${badge}"><i></i>${label}</span></div>
-  <span class="mapName">${s.name}</span><span class="mapCode">${s.code}</span>
- </div>
- <div class="serverBody">
-  <div class="access"><span>ACCÈS</span><strong>${online?'Recherche en jeu':'Vérification en cours'}</strong></div>
-  <div class="meter"><i style="width:${Math.min(100,Math.round(players/70*100))}%"></i></div>
-  <div class="rates"><span>XP <b>x15</b></span><span>Taming <b>x60</b></span><span>Éclosion <b>x300</b></span><span>Maturation <b>x300</b></span></div>
-  <div class="serverFoot"><span>${players} / 70 joueurs</span><a class="mods" href="#" onclick="showMods('${s.name}');return false">VOIR LES MODS →</a></div>
- </div>
- </article>`;
-}
 
-function render(data={}){
- const grid=document.getElementById('serverGrid');
- grid.innerHTML=servers.map(s=>card(s,data[s.id]||{})).join('');
- const values=servers.map(s=>data[s.id]).filter(Boolean);
- const online=values.filter(v=>v.online===true).length;
- document.getElementById('onlineMaps').textContent=values.length?online:'—';
-}
-render();
+filters.forEach(filter => {
 
-document.querySelectorAll('.filter').forEach(btn=>btn.addEventListener('click',()=>{
- document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));btn.classList.add('active');
- const f=btn.dataset.filter;
- document.querySelectorAll('.server').forEach(c=>c.style.display=(f==='all'||c.dataset.mode===f)?'block':'none');
-}));
+    filter.addEventListener("click", () => {
 
-function showMods(name){alert('La liste des mods de '+name+' sera affichée ici avec les vrais mods du serveur.');}
-function discord(){alert('Ajoute ici ton lien d’invitation Discord ALPHARK.')}
-async function login(){
- const modal=document.getElementById('modal');modal.classList.add('open');
- try{const r=await fetch(API+'/auth/code/start',{credentials:'include'}),d=await r.json();if(!r.ok)throw Error();
- document.getElementById('code').textContent=d.code;document.getElementById('cmd').textContent=d.code;document.getElementById('status').textContent='En attente de validation dans Discord…';poll();
- }catch(e){document.getElementById('status').textContent='API indisponible.'}
-}
-function closeLogin(){document.getElementById('modal').classList.remove('open')}
-async function poll(){try{const r=await fetch(API+'/auth/code/status',{credentials:'include'}),d=await r.json();if(d.connected){document.getElementById('status').textContent='Connecté : '+(d.user?.username||'ALPHARK');setTimeout(closeLogin,700);return}}catch(e){}setTimeout(poll,2000)}
+        filters.forEach(button => {
 
-async function loadServerStatus(){
- const note=document.getElementById('loadingNote');note.style.display='block';
- try{
-   const r=await fetch(API+'/api/servers',{cache:'no-store'});
-   if(!r.ok)throw Error();
-   const data=await r.json();
-   render(data.servers||data||{});
- }catch(e){
-   // L'interface reste disponible pendant que l'API RCON est mise en place.
-   document.getElementById('onlineMaps').textContent='—';
- }
- note.style.display='none';
-}
-loadServerStatus();
-setInterval(loadServerStatus,30000);
+            button.classList.remove("active");
+
+        });
+
+
+        filter.classList.add("active");
+
+
+        const selected =
+            filter.dataset.filter;
+
+
+        servers.forEach(server => {
+
+            if (
+                selected === "all" ||
+                server.dataset.type === selected
+            ) {
+
+                server.style.display =
+                    "block";
+
+            } else {
+
+                server.style.display =
+                    "none";
+
+            }
+
+        });
+
+    });
+
+});
+
 </script>
+
+
 </body>
+
 </html>
