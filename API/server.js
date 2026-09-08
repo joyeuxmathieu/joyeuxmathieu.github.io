@@ -11,9 +11,9 @@ const PORT = process.env.PORT || 3000;
 const SESSION_SECRET = process.env.SESSION_SECRET;
 const BOT_API_KEY = process.env.ALPHARK_BOT_API_KEY;
 
-// ==========================================
-// CONFIG
-// ==========================================
+// ============================================================
+// CONFIGURATION
+// ============================================================
 
 if (!SESSION_SECRET) {
     console.error("❌ SESSION_SECRET manquant");
@@ -48,17 +48,12 @@ app.use(session({
     }
 }));
 
-// ==========================================
+// ============================================================
 // MAPS ALPHARK
-// ==========================================
+// Query_Port = port utilisé pour interroger le serveur
+// ============================================================
 
 const ARK_SERVERS = [
-    {
-        name: "Événement Valguero",
-        host: "213.239.204.205",
-        port: 7962,
-        maxPlayers: 70
-    },
     {
         name: "The Island",
         host: "213.239.204.205",
@@ -110,7 +105,7 @@ const ARK_SERVERS = [
     {
         name: "Valguero",
         host: "213.239.204.205",
-        port: 7952,
+        port: 7892,
         maxPlayers: 70
     },
     {
@@ -120,39 +115,27 @@ const ARK_SERVERS = [
         maxPlayers: 70
     },
     {
-        name: "Genèse 1",
+        name: "Ragnarok EVENT",
         host: "213.239.204.205",
-        port: 7912,
+        port: 7802,
+        maxPlayers: 70
+    },
+    {
+        name: "Valguero EVENT",
+        host: "213.239.204.205",
+        port: 7962,
         maxPlayers: 70
     }
 ];
 
-// ==========================================
-// CODE DE CONNEXION SITE
-// ==========================================
+// ============================================================
+// CODES DE CONNEXION
+// ============================================================
 
 const loginCodes = new Map();
 
 const LOGIN_CODE_TIMEOUT = 10 * 60 * 1000;
 
-// Nettoyage des anciens codes
-setInterval(() => {
-
-    const now = Date.now();
-
-    for (const [code, login] of loginCodes.entries()) {
-
-        if (now - login.createdAt > LOGIN_CODE_TIMEOUT) {
-
-            loginCodes.delete(code);
-
-        }
-    }
-
-}, 60 * 1000);
-
-
-// Générer un code
 function generateLoginCode() {
 
     const chars =
@@ -162,80 +145,84 @@ function generateLoginCode() {
 
     for (let i = 0; i < 6; i++) {
 
-        code +=
-            chars[
-                Math.floor(
-                    Math.random() * chars.length
-                )
-            ];
+        code += chars[
+            Math.floor(
+                Math.random() * chars.length
+            )
+        ];
 
     }
 
     return code;
 }
 
+setInterval(() => {
 
-// ==========================================
+    const now = Date.now();
+
+    for (const [code, login] of loginCodes.entries()) {
+
+        if (
+            now - login.createdAt >
+            LOGIN_CODE_TIMEOUT
+        ) {
+
+            loginCodes.delete(code);
+
+        }
+
+    }
+
+}, 60 * 1000);
+
+// ============================================================
 // ACCUEIL
-// ==========================================
+// ============================================================
 
 app.get("/", (req, res) => {
 
     res.json({
         status: "online",
         service: "ALPHARK API",
-        version: "2.0.0"
+        version: "2.1.0"
     });
 
 });
 
-
-// ==========================================
-// GENERER CODE DE CONNEXION
-// ==========================================
+// ============================================================
+// GENERER CODE
+// ============================================================
 
 app.get("/auth/code/start", (req, res) => {
 
     let code;
 
     do {
-
-        code =
-            generateLoginCode();
-
+        code = generateLoginCode();
     } while (loginCodes.has(code));
-
 
     loginCodes.set(code, {
 
-        createdAt:
-            Date.now(),
+        createdAt: Date.now(),
 
-        status:
-            "pending",
+        status: "pending",
 
-        discordId:
-            null,
+        discordId: null,
 
-        username:
-            null,
+        username: null,
 
-        avatar:
-            null
+        avatar: null
 
     });
 
-
-    req.session.loginCode =
-        code;
-
+    req.session.loginCode = code;
 
     req.session.save((error) => {
 
         if (error) {
 
             console.error(
-                "❌ Erreur session code :",
+                "❌ Erreur sauvegarde session code :",
                 error
             );
 
@@ -245,18 +232,15 @@ app.get("/auth/code/start", (req, res) => {
 
         }
 
-
         console.log(
             `🔐 Nouveau code site : ${code}`
         );
 
-
         res.json({
 
-            success:
-                true,
+            success: true,
 
-            code,
+            code: code,
 
             expiresIn:
                 LOGIN_CODE_TIMEOUT / 1000
@@ -267,54 +251,41 @@ app.get("/auth/code/start", (req, res) => {
 
 });
 
-
-// ==========================================
-// VERIFIER STATUT DU CODE
-// ==========================================
+// ============================================================
+// STATUT DU CODE
+// ============================================================
 
 app.get("/auth/code/status", (req, res) => {
 
     const code =
         req.session.loginCode;
 
-
     if (!code) {
 
         return res.json({
 
-            success:
-                false,
+            success: false,
 
-            status:
-                "none"
+            status: "none"
 
         });
 
     }
 
-
     const login =
         loginCodes.get(code);
-
 
     if (!login) {
 
         return res.json({
 
-            success:
-                false,
+            success: false,
 
-            status:
-                "expired"
+            status: "expired"
 
         });
 
     }
-
-
-    // ======================================
-    // VALIDATION FAITE PAR LE BOT
-    // ======================================
 
     if (
         login.status ===
@@ -334,11 +305,9 @@ app.get("/auth/code/status", (req, res) => {
 
         };
 
-
         loginCodes.delete(code);
 
         delete req.session.loginCode;
-
 
         return req.session.save(
             (error) => {
@@ -356,22 +325,17 @@ app.get("/auth/code/status", (req, res) => {
 
                 }
 
-
                 console.log(
                     `✅ Connexion site : ${login.username}`
                 );
 
-
                 res.json({
 
-                    success:
-                        true,
+                    success: true,
 
-                    status:
-                        "connected",
+                    status: "connected",
 
-                    loggedIn:
-                        true,
+                    loggedIn: true,
 
                     user:
                         req.session.user
@@ -383,30 +347,25 @@ app.get("/auth/code/status", (req, res) => {
 
     }
 
-
     res.json({
 
-        success:
-            true,
+        success: true,
 
         status:
             login.status,
 
-        loggedIn:
-            false
+        loggedIn: false
 
     });
 
 });
 
-
-// ==========================================
-// VALIDATION PAR LE BOT STARTER
-// ==========================================
+// ============================================================
+// VALIDATION PAR BOT STARTER
+// ============================================================
 
 app.post("/auth/code/verify", (req, res) => {
 
-    // Vérification de la clé du Bot Starter
     if (
         !BOT_API_KEY ||
         req.headers["x-alphark-bot-key"] !==
@@ -419,31 +378,45 @@ app.post("/auth/code/verify", (req, res) => {
 
         return res.status(401).json({
 
-            success:
-                false,
+            success: false,
 
-            error:
-                "Unauthorized"
+            error: "Unauthorized"
 
         });
 
     }
 
-
     const {
         code,
+        guild_id,
         discord_id,
         username,
-        global_name
+        global_name,
+        avatar
     } = req.body;
 
+    // Vérification du serveur ALPHARK
+    if (
+        String(guild_id || "") !==
+        "1496186723527426290"
+    ) {
+
+        return res.status(403).json({
+
+            success: false,
+
+            error:
+                "Serveur Discord non autorisé"
+
+        });
+
+    }
 
     if (!code || !discord_id) {
 
         return res.status(400).json({
 
-            success:
-                false,
+            success: false,
 
             error:
                 "Données manquantes"
@@ -452,23 +425,20 @@ app.post("/auth/code/verify", (req, res) => {
 
     }
 
-
+    // Accepte aussi espaces et tirets
     const cleanCode =
         String(code)
-            .trim()
+            .replace(/[\s-]/g, "")
             .toUpperCase();
-
 
     const login =
         loginCodes.get(cleanCode);
-
 
     if (!login) {
 
         return res.status(404).json({
 
-            success:
-                false,
+            success: false,
 
             error:
                 "Code expiré ou inexistant"
@@ -477,7 +447,6 @@ app.post("/auth/code/verify", (req, res) => {
 
     }
 
-
     if (
         login.status ===
         "verified"
@@ -485,8 +454,7 @@ app.post("/auth/code/verify", (req, res) => {
 
         return res.status(409).json({
 
-            success:
-                false,
+            success: false,
 
             error:
                 "Code déjà utilisé"
@@ -494,7 +462,6 @@ app.post("/auth/code/verify", (req, res) => {
         });
 
     }
-
 
     login.status =
         "verified";
@@ -508,18 +475,16 @@ app.post("/auth/code/verify", (req, res) => {
         "Joueur ALPHARK";
 
     login.avatar =
-        `https://cdn.discordapp.com/embed/avatars/0.png`;
-
+        avatar ||
+        "https://cdn.discordapp.com/embed/avatars/0.png";
 
     console.log(
         `✅ Code ${cleanCode} validé par ${login.username}`
     );
 
-
     res.json({
 
-        success:
-            true,
+        success: true,
 
         message:
             "Connexion validée"
@@ -528,10 +493,9 @@ app.post("/auth/code/verify", (req, res) => {
 
 });
 
-
-// ==========================================
-// UTILISATEUR
-// ==========================================
+// ============================================================
+// UTILISATEUR CONNECTÉ
+// ============================================================
 
 app.get("/api/me", (req, res) => {
 
@@ -539,18 +503,15 @@ app.get("/api/me", (req, res) => {
 
         return res.status(401).json({
 
-            loggedIn:
-                false
+            loggedIn: false
 
         });
 
     }
 
-
     res.json({
 
-        loggedIn:
-            true,
+        loggedIn: true,
 
         user:
             req.session.user
@@ -559,10 +520,9 @@ app.get("/api/me", (req, res) => {
 
 });
 
-
-// ==========================================
+// ============================================================
 // JOUEURS CONNECTÉS
-// ==========================================
+// ============================================================
 
 const onlinePlayers =
     new Map();
@@ -570,24 +530,20 @@ const onlinePlayers =
 const PRESENCE_TIMEOUT =
     5 * 60 * 1000;
 
-
 app.post("/api/presence", (req, res) => {
 
     if (!req.session.user) {
 
         return res.status(401).json({
 
-            loggedIn:
-                false
+            loggedIn: false
 
         });
 
     }
 
-
     const user =
         req.session.user;
-
 
     onlinePlayers.set(
         user.id,
@@ -608,16 +564,13 @@ app.post("/api/presence", (req, res) => {
         }
     );
 
-
     res.json({
 
-        success:
-            true
+        success: true
 
     });
 
 });
-
 
 app.get("/api/online", (req, res) => {
 
@@ -625,17 +578,14 @@ app.get("/api/online", (req, res) => {
 
         return res.status(401).json({
 
-            loggedIn:
-                false
+            loggedIn: false
 
         });
 
     }
 
-
     const now =
         Date.now();
-
 
     for (
         const [
@@ -646,7 +596,8 @@ app.get("/api/online", (req, res) => {
     ) {
 
         if (
-            now - player.lastSeen >
+            now -
+            player.lastSeen >
             PRESENCE_TIMEOUT
         ) {
 
@@ -655,7 +606,6 @@ app.get("/api/online", (req, res) => {
         }
 
     }
-
 
     const players =
         Array.from(
@@ -675,11 +625,9 @@ app.get("/api/online", (req, res) => {
             })
         );
 
-
     res.json({
 
-        loggedIn:
-            true,
+        loggedIn: true,
 
         players
 
@@ -687,10 +635,9 @@ app.get("/api/online", (req, res) => {
 
 });
 
-
-// ==========================================
-// MAPS ARK ASA
-// ==========================================
+// ============================================================
+// STATUT SERVEURS ARK ASA
+// ============================================================
 
 app.get("/api/servers", async (req, res) => {
 
@@ -698,19 +645,17 @@ app.get("/api/servers", async (req, res) => {
 
         return res.status(401).json({
 
-            loggedIn:
-                false
+            loggedIn: false
 
         });
 
     }
 
-
     const servers =
         await Promise.all(
 
             ARK_SERVERS.map(
-                async server => {
+                async (server) => {
 
                     try {
 
@@ -730,22 +675,20 @@ app.get("/api/servers", async (req, res) => {
                                     true,
 
                                 socketTimeout:
-                                    3000,
+                                    4000,
 
                                 attemptTimeout:
-                                    7000,
+                                    8000,
 
                                 maxRetries:
                                     1
 
                             });
 
-
                         const players =
                             Number(
                                 state.numplayers || 0
                             );
-
 
                         const maxPlayers =
                             Number(
@@ -753,11 +696,9 @@ app.get("/api/servers", async (req, res) => {
                             ) ||
                             server.maxPlayers;
 
-
                         console.log(
-                            `🟢 ${server.name} : ${players}/${maxPlayers}`
+                            `🟢 ${server.name} : ${players}/${maxPlayers} | QueryPort ${server.port}`
                         );
-
 
                         return {
 
@@ -767,28 +708,34 @@ app.get("/api/servers", async (req, res) => {
                             online:
                                 true,
 
-                            players,
+                            players:
 
-                            maxPlayers,
+                                players,
+
+                            maxPlayers:
+
+                                maxPlayers,
 
                             ping:
+
                                 Number(
                                     state.ping || 0
-                                )
+                                ),
+
+                            queryPort:
+
+                                server.port
 
                         };
 
-                    }
-
-                    catch (error) {
+                    } catch (error) {
 
                         console.log(
-                            `🔴 ${server.name} : ${
+                            `🔴 ${server.name} | QueryPort ${server.port} | ${
                                 error?.message ||
-                                "hors ligne"
+                                "requête impossible"
                             }`
                         );
-
 
                         return {
 
@@ -805,7 +752,10 @@ app.get("/api/servers", async (req, res) => {
                                 server.maxPlayers,
 
                             ping:
-                                null
+                                null,
+
+                            queryPort:
+                                server.port
 
                         };
 
@@ -815,7 +765,6 @@ app.get("/api/servers", async (req, res) => {
             )
 
         );
-
 
     res.json({
 
@@ -840,16 +789,14 @@ app.get("/api/servers", async (req, res) => {
 
 });
 
-
-// ==========================================
+// ============================================================
 // DECONNEXION
-// ==========================================
+// ============================================================
 
 app.get("/auth/logout", (req, res) => {
 
     const userId =
         req.session.user?.id;
-
 
     if (userId) {
 
@@ -858,7 +805,6 @@ app.get("/auth/logout", (req, res) => {
         );
 
     }
-
 
     req.session.destroy(
         (error) => {
@@ -876,7 +822,6 @@ app.get("/auth/logout", (req, res) => {
 
             }
 
-
             res.redirect(
                 "https://www.alphark.fr/"
             );
@@ -886,10 +831,9 @@ app.get("/auth/logout", (req, res) => {
 
 });
 
-
-// ==========================================
-// DÉMARRAGE
-// ==========================================
+// ============================================================
+// DEMARRAGE
+// ============================================================
 
 app.listen(PORT, () => {
 
@@ -898,15 +842,19 @@ app.listen(PORT, () => {
     );
 
     console.log(
-        `🔐 Connexion par code : ACTIVE`
+        "🔐 Connexion par code : ACTIVE"
     );
 
     console.log(
-        `👥 Joueurs connectés : ACTIVE`
+        "👥 Joueurs connectés : ACTIVE"
     );
 
     console.log(
         `🦖 ${ARK_SERVERS.length} maps configurées`
+    );
+
+    console.log(
+        "📡 QueryPorts configurés"
     );
 
 });
