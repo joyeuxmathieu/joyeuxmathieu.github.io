@@ -382,17 +382,20 @@ discordClient.once("ready", () => {
 
 if (process.env.DISCORD_BOT_TOKEN) {
 
-    discordClient.login(
-        process.env.DISCORD_BOT_TOKEN
-    );
+    discordClient.login(process.env.DISCORD_BOT_TOKEN)
+        .then(() => {
+            console.log("🔐 Connexion au Gateway Discord demandée...");
+        })
+        .catch((error) => {
+            console.error("❌ ERREUR CONNEXION DISCORD :");
+            console.error(error);
+        });
 
 } else {
 
-    console.error(
-        "❌ DISCORD_BOT_TOKEN manquant."
-    );
-}
+    console.error("❌ DISCORD_BOT_TOKEN manquant dans Render.");
 
+}
 // ======================================================
 // DÉMARRAGE API
 // ======================================================
