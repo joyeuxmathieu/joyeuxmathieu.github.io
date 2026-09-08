@@ -268,49 +268,69 @@
     justify-content: center;
     padding: 20px;
     box-sizing: border-box;
-    background: rgba(0,0,0,0.80);
+    background: rgba(0, 0, 0, 0.82);
 }
 
 #login-code-box {
-    width: min(430px, 100%);
-    padding: 24px;
+    width: min(440px, 100%);
+    padding: 25px;
     box-sizing: border-box;
     text-align: center;
-    color: white;
-    background: linear-gradient(180deg, rgba(20,50,85,0.98), rgba(3,13,27,0.99));
+    color: #ffffff;
+    background: linear-gradient(
+        180deg,
+        rgba(24, 58, 96, 0.98),
+        rgba(3, 13, 27, 0.99)
+    );
     border: 2px solid #00eaff;
     border-radius: 12px;
-    box-shadow: 0 0 15px #00eaff, 0 0 40px rgba(0,234,255,0.45);
+    box-shadow:
+        0 0 15px #00eaff,
+        0 0 45px rgba(0, 234, 255, 0.45);
 }
 
-#login-code-box h2 { margin: 0 0 10px; font-size: 22px; }
-#login-code-box p { margin: 8px 0; line-height: 1.45; }
+#login-code-box h2 {
+    margin: 0 0 12px;
+    font-size: 23px;
+}
+
+#login-code-box p {
+    margin: 9px 0;
+    line-height: 1.45;
+}
 
 #login-code {
-    margin: 18px 0;
-    padding: 12px 18px;
-    font-size: 32px;
-    font-weight: bold;
-    letter-spacing: 6px;
+    margin: 20px 0;
+    padding: 13px 18px;
+    font-size: 34px;
+    font-weight: 800;
+    letter-spacing: 7px;
     color: #00ffea;
-    background: rgba(0,0,0,0.35);
+    background: rgba(0, 0, 0, 0.35);
     border: 2px solid #00eaff;
     border-radius: 8px;
 }
 
-#login-code-status { min-height: 24px; margin: 12px 0; color: #dffcff; }
+#login-code-status {
+    min-height: 26px;
+    margin: 14px 0;
+    color: #dffcff;
+}
 
 #login-code-close {
     margin-top: 8px;
-    padding: 9px 18px;
-    color: white;
+    padding: 9px 20px;
+    color: #ffffff;
     background: #193550;
     border: 1px solid #00eaff;
     border-radius: 7px;
     cursor: pointer;
 }
 
-#login-code-close:hover { background: #00eaff; color: black; }
+#login-code-close:hover {
+    background: #00eaff;
+    color: #000000;
+}
 
 </style>
 
@@ -377,21 +397,41 @@
 
 </div>
 
-
 <!-- ======================= -->
 <!-- CONNEXION ALPHARK PAR CODE -->
 <!-- ======================= -->
 
 <div id="login-code-modal">
+
     <div id="login-code-box">
+
         <h2>🔐 CONNEXION ALPHARK</h2>
+
         <p>Ton code de connexion est :</p>
+
         <div id="login-code">------</div>
-        <p>Dans Discord, sur le serveur <strong>ALPHARK</strong>, tape :</p>
-        <p><strong>*connexion <span id="login-code-command">------</span></strong></p>
-        <div id="login-code-status">⏳ En attente de validation...</div>
-        <button type="button" id="login-code-close">Fermer</button>
+
+        <p>
+            Dans Discord, sur le serveur <strong>ALPHARK</strong>, tape :
+        </p>
+
+        <p>
+            <strong>*connexion <span id="login-code-command">------</span></strong>
+        </p>
+
+        <div id="login-code-status">
+            ⏳ En attente de validation...
+        </div>
+
+        <button
+            type="button"
+            id="login-code-close"
+        >
+            Fermer
+        </button>
+
     </div>
+
 </div>
 
 
@@ -438,23 +478,38 @@ const API_URL = "https://api.alphark.fr";
 
 let onlineTimer = null;
 
-
 let loginCodeTimer = null;
 let loginCodeBusy = false;
 
 async function startSiteLogin() {
+
     if (loginCodeBusy) return;
 
-    const modal = document.getElementById("login-code-modal");
-    const codeElement = document.getElementById("login-code");
-    const commandElement = document.getElementById("login-code-command");
-    const statusElement = document.getElementById("login-code-status");
+    const modal =
+        document.getElementById("login-code-modal");
+
+    const codeElement =
+        document.getElementById("login-code");
+
+    const commandElement =
+        document.getElementById("login-code-command");
+
+    const statusElement =
+        document.getElementById("login-code-status");
+
+    if (!modal || !codeElement || !commandElement || !statusElement) {
+        console.error("❌ Éléments de connexion par code introuvables.");
+        return;
+    }
 
     loginCodeBusy = true;
+
     modal.style.display = "flex";
+
     codeElement.textContent = "......";
     commandElement.textContent = "......";
-    statusElement.textContent = "⏳ Génération du code...";
+    statusElement.textContent =
+        "⏳ Génération du code...";
 
     if (loginCodeTimer) {
         clearInterval(loginCodeTimer);
@@ -462,57 +517,96 @@ async function startSiteLogin() {
     }
 
     try {
-        const response = await fetch(API_URL + "/auth/code/start", {
-            credentials: "include",
-            cache: "no-store"
-        });
+
+        const response =
+            await fetch(
+                API_URL + "/auth/code/start",
+                {
+                    method: "GET",
+                    credentials: "include",
+                    cache: "no-store"
+                }
+            );
 
         if (!response.ok) {
-            throw new Error("HTTP " + response.status);
+            throw new Error(
+                "API /auth/code/start HTTP " +
+                response.status
+            );
         }
 
-        const data = await response.json();
+        const data =
+            await response.json();
 
         if (!data.success || !data.code) {
-            throw new Error("Aucun code reçu.");
+            throw new Error(
+                "Aucun code reçu par l'API."
+            );
         }
 
-        codeElement.textContent = data.code;
-        commandElement.textContent = data.code;
+        codeElement.textContent =
+            data.code;
+
+        commandElement.textContent =
+            data.code;
+
         statusElement.textContent =
             "⏳ En attente de validation dans Discord...";
 
-        loginCodeTimer = setInterval(
-            checkSiteLoginStatus,
-            2000
-        );
+        loginCodeTimer =
+            setInterval(
+                checkSiteLoginStatus,
+                2000
+            );
 
     } catch (error) {
-        console.error("❌ Connexion ALPHARK :", error);
+
+        console.error(
+            "❌ Connexion ALPHARK :",
+            error
+        );
+
         statusElement.textContent =
             "❌ Impossible de générer le code.";
+
     } finally {
+
         loginCodeBusy = false;
+
     }
 }
 
 async function checkSiteLoginStatus() {
+
     try {
-        const response = await fetch(
-            API_URL + "/auth/code/status",
-            {
-                credentials: "include",
-                cache: "no-store"
-            }
-        );
 
-        if (!response.ok) return;
+        const response =
+            await fetch(
+                API_URL + "/auth/code/status",
+                {
+                    method: "GET",
+                    credentials: "include",
+                    cache: "no-store"
+                }
+            );
 
-        const data = await response.json();
+        if (!response.ok) {
+            return;
+        }
+
+        const data =
+            await response.json();
+
         const statusElement =
-            document.getElementById("login-code-status");
+            document.getElementById(
+                "login-code-status"
+            );
 
-        if (data.status === "connected" && data.loggedIn) {
+        if (
+            data.status === "connected" &&
+            data.loggedIn
+        ) {
+
             if (loginCodeTimer) {
                 clearInterval(loginCodeTimer);
                 loginCodeTimer = null;
@@ -521,15 +615,23 @@ async function checkSiteLoginStatus() {
             statusElement.textContent =
                 "✅ Connexion réussie !";
 
-            setTimeout(() => {
-                closeSiteLoginModal();
-                checkDiscordConnection();
-            }, 700);
+            setTimeout(
+                () => {
+
+                    closeSiteLoginModal();
+                    checkDiscordConnection();
+
+                },
+                700
+            );
 
             return;
         }
 
-        if (data.status === "expired") {
+        if (
+            data.status === "expired"
+        ) {
+
             if (loginCodeTimer) {
                 clearInterval(loginCodeTimer);
                 loginCodeTimer = null;
@@ -537,12 +639,17 @@ async function checkSiteLoginStatus() {
 
             statusElement.textContent =
                 "❌ Le code a expiré.";
+
             return;
         }
 
-        if (data.status === "verified") {
+        if (
+            data.status === "verified"
+        ) {
+
             statusElement.textContent =
                 "✅ Code validé par le Bot Starter...";
+
             return;
         }
 
@@ -550,21 +657,35 @@ async function checkSiteLoginStatus() {
             "⏳ En attente de validation dans Discord...";
 
     } catch (error) {
+
         console.error(
             "❌ Erreur statut connexion :",
             error
         );
+
+    }
+}
+
+function stopLoginCodePolling() {
+
+    if (loginCodeTimer) {
+
+        clearInterval(
+            loginCodeTimer
+        );
+
+        loginCodeTimer = null;
     }
 }
 
 function closeSiteLoginModal() {
-    if (loginCodeTimer) {
-        clearInterval(loginCodeTimer);
-        loginCodeTimer = null;
-    }
+
+    stopLoginCodePolling();
 
     const modal =
-        document.getElementById("login-code-modal");
+        document.getElementById(
+            "login-code-modal"
+        );
 
     if (modal) {
         modal.style.display = "none";
@@ -589,9 +710,9 @@ async function checkDiscordConnection() {
         document.getElementById("member-menu");
 
 
-    // Menu caché par défaut
+    // Menus cachés par défaut
 
-    memberMenu.style.display = "none";
+    hideMemberMenus();
 
 
     try {
@@ -703,6 +824,8 @@ async function checkDiscordConnection() {
                         await updatePresence();
 
                         await loadOnlinePlayers();
+
+                        await loadArkServers();
 
                     },
                     60000
@@ -977,28 +1100,38 @@ document.addEventListener(
             document.getElementById("login-code-modal");
 
         if (loginButton) {
+
             loginButton.addEventListener(
                 "click",
                 startSiteLogin
             );
+
         }
 
         if (loginClose) {
+
             loginClose.addEventListener(
                 "click",
                 closeSiteLoginModal
             );
+
         }
 
         if (loginModal) {
+
             loginModal.addEventListener(
                 "click",
                 (event) => {
-                    if (event.target === loginModal) {
+
+                    if (
+                        event.target === loginModal
+                    ) {
                         closeSiteLoginModal();
                     }
+
                 }
             );
+
         }
 
 
@@ -1043,6 +1176,25 @@ document.addEventListener(
         }
     }
 );
+
+
+
+function hideMemberMenus() {
+
+    const memberMenu =
+        document.getElementById("member-menu");
+
+    const mapsMenu =
+        document.getElementById("maps-menu");
+
+    if (memberMenu) {
+        memberMenu.style.display = "none";
+    }
+
+    if (mapsMenu) {
+        mapsMenu.style.display = "none";
+    }
+}
 
 
 // ==========================================
