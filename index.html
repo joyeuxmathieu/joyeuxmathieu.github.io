@@ -5,11 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>ALPHARK — Cluster ARK Survival Ascended</title>
+    <title>ALPHARK — ARK Survival Ascended</title>
 
     <meta
         name="description"
-        content="ALPHARK — Cluster francophone ARK Survival Ascended. Serveurs PVE, événements, communauté et boutique."
+        content="ALPHARK — Cluster francophone ARK Survival Ascended."
     >
 
     <link rel="stylesheet" href="style.css">
@@ -17,722 +17,863 @@
 
 <body>
 
-<!-- ==================================================
-     NAVIGATION
-================================================== -->
+<!-- =====================================================
+     HEADER
+===================================================== -->
 
-<header class="navbar">
+<header class="top-header">
 
-    <div class="logo">
-        <span>ALPHA</span>RK
+    <div class="header-container">
+
+        <a href="index.html" class="brand">
+
+            <div class="brand-logo">
+                A
+            </div>
+
+            <div class="brand-text">
+                <strong>ALPHARK</strong>
+                <span>ARK SURVIVAL ASCENDED</span>
+            </div>
+
+        </a>
+
+        <div class="header-slogan">
+            Survivre · Explorer · Construire · Ensemble
+        </div>
+
+        <div class="header-actions">
+
+            <a
+                href="https://discord.gg/"
+                target="_blank"
+                class="top-button discord"
+            >
+                💬 Discord
+            </a>
+
+            <a
+                href="https://api.alphark.fr/auth/discord"
+                class="top-button login"
+            >
+                👤 Se connecter
+            </a>
+
+        </div>
+
     </div>
-
-    <nav>
-
-        <a href="index.html" class="active">
-            🏠 Accueil
-        </a>
-
-        <a href="pages/jeux.html">
-            🎮 Jeux
-        </a>
-
-        <a href="pages/serveurs.html">
-            🖥️ Serveurs
-        </a>
-
-        <a href="pages/boutique.html">
-            🛒 Boutique
-        </a>
-
-        <a href="pages/evenements.html">
-            🏆 Événements
-        </a>
-
-        <a href="pages/reglement.html">
-            📜 Règlement
-        </a>
-
-        <a href="pages/infos.html">
-            ℹ️ Infos
-        </a>
-
-        <!-- CONNEXION -->
-        <a
-            href="https://api.alphark.fr/auth/discord"
-            class="login-button"
-        >
-            🔐 Connexion
-        </a>
-
-        <!-- DISCORD -->
-        <a
-            href="https://discord.gg/"
-            target="_blank"
-            class="discord-button"
-        >
-            💬 Discord
-        </a>
-
-    </nav>
 
 </header>
 
 
-<!-- ==================================================
-     HERO PRINCIPAL
-================================================== -->
+<!-- =====================================================
+     NAVIGATION
+===================================================== -->
+
+<nav class="main-nav">
+
+    <div class="nav-container">
+
+        <a href="index.html" class="nav-link active">
+            🏠 Accueil
+        </a>
+
+        <div class="nav-dropdown">
+
+            <a href="pages/jeux.html" class="nav-link">
+                🎮 Jeux <span>⌄</span>
+            </a>
+
+            <div class="dropdown-menu">
+
+                <a href="pages/jeux.html">
+                    🦖 ARK Survival Ascended
+                </a>
+
+                <a href="pages/jeux.html">
+                    🦖 ARK Survival Evolved
+                </a>
+
+                <a href="pages/jeux.html">
+                    🎮 GTA V
+                    <small>(Bientôt)</small>
+                </a>
+
+                <a href="pages/jeux.html">
+                    🔫 Call of Duty
+                    <small>(Bientôt)</small>
+                </a>
+
+                <a href="pages/jeux.html">
+                    🟩 Minecraft
+                    <small>(Bientôt)</small>
+                </a>
+
+                <a href="pages/jeux.html">
+                    🌎 Palworld
+                    <small>(Bientôt)</small>
+                </a>
+
+                <span class="dropdown-all">
+                    Voir tous les jeux →
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <a href="pages/serveurs.html" class="nav-link">
+            🖥️ Serveurs
+        </a>
+
+        <a href="pages/boutique.html" class="nav-link">
+            🛒 Boutique
+        </a>
+
+        <a href="pages/evenements.html" class="nav-link">
+            🏆 Événements
+        </a>
+
+        <a href="pages/reglement.html" class="nav-link">
+            📜 Règlement
+        </a>
+
+        <a href="pages/infos.html" class="nav-link">
+            ℹ️ Infos / Contact
+        </a>
+
+        <a
+            href="https://discord.gg/"
+            target="_blank"
+            class="nav-link nav-discord"
+        >
+            💬 Discord
+        </a>
+
+    </div>
+
+</nav>
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
 
 <section class="hero">
 
-    <div class="hero-overlay"></div>
+    <div class="hero-background"></div>
 
     <div class="hero-content">
 
-        <div class="hero-label">
-            ALPHARK COMMUNITY
-        </div>
+        <div class="hero-logo">
+            <div class="hero-logo-symbol">A</div>
 
-        <div class="hero-sub-label">
-            ARK SURVIVAL ASCENDED
+            <strong>ALPHARK</strong>
+
+            <span>
+                ARK SURVIVAL ASCENDED
+            </span>
         </div>
 
         <h1>
-            BIENVENUE SUR
-            <span>ALPHARK</span>
+            BIENVENUE SUR ALPHARK
         </h1>
 
-        <p>
-            Un cluster francophone pensé pour les joueurs.
-            Des serveurs boostés, une communauté active,
-            des événements et une véritable expérience
-            de survie sur ARK Survival Ascended.
+        <p class="hero-subtitle">
+            Une aventure unique, une communauté passionnée
+        </p>
+
+        <p class="hero-description">
+            Survivez · Explorez · Construisez · Domptez · Évoluez
         </p>
 
         <div class="hero-buttons">
 
             <a
                 href="pages/serveurs.html"
-                class="button primary"
+                class="hero-button orange"
             >
-                🦖 DÉCOUVRIR LE CLUSTER
+                🦖 REJOINDRE LE SERVEUR
+                <span>→</span>
             </a>
 
             <a
                 href="https://discord.gg/"
                 target="_blank"
-                class="button secondary"
+                class="hero-button blue"
             >
                 💬 REJOINDRE DISCORD
+                <span>→</span>
             </a>
 
         </div>
 
-        <!-- MINI INFORMATIONS -->
-
-        <div class="hero-mini-info">
-
-            <div>
-                <strong>12+</strong>
-                <span>MAPS</span>
-            </div>
-
-            <div>
-                <strong>70</strong>
-                <span>SLOTS / MAP</span>
-            </div>
-
-            <div>
-                <strong>x60</strong>
-                <span>TAMING</span>
-            </div>
-
-            <div>
-                <strong>x15</strong>
-                <span>FARM</span>
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- INDICATION SCROLL -->
-
-    <div class="scroll-indicator">
-        <span>SCROLL POUR DÉCOUVRIR</span>
-        <div>↓</div>
     </div>
 
 </section>
 
 
-<!-- ==================================================
-     PRÉSENTATION
-================================================== -->
+<!-- =====================================================
+     STATISTIQUES
+===================================================== -->
 
-<section class="section intro-section">
+<section class="stats-section">
 
-    <div class="section-title">
+    <div class="stats-container">
 
-        <div>
+        <div class="stat-card">
 
-            <span>BIENVENUE CHEZ ALPHARK</span>
+            <div class="stat-icon">
+                👥
+            </div>
 
-            <h2>
-                PLUS QU'UN SERVEUR ARK
-            </h2>
+            <div>
+                <strong id="players-online">
+                    42
+                </strong>
+
+                <span>
+                    JOUEURS EN LIGNE
+                </span>
+
+                <small>
+                    🟢 sur le cluster
+                </small>
+            </div>
 
         </div>
 
-        <a href="pages/infos.html">
-            Découvrir ALPHARK →
-        </a>
 
-    </div>
+        <div class="stat-card">
 
-
-    <div class="cards">
-
-        <!-- CARD -->
-
-        <article class="info-card">
-
-            <div class="card-number">
-                01
+            <div class="stat-icon">
+                🖥️
             </div>
 
-            <div class="card-icon">
-                🗺️
+            <div>
+                <strong>
+                    12 / 12
+                </strong>
+
+                <span>
+                    SERVEURS EN LIGNE
+                </span>
+
+                <small>
+                    🟢 100% opérationnels
+                </small>
             </div>
 
-            <h3>
-                UN GRAND CLUSTER
-            </h3>
-
-            <p>
-                Explore de nombreuses maps ARK Survival
-                Ascended et voyage librement entre les
-                différents univers du cluster.
-            </p>
-
-        </article>
+        </div>
 
 
-        <!-- CARD -->
+        <div class="stat-card">
 
-        <article class="info-card">
-
-            <div class="card-number">
-                02
-            </div>
-
-            <div class="card-icon">
-                ⚡
-            </div>
-
-            <h3>
-                DES RATES BOOSTÉES
-            </h3>
-
-            <p>
-                Profite de rates pensées pour permettre
-                une progression agréable tout en gardant
-                le plaisir du jeu.
-            </p>
-
-        </article>
-
-
-        <!-- CARD -->
-
-        <article class="info-card">
-
-            <div class="card-number">
-                03
-            </div>
-
-            <div class="card-icon">
+            <div class="stat-icon">
                 🏆
             </div>
 
-            <h3>
-                UNE COMMUNAUTÉ ACTIVE
-            </h3>
+            <div>
+                <strong>
+                    3
+                </strong>
 
-            <p>
-                Événements, défis, missions, compétitions
-                et animations organisés régulièrement
-                par le staff ALPHARK.
-            </p>
+                <span>
+                    ÉVÉNEMENTS EN COURS
+                </span>
 
-        </article>
+                <small>
+                    Rejoindre l'aventure !
+                </small>
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                👥
+            </div>
+
+            <div>
+                <strong>
+                    2 548
+                </strong>
+
+                <span>
+                    MEMBRES DISCORD
+                </span>
+
+                <small>
+                    🟢 Communauté active
+                </small>
+            </div>
+
+        </div>
 
     </div>
 
 </section>
 
 
-<!-- ==================================================
-     RATES
-================================================== -->
+<!-- =====================================================
+     CONTENU PRINCIPAL
+===================================================== -->
 
-<section class="rates-section">
+<main class="home-content">
 
-    <div class="rates-container">
 
-        <div class="rates-title">
+    <!-- =================================================
+         DERNIER PATCH
+    ================================================== -->
 
-            <span>CONFIGURATION DU CLUSTER</span>
+    <section class="panel patch-panel">
+
+        <div class="panel-header">
 
             <h2>
-                NOS RATES
+                🛠️ DERNIER PATCH
             </h2>
 
         </div>
 
-
-        <div class="rates-grid">
-
-            <div class="rate-box">
-                <strong>x15</strong>
-                <span>XP</span>
-            </div>
-
-            <div class="rate-box">
-                <strong>x15</strong>
-                <span>FARM</span>
-            </div>
-
-            <div class="rate-box">
-                <strong>x60</strong>
-                <span>TAMING</span>
-            </div>
-
-            <div class="rate-box">
-                <strong>x300</strong>
-                <span>INCUBATION</span>
-            </div>
-
-            <div class="rate-box">
-                <strong>x300</strong>
-                <span>MATURATION</span>
-            </div>
-
-            <div class="rate-box">
-                <strong>300</strong>
-                <span>LEVEL DINO</span>
-            </div>
-
+        <div class="patch-image image-placeholder">
+            <span>IMAGE PATCH</span>
         </div>
 
-    </div>
-
-</section>
-
-
-<!-- ==================================================
-     SERVEURS
-================================================== -->
-
-<section class="section server-section">
-
-    <div class="section-title">
-
-        <div>
-
-            <span>ALPHARK SERVERS</span>
-
-            <h2>
-                NOS SERVEURS
-            </h2>
-
+        <div class="patch-version">
+            v93.19 — 04/09/2026
         </div>
 
-        <a href="pages/serveurs.html">
-            Voir toutes les maps →
-        </a>
+        <ul class="patch-list">
 
-    </div>
+            <li>
+                ✓ Nouvelles créatures
+            </li>
 
+            <li>
+                ✓ Améliorations de stabilité
+            </li>
 
-    <div class="server-preview">
+            <li>
+                ✓ Corrections de bugs
+            </li>
 
-        <!-- THE ISLAND -->
+            <li>
+                ✓ Optimisations des performances
+            </li>
 
-        <article class="server-preview-card">
-
-            <div class="server-status">
-                <i></i>
-                EN LIGNE
-            </div>
-
-            <h3>
-                THE ISLAND
-            </h3>
-
-            <p>
-                PVE • 70 SLOTS
-            </p>
-
-            <div class="rates">
-
-                <span>XP x15</span>
-                <span>FARM x15</span>
-                <span>TAME x60</span>
-                <span>ŒUFS x300</span>
-                <span>MATURATION x300</span>
-
-            </div>
-
-            <a
-                href="pages/serveurs.html"
-                class="server-link"
-            >
-                VOIR LE SERVEUR →
-            </a>
-
-        </article>
-
-
-        <!-- THE CENTER -->
-
-        <article class="server-preview-card">
-
-            <div class="server-status">
-                <i></i>
-                EN LIGNE
-            </div>
-
-            <h3>
-                THE CENTER
-            </h3>
-
-            <p>
-                PVE • 70 SLOTS
-            </p>
-
-            <div class="rates">
-
-                <span>XP x15</span>
-                <span>FARM x15</span>
-                <span>TAME x60</span>
-                <span>ŒUFS x300</span>
-                <span>MATURATION x300</span>
-
-            </div>
-
-            <a
-                href="pages/serveurs.html"
-                class="server-link"
-            >
-                VOIR LE SERVEUR →
-            </a>
-
-        </article>
-
-
-        <!-- SCORCHED EARTH -->
-
-        <article class="server-preview-card">
-
-            <div class="server-status">
-                <i></i>
-                EN LIGNE
-            </div>
-
-            <h3>
-                SCORCHED EARTH
-            </h3>
-
-            <p>
-                PVE • 70 SLOTS
-            </p>
-
-            <div class="rates">
-
-                <span>XP x15</span>
-                <span>FARM x15</span>
-                <span>TAME x60</span>
-                <span>ŒUFS x300</span>
-                <span>MATURATION x300</span>
-
-            </div>
-
-            <a
-                href="pages/serveurs.html"
-                class="server-link"
-            >
-                VOIR LE SERVEUR →
-            </a>
-
-        </article>
-
-
-        <!-- ABERRATION -->
-
-        <article class="server-preview-card">
-
-            <div class="server-status">
-                <i></i>
-                EN LIGNE
-            </div>
-
-            <h3>
-                ABERRATION
-            </h3>
-
-            <p>
-                PVE • 70 SLOTS
-            </p>
-
-            <div class="rates">
-
-                <span>XP x15</span>
-                <span>FARM x15</span>
-                <span>TAME x60</span>
-                <span>ŒUFS x300</span>
-                <span>MATURATION x300</span>
-
-            </div>
-
-            <a
-                href="pages/serveurs.html"
-                class="server-link"
-            >
-                VOIR LE SERVEUR →
-            </a>
-
-        </article>
-
-    </div>
-
-</section>
-
-
-<!-- ==================================================
-     ÉVÉNEMENTS
-================================================== -->
-
-<section class="section events-section">
-
-    <div class="section-title">
-
-        <div>
-
-            <span>ALPHARK EVENTS</span>
-
-            <h2>
-                LES ÉVÉNEMENTS
-            </h2>
-
-        </div>
-
-        <a href="pages/evenements.html">
-            Tous les événements →
-        </a>
-
-    </div>
-
-
-    <div class="cards">
-
-        <!-- EVENT -->
-
-        <article class="event-card">
-
-            <div class="event-number">
-                EVENT 01
-            </div>
-
-            <div class="event-icon">
-                🏎️
-            </div>
-
-            <h3>
-                ARK RALLYE
-            </h3>
-
-            <p>
-                Parcours chronométré avec obstacles,
-                passages techniques et classement
-                des participants.
-            </p>
-
-            <span class="event-status">
-                À VENIR
-            </span>
-
-        </article>
-
-
-        <!-- EVENT -->
-
-        <article class="event-card">
-
-            <div class="event-number">
-                EVENT 02
-            </div>
-
-            <div class="event-icon">
-                🦖
-            </div>
-
-            <h3>
-                DINO RACE
-            </h3>
-
-            <p>
-                Affronte les autres joueurs dans une
-                course de dinosaures organisée par
-                le staff.
-            </p>
-
-            <span class="event-status">
-                À VENIR
-            </span>
-
-        </article>
-
-
-        <!-- EVENT -->
-
-        <article class="event-card">
-
-            <div class="event-number">
-                EVENT 03
-            </div>
-
-            <div class="event-icon">
-                💎
-            </div>
-
-            <h3>
-                CHASSE AU TRÉSOR
-            </h3>
-
-            <p>
-                Pars à la recherche d'indices cachés
-                et retrouve le trésor avant les autres.
-            </p>
-
-            <span class="event-status">
-                À VENIR
-            </span>
-
-        </article>
-
-    </div>
-
-</section>
-
-
-<!-- ==================================================
-     BOUTIQUE CTA
-================================================== -->
-
-<section class="shop-cta">
-
-    <div class="shop-cta-content">
-
-        <span>
-            ALPHARK BOUTIQUE
-        </span>
-
-        <h2>
-            ENVIE D'ALLER PLUS LOIN ?
-        </h2>
-
-        <p>
-            Découvre les packs disponibles, les offres
-            de la communauté et les différents avantages
-            proposés sur ALPHARK.
-        </p>
+        </ul>
 
         <a
-            href="pages/boutique.html"
-            class="button primary"
+            href="pages/infos.html"
+            class="panel-button"
         >
-            🛒 OUVRIR LA BOUTIQUE
+            Voir tous les patchs →
         </a>
 
-    </div>
-
-</section>
+    </section>
 
 
-<!-- ==================================================
-     DISCORD
-================================================== -->
+    <!-- =================================================
+         ACTUALITÉS
+    ================================================== -->
 
-<section class="discord-section">
+    <section class="panel news-panel">
 
-    <div>
+        <div class="panel-header">
 
-        <span>
-            ALPHARK COMMUNITY
-        </span>
+            <h2>
+                📢 DERNIÈRES ACTUALITÉS
+            </h2>
 
-        <h2>
-            RETROUVE-NOUS SUR DISCORD
-        </h2>
+            <a href="pages/infos.html">
+                Voir toutes les infos →
+            </a>
 
-        <p>
-            Annonces, support, événements, tickets,
-            discussions et communauté sont disponibles
-            directement sur notre Discord.
-        </p>
+        </div>
 
-    </div>
+
+        <article class="news-item">
+
+            <div class="news-image image-placeholder">
+                IMAGE
+            </div>
+
+            <div class="news-content">
+
+                <div>
+                    <span class="tag event">
+                        ÉVÉNEMENT
+                    </span>
+
+                    <small>
+                        04/09/2026
+                    </small>
+                </div>
+
+                <h3>
+                    Chasse aux Trésors
+                </h3>
+
+                <p>
+                    Partez à la recherche des coffres cachés...
+                </p>
+
+            </div>
+
+        </article>
+
+
+        <article class="news-item">
+
+            <div class="news-image image-placeholder">
+                IMAGE
+            </div>
+
+            <div class="news-content">
+
+                <div>
+                    <span class="tag shop">
+                        BOUTIQUE
+                    </span>
+
+                    <small>
+                        01/09/2026
+                    </small>
+                </div>
+
+                <h3>
+                    Nouveau pack Euro
+                </h3>
+
+                <p>
+                    Découvrez nos nouveaux packs exclusifs !
+                </p>
+
+            </div>
+
+        </article>
+
+
+        <article class="news-item">
+
+            <div class="news-image image-placeholder">
+                IMAGE
+            </div>
+
+            <div class="news-content">
+
+                <div>
+                    <span class="tag community">
+                        COMMUNAUTÉ
+                    </span>
+
+                    <small>
+                        01/09/2026
+                    </small>
+
+                </div>
+
+                <h3>
+                    Dino du mois : Ferox & Achatina
+                </h3>
+
+                <p>
+                    Disponibles tout le mois sur la boutique.
+                </p>
+
+            </div>
+
+        </article>
+
+
+        <article class="news-item">
+
+            <div class="news-image image-placeholder">
+                IMAGE
+            </div>
+
+            <div class="news-content">
+
+                <div>
+                    <span class="tag update">
+                        MISE À JOUR
+                    </span>
+
+                    <small>
+                        31/08/2026
+                    </small>
+                </div>
+
+                <h3>
+                    Optimisation des serveurs
+                </h3>
+
+                <p>
+                    Amélioration des performances globales.
+                </p>
+
+            </div>
+
+        </article>
+
+    </section>
+
+
+    <!-- =================================================
+         MAPS
+    ================================================== -->
+
+    <section class="panel maps-panel">
+
+        <div class="panel-header">
+
+            <h2>
+                🗺️ NOS MAPS
+            </h2>
+
+            <a href="pages/serveurs.html">
+                Voir toutes les maps →
+            </a>
+
+        </div>
+
+
+        <div class="maps-grid">
+
+            <a class="map-card" href="pages/serveurs.html">
+                <div class="map-image island"></div>
+                <strong>The Island</strong>
+                <small>6/70 • 🟢 PVE</small>
+            </a>
+
+            <a class="map-card" href="pages/serveurs.html">
+                <div class="map-image center"></div>
+                <strong>The Center</strong>
+                <small>4/70 • 🟢 PVE</small>
+            </a>
+
+            <a class="map-card" href="pages/serveurs.html">
+                <div class="map-image scorched"></div>
+                <strong>Scorched Earth</strong>
+                <small>5/70 • 🟢 PVE</small>
+            </a>
+
+            <a class="map-card" href="pages/serveurs.html">
+                <div class="map-image aberration"></div>
+                <strong>Aberration</strong>
+                <small>8/70 • 🟢 PVE</small>
+            </a>
+
+            <a class="map-card" href="pages/serveurs.html">
+                <div class="map-image extinction"></div>
+                <strong>Extinction</strong>
+                <small>3/70 • 🟢 PVE</small>
+            </a>
+
+            <a class="map-card" href="pages/serveurs.html">
+                <div class="map-image lost"></div>
+                <strong>Lost Colony</strong>
+                <small>2/70 • 🟢 PVE</small>
+            </a>
+
+            <a class="map-card" href="pages/serveurs.html">
+                <div class="map-image amissa"></div>
+                <strong>Amissa</strong>
+                <small>4/70 • 🟢 PVE</small>
+            </a>
+
+            <a class="map-card" href="pages/serveurs.html">
+                <div class="map-image ragnarok"></div>
+                <strong>Ragnarok</strong>
+                <small>10/70 • 🔴 PVP</small>
+            </a>
+
+            <a class="map-card" href="pages/serveurs.html">
+                <div class="map-image valguero"></div>
+                <strong>Valguero</strong>
+                <small>6/70 • 🟢 PVE</small>
+            </a>
+
+            <a class="map-card" href="pages/serveurs.html">
+                <div class="map-image astraeos"></div>
+                <strong>Astraeos</strong>
+                <small>3/70 • 🟢 PVE</small>
+            </a>
+
+            <a class="map-card" href="pages/serveurs.html">
+                <div class="map-image capitale"></div>
+                <strong>Capitale</strong>
+                <small>4/70 • 🟢 PVE</small>
+            </a>
+
+            <a class="map-card" href="pages/serveurs.html">
+                <div class="map-image event-map"></div>
+                <strong>Valguero Event</strong>
+                <small>8/70 • 🟢 PVE</small>
+            </a>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+<!-- =====================================================
+     GRANDES CARTES
+===================================================== -->
+
+<section class="quick-links">
+
+    <a
+        href="pages/serveurs.html"
+        class="quick-card servers"
+    >
+        <div class="quick-image"></div>
+
+        <div class="quick-content">
+
+            <h3>
+                🖥️ SERVEURS
+            </h3>
+
+            <p>
+                Découvrez nos cartes
+                et les statistiques.
+            </p>
+
+            <span>
+                Voir les serveurs
+            </span>
+
+        </div>
+
+    </a>
+
+
+    <a
+        href="pages/boutique.html"
+        class="quick-card shop"
+    >
+        <div class="quick-image"></div>
+
+        <div class="quick-content">
+
+            <h3>
+                🛒 BOUTIQUE
+            </h3>
+
+            <p>
+                Packs, dinos, cosmétiques
+                et bien plus encore.
+            </p>
+
+            <span>
+                Accéder à la boutique
+            </span>
+
+        </div>
+
+    </a>
+
+
+    <a
+        href="pages/evenements.html"
+        class="quick-card events"
+    >
+        <div class="quick-image"></div>
+
+        <div class="quick-content">
+
+            <h3>
+                🏆 ÉVÉNEMENTS
+            </h3>
+
+            <p>
+                Tous nos événements
+                à venir et en cours.
+            </p>
+
+            <span>
+                Voir les événements
+            </span>
+
+        </div>
+
+    </a>
+
+
+    <a
+        href="pages/reglement.html"
+        class="quick-card rules"
+    >
+        <div class="quick-image"></div>
+
+        <div class="quick-content">
+
+            <h3>
+                📜 RÈGLEMENT
+            </h3>
+
+            <p>
+                Règles générales
+                du serveur.
+            </p>
+
+            <span>
+                Consulter le règlement
+            </span>
+
+        </div>
+
+    </a>
+
+
+    <a
+        href="pages/infos.html"
+        class="quick-card infos"
+    >
+        <div class="quick-image"></div>
+
+        <div class="quick-content">
+
+            <h3>
+                ℹ️ INFOS / CONTACT
+            </h3>
+
+            <p>
+                Une question ?
+                Notre équipe est là.
+            </p>
+
+            <span>
+                Nous contacter
+            </span>
+
+        </div>
+
+    </a>
 
 
     <a
         href="https://discord.gg/"
         target="_blank"
-        class="button primary"
+        class="quick-card discord-card"
     >
-        💬 REJOINDRE DISCORD
+        <div class="quick-image"></div>
+
+        <div class="quick-content">
+
+            <h3>
+                💬 DISCORD
+            </h3>
+
+            <p>
+                Rejoignez notre
+                communauté.
+            </p>
+
+            <span>
+                Rejoindre Discord
+            </span>
+
+        </div>
+
     </a>
 
 </section>
 
 
-<!-- ==================================================
+<!-- =====================================================
      FOOTER
-================================================== -->
+===================================================== -->
 
-<footer>
+<footer class="footer">
 
-    <div class="footer-logo">
-        <span>ALPHA</span>RK
+    <div class="footer-container">
+
+        <div class="footer-brand">
+
+            <div class="footer-logo">
+                A
+            </div>
+
+            <div>
+                <strong>
+                    ALPHARK
+                </strong>
+
+                <span>
+                    ARK SURVIVAL ASCENDED
+                </span>
+            </div>
+
+        </div>
+
+
+        <div class="footer-social">
+
+            <a href="#" aria-label="Discord">
+                💬
+            </a>
+
+            <a href="#" aria-label="YouTube">
+                ▶
+            </a>
+
+            <a href="#" aria-label="X">
+                𝕏
+            </a>
+
+            <a href="#" aria-label="Facebook">
+                f
+            </a>
+
+            <a href="#" aria-label="TikTok">
+                ♪
+            </a>
+
+        </div>
+
+
+        <div class="footer-links">
+
+            <a href="#">
+                Mentions légales
+            </a>
+
+            <a href="#">
+                Politique de confidentialité
+            </a>
+
+            <a href="pages/infos.html">
+                Nous contacter
+            </a>
+
+        </div>
+
+
+        <div class="footer-quote">
+            "Une communauté forte,
+            pour des aventures inoubliables."
+        </div>
+
     </div>
 
-    <div class="footer-links">
 
-        <a href="pages/reglement.html">
-            Règlement
-        </a>
+    <div class="footer-bottom">
 
-        <a href="pages/infos.html">
-            Infos
-        </a>
-
-        <a href="pages/boutique.html">
-            Boutique
-        </a>
-
-        <a href="pages/evenements.html">
-            Événements
-        </a>
+        SITE PUBLIC
+        <span>
+            ( NON CONNECTÉ )
+        </span>
 
     </div>
-
-    <p>
-        © ALPHARK — ARK Survival Ascended
-    </p>
-
-    <p>
-        Communauté francophone
-    </p>
 
 </footer>
 
