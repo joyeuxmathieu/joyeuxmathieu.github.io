@@ -63,7 +63,7 @@ app.use(
 );
 
 // ======================================================
-// FONCTION DISCORD REST
+// REQUÊTE DISCORD REST
 // ======================================================
 
 async function discordRequest(
@@ -97,7 +97,10 @@ async function discordRequest(
                         `Bot ${token}`,
 
                     "Content-Type":
-                        "application/json"
+                        "application/json",
+
+                    "User-Agent":
+                        "DiscordBot (https://www.alphark.fr, 3.0.0)"
 
                 }
 
@@ -108,7 +111,7 @@ async function discordRequest(
 }
 
 // ======================================================
-// PAGE PRINCIPALE API
+// PAGE PRINCIPALE
 // ======================================================
 
 app.get(
@@ -117,7 +120,8 @@ app.get(
 
         res.json({
 
-            status: "online",
+            status:
+                "online",
 
             service:
                 "ALPHARK API",
@@ -140,7 +144,7 @@ app.get(
 );
 
 // ======================================================
-// TEST DISCORD REST
+// STATUT DISCORD
 // ======================================================
 
 app.get(
@@ -152,38 +156,6 @@ app.get(
             if (
                 !process.env.DISCORD_BOT_TOKEN
             ) {
-
-                return res.json({
-
-                    connected:
-                        false,
-
-                    error:
-                        "DISCORD_BOT_TOKEN manquant"
-
-                });
-
-            }
-
-            // ------------------------------------------
-            // TEST DU BOT
-            // ------------------------------------------
-
-            const botResponse =
-                await discordRequest(
-                    "/users/@me"
-                );
-
-            if (!botResponse.ok) {
-
-                const errorText =
-                    await botResponse.text();
-
-                console.error(
-                    "❌ Discord /users/@me :",
-                    botResponse.status,
-                    errorText
-                );
 
                 return res.status(500).json({
 
@@ -197,7 +169,69 @@ app.get(
                         GUILD_ID || null,
 
                     error:
-                        `Discord HTTP ${botResponse.status}`
+                        "DISCORD_BOT_TOKEN manquant"
+
+                });
+
+            }
+
+            // ==========================================
+            // TEST DU BOT
+            // ==========================================
+
+            const botResponse =
+                await discordRequest(
+                    "/users/@me"
+                );
+
+            if (!botResponse.ok) {
+
+                const errorText =
+                    await botResponse.text();
+
+                const retryAfter =
+                    botResponse.headers.get(
+                        "retry-after"
+                    );
+
+                console.error(
+                    "❌ Discord /users/@me :",
+                    botResponse.status
+                );
+
+                console.error(
+                    "⏳ Retry-After :",
+                    retryAfter || "inconnu"
+                );
+
+                console.error(
+                    errorText.substring(
+                        0,
+                        1000
+                    )
+                );
+
+                return res.status(
+                    botResponse.status
+                ).json({
+
+                    connected:
+                        false,
+
+                    bot:
+                        null,
+
+                    guildId:
+                        GUILD_ID || null,
+
+                    discordStatus:
+                        botResponse.status,
+
+                    retryAfter:
+                        retryAfter || null,
+
+                    error:
+                        "Discord a refusé la requête."
 
                 });
 
@@ -206,9 +240,9 @@ app.get(
             const bot =
                 await botResponse.json();
 
-            // ------------------------------------------
-            // TEST DU SERVEUR
-            // ------------------------------------------
+            // ==========================================
+            // TEST DU SERVEUR ALPHARK
+            // ==========================================
 
             let guild = null;
 
@@ -219,16 +253,35 @@ app.get(
                         `/guilds/${GUILD_ID}`
                     );
 
-                if (guildResponse.ok) {
+                if (
+                    guildResponse.ok
+                ) {
 
                     guild =
                         await guildResponse.json();
+
+                } else {
+
+                    const guildError =
+                        await guildResponse.text();
+
+                    console.error(
+                        "❌ Discord serveur :",
+                        guildResponse.status
+                    );
+
+                    console.error(
+                        guildError.substring(
+                            0,
+                            1000
+                        )
+                    );
 
                 }
 
             }
 
-            res.json({
+            return res.json({
 
                 connected:
                     true,
@@ -242,24 +295,26 @@ app.get(
                         bot.username,
 
                     discriminator:
-                        bot.discriminator || null
+                        bot.discriminator ||
+                        null
 
                 },
 
                 guildId:
                     GUILD_ID || null,
 
-                guild: guild
-                    ? {
+                guild:
+                    guild
+                        ? {
 
-                        id:
-                            guild.id,
+                            id:
+                                guild.id,
 
-                        name:
-                            guild.name
+                            name:
+                                guild.name
 
-                    }
-                    : null
+                        }
+                        : null
 
             });
 
@@ -270,7 +325,7 @@ app.get(
                 error
             );
 
-            res.status(500).json({
+            return res.status(500).json({
 
                 connected:
                     false,
@@ -316,9 +371,9 @@ app.get(
                 process.env.DISCORD_REDIRECT_URI ||
                 `${API_URL}/auth/discord/callback`;
 
-            // ------------------------------------------
-            // PROTECTION CSRF
-            // ------------------------------------------
+            // ==========================================
+            // STATE DE SÉCURITÉ
+            // ==========================================
 
             const state =
                 crypto
@@ -328,9 +383,9 @@ app.get(
             req.session.oauthState =
                 state;
 
-            // ------------------------------------------
+            // ==========================================
             // URL DISCORD
-            // ------------------------------------------
+            // ==========================================
 
             const params =
                 new URLSearchParams({
@@ -359,7 +414,7 @@ app.get(
                 "🔐 Redirection vers Discord OAuth2..."
             );
 
-            res.redirect(
+            return res.redirect(
                 discordUrl
             );
 
@@ -370,7 +425,7 @@ app.get(
                 error
             );
 
-            res.status(500).send(
+            return res.status(500).send(
                 "Erreur lors de la connexion Discord."
             );
 
@@ -395,9 +450,9 @@ app.get(
                 error
             } = req.query;
 
-            // ------------------------------------------
-            // REFUS DISCORD
-            // ------------------------------------------
+            // ==========================================
+            // UTILISATEUR A REFUSÉ
+            // ==========================================
 
             if (error) {
 
@@ -411,9 +466,9 @@ app.get(
 
             }
 
-            // ------------------------------------------
+            // ==========================================
             // CODE MANQUANT
-            // ------------------------------------------
+            // ==========================================
 
             if (!code) {
 
@@ -427,9 +482,9 @@ app.get(
 
             }
 
-            // ------------------------------------------
-            // VALIDATION STATE
-            // ------------------------------------------
+            // ==========================================
+            // VÉRIFICATION STATE
+            // ==========================================
 
             if (
                 !state ||
@@ -449,9 +504,9 @@ app.get(
 
             delete req.session.oauthState;
 
-            // ------------------------------------------
-            // VARIABLES
-            // ------------------------------------------
+            // ==========================================
+            // VARIABLES DISCORD
+            // ==========================================
 
             const clientId =
                 process.env.DISCORD_CLIENT_ID;
@@ -468,15 +523,19 @@ app.get(
                 !clientSecret
             ) {
 
+                console.error(
+                    "❌ Client ID ou Client Secret manquant."
+                );
+
                 return res.status(500).send(
                     "Configuration Discord incomplète."
                 );
 
             }
 
-            // ------------------------------------------
-            // ÉCHANGE CODE → TOKEN
-            // ------------------------------------------
+            // ==========================================
+            // CODE → ACCESS TOKEN
+            // ==========================================
 
             console.log(
                 "🔄 Validation du code Discord..."
@@ -503,7 +562,10 @@ app.get(
                                 "application/x-www-form-urlencoded",
 
                             "Authorization":
-                                `Basic ${basicAuth}`
+                                `Basic ${basicAuth}`,
+
+                            "User-Agent":
+                                "ALPHARK-Website (https://www.alphark.fr, 3.0.0)"
 
                         },
 
@@ -529,9 +591,19 @@ app.get(
                 const errorText =
                     await tokenResponse.text();
 
+                const retryAfter =
+                    tokenResponse.headers.get(
+                        "retry-after"
+                    );
+
                 console.error(
                     "❌ Erreur token Discord HTTP:",
                     tokenResponse.status
+                );
+
+                console.error(
+                    "⏳ Retry-After :",
+                    retryAfter || "inconnu"
                 );
 
                 console.error(
@@ -551,12 +623,12 @@ app.get(
                 await tokenResponse.json();
 
             console.log(
-                "✅ Token Discord obtenu."
+                "✅ Token Discord OAuth2 obtenu."
             );
 
-            // ------------------------------------------
-            // RÉCUPÉRATION UTILISATEUR
-            // ------------------------------------------
+            // ==========================================
+            // RÉCUPÉRATION DU COMPTE DISCORD
+            // ==========================================
 
             const userResponse =
                 await fetch(
@@ -569,7 +641,10 @@ app.get(
                         headers: {
 
                             "Authorization":
-                                `Bearer ${tokenData.access_token}`
+                                `Bearer ${tokenData.access_token}`,
+
+                            "User-Agent":
+                                "ALPHARK-Website (https://www.alphark.fr, 3.0.0)"
 
                         }
 
@@ -582,7 +657,7 @@ app.get(
                     await userResponse.text();
 
                 console.error(
-                    "❌ Erreur utilisateur Discord:",
+                    "❌ Erreur récupération utilisateur Discord:",
                     userResponse.status
                 );
 
@@ -610,9 +685,9 @@ app.get(
                 `🆔 Discord ID : ${discordUser.id}`
             );
 
-            // ------------------------------------------
-            // VÉRIFICATION SERVEUR ALPHARK
-            // ------------------------------------------
+            // ==========================================
+            // VÉRIFICATION GUILD
+            // ==========================================
 
             if (!GUILD_ID) {
 
@@ -635,9 +710,9 @@ app.get(
                     `/guilds/${GUILD_ID}/members/${discordUser.id}`
                 );
 
-            // ------------------------------------------
-            // JOUEUR NON PRÉSENT
-            // ------------------------------------------
+            // ==========================================
+            // PAS MEMBRE
+            // ==========================================
 
             if (
                 memberResponse.status === 404
@@ -653,18 +728,28 @@ app.get(
 
             }
 
-            // ------------------------------------------
-            // ERREUR DISCORD
-            // ------------------------------------------
+            // ==========================================
+            // ERREUR API DISCORD
+            // ==========================================
 
             if (!memberResponse.ok) {
 
                 const errorText =
                     await memberResponse.text();
 
+                const retryAfter =
+                    memberResponse.headers.get(
+                        "retry-after"
+                    );
+
                 console.error(
                     "❌ Erreur vérification membre:",
                     memberResponse.status
+                );
+
+                console.error(
+                    "⏳ Retry-After :",
+                    retryAfter || "inconnu"
                 );
 
                 console.error(
@@ -680,9 +765,9 @@ app.get(
 
             }
 
-            // ------------------------------------------
+            // ==========================================
             // MEMBRE TROUVÉ
-            // ------------------------------------------
+            // ==========================================
 
             const member =
                 await memberResponse.json();
@@ -691,18 +776,18 @@ app.get(
                 `✅ ${discordUser.username} est membre d'ALPHARK.`
             );
 
-            // ------------------------------------------
+            // ==========================================
             // RÔLES
-            // ------------------------------------------
+            // ==========================================
 
             const roles =
                 Array.isArray(member.roles)
                     ? member.roles
                     : [];
 
-            // ------------------------------------------
+            // ==========================================
             // SESSION
-            // ------------------------------------------
+            // ==========================================
 
             req.session.user = {
 
@@ -734,6 +819,10 @@ app.get(
 
             };
 
+            // ==========================================
+            // SAUVEGARDE SESSION
+            // ==========================================
+
             req.session.save(
                 (saveError) => {
 
@@ -754,7 +843,7 @@ app.get(
                         `🎉 CONNEXION ALPHARK RÉUSSIE : ${discordUser.username}`
                     );
 
-                    res.redirect(
+                    return res.redirect(
                         `${WEBSITE_URL}/?connexion=success`
                     );
 
@@ -771,7 +860,7 @@ app.get(
                 error
             );
 
-            res.status(500).send(
+            return res.status(500).send(
                 "Une erreur est survenue pendant la connexion."
             );
 
@@ -799,7 +888,7 @@ app.get(
 
         }
 
-        res.json({
+        return res.json({
 
             connected:
                 true,
@@ -820,7 +909,7 @@ app.get(
     "/api/session",
     (req, res) => {
 
-        res.json({
+        return res.json({
 
             connected:
                 !!req.session.user,
@@ -874,7 +963,7 @@ app.get(
                     }
                 );
 
-                res.redirect(
+                return res.redirect(
                     WEBSITE_URL
                 );
 
@@ -935,7 +1024,7 @@ console.log(
 );
 
 // ======================================================
-// DÉMARRAGE
+// DÉMARRAGE API
 // ======================================================
 
 app.listen(
