@@ -15,7 +15,7 @@ const PORT = process.env.PORT || 3000;
 const DISCORD_GUILD_ID = "1496186723527426290";
 
 // Salon Discord #patch-notes-ark
-const PATCH_CHANNEL_ID = "1497971812267462708";
+const PATCH_CHANNEL_ID = "1497970301865300150";
 
 // Variables Render
 const DISCORD_CLIENT_ID = process.env.DISCORD_CLIENT_ID;
