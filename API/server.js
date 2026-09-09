@@ -9,6 +9,8 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 10000;
 
+const DISCORD_API = "https://discord.com/api/v10";
+
 const DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN;
 const DISCORD_CLIENT_ID = process.env.DISCORD_CLIENT_ID;
 const DISCORD_CLIENT_SECRET = process.env.DISCORD_CLIENT_SECRET;
@@ -82,22 +84,7 @@ app.use(
 
 /*
  * =========================================================
- * DISCORD API
- * =========================================================
- */
-
-const DISCORD_API = "https://discord.com/api/v10";
-
-function discordHeaders() {
-    return {
-        Authorization: `Bot ${DISCORD_BOT_TOKEN}`,
-        "User-Agent": "ALPHARK-API/2.1"
-    };
-}
-
-/*
- * =========================================================
- * CACHE DISCORD
+ * CACHE
  * =========================================================
  */
 
@@ -113,13 +100,23 @@ const PATCH_CACHE_MS = 5 * 60 * 1000;
 const NEWS_CACHE_MS = 5 * 60 * 1000;
 
 /*
- * Appel sécurisé à Discord.
- * En cas de 429, on mémorise temporairement le blocage.
+ * =========================================================
+ * OUTILS DISCORD
+ * =========================================================
  */
+
+function discordHeaders() {
+    return {
+        Authorization: `Bot ${DISCORD_BOT_TOKEN}`,
+        "User-Agent": "ALPHARK-API/2.1"
+    };
+}
 
 async function discordFetch(url, options = {}) {
     if (!DISCORD_BOT_TOKEN) {
-        throw new Error("DISCORD_BOT_TOKEN manquant.");
+        const error = new Error("DISCORD_BOT_TOKEN manquant.");
+        error.status = 500;
+        throw error;
     }
 
     if (discordRateLimitedUntil > Date.now()) {
@@ -176,6 +173,180 @@ async function discordFetch(url, options = {}) {
     return response;
 }
 
+function cleanDiscordText(text = "") {
+    return String(text)
+        .replace(/\r/g, "")
+        .replace(/\*\*/g, "")
+        .replace(/__/g, "")
+        .replace(/~~/g, "")
+        .replace(/`/g, "")
+        .replace(/<a?:\w+:\d+>/g, "")
+        .trim();
+}
+
+function getDiscordMessageImage(message) {
+    if (message.embeds?.length) {
+        const embed = message.embeds[0];
+
+        if (embed.image?.url) {
+            return embed.image.url;
+        }
+
+        if (embed.thumbnail?.url) {
+            return embed.thumbnail.url;
+        }
+    }
+
+    if (message.attachments?.length) {
+        const attachment = message.attachments[0];
+
+        if (
+            attachment.content_type?.startsWith("image/") ||
+            /\.(jpg|jpeg|png|gif|webp)$/i.test(attachment.url || "")
+        ) {
+            return attachment.url;
+        }
+    }
+
+    return null;
+}
+
+function discordMessageUrl(channelId, messageId) {
+    return (
+        `https://discord.com/channels/` +
+        `${DISCORD_GUILD_ID}/${channelId}/${messageId}`
+    );
+}
+
+/*
+ * =========================================================
+ * ACTUALITÉ DISCORD
+ * =========================================================
+ */
+
+function buildDiscordNews(message) {
+    const embed = message.embeds?.[0] || null;
+    const content = cleanDiscordText(message.content || "");
+
+    let title = "";
+
+    if (embed?.title) {
+        title = cleanDiscordText(embed.title);
+    }
+
+    if (!title && content) {
+        const lines = content
+            .split("\n")
+            .map((line) => line.trim())
+            .filter(Boolean);
+
+        title = lines[0] || "";
+    }
+
+    if (!title) {
+        title = "Actualité ALPHARK";
+    }
+
+    let text = "";
+
+    if (embed?.description) {
+        text = cleanDiscordText(embed.description);
+    } else if (content) {
+        const lines = content
+            .split("\n")
+            .map((line) => line.trim())
+            .filter(Boolean);
+
+        text = lines.slice(1).join(" ").trim();
+
+        if (!text) {
+            text = content;
+        }
+    }
+
+    if (!text) {
+        text = "Nouvelle actualité sur ALPHARK.";
+    }
+
+    return {
+        id: message.id,
+        tag: "ACTUALITÉ",
+        tagClass: "update",
+        date: message.timestamp
+            ? new Date(message.timestamp).toLocaleDateString("fr-FR", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric"
+              })
+            : "",
+        title,
+        text,
+        image: getDiscordMessageImage(message),
+        author: message.author
+            ? {
+                  id: message.author.id,
+                  username:
+                      message.author.global_name ||
+                      message.author.username
+              }
+            : null,
+        url: discordMessageUrl(NEWS_CHANNEL_ID, message.id)
+    };
+}
+
+/*
+ * =========================================================
+ * PATCH DISCORD
+ * =========================================================
+ */
+
+function buildDiscordPatch(message) {
+    const embed = message.embeds?.[0] || null;
+    const content = cleanDiscordText(message.content || "");
+
+    let title = embed?.title
+        ? cleanDiscordText(embed.title)
+        : "";
+
+    let description = embed?.description
+        ? cleanDiscordText(embed.description)
+        : "";
+
+    if (!title && content) {
+        const lines = content
+            .split("\n")
+            .map((line) => line.trim())
+            .filter(Boolean);
+
+        title = lines[0] || "Dernier patch ARK";
+        description = lines.slice(1).join("\n").trim();
+    }
+
+    if (!title) {
+        title = "Dernier patch ARK";
+    }
+
+    if (!description) {
+        description =
+            "Retrouvez les dernières informations ARK sur notre Discord.";
+    }
+
+    return {
+        id: message.id,
+        title,
+        description,
+        date: message.timestamp
+            ? new Date(message.timestamp).toLocaleDateString("fr-FR", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric"
+              })
+            : "",
+        image: getDiscordMessageImage(message),
+        url: discordMessageUrl(PATCH_CHANNEL_ID, message.id)
+    };
+}
+
 /*
  * =========================================================
  * ROUTE PRINCIPALE
@@ -193,9 +364,18 @@ app.get("/", (req, res) => {
     });
 });
 
+app.get("/api/health", (req, res) => {
+    res.json({
+        success: true,
+        status: "online",
+        service: "ALPHARK API",
+        version: "2.1.0"
+    });
+});
+
 /*
  * =========================================================
- * DISCORD STATUS
+ * STATUT DISCORD
  * =========================================================
  */
 
@@ -232,7 +412,7 @@ app.get("/api/discord-status", async (req, res) => {
             });
         }
 
-        console.error("❌ Discord status:", error);
+        console.error("Discord status:", error);
 
         res.status(500).json({
             success: false,
@@ -248,8 +428,13 @@ app.get("/api/discord-status", async (req, res) => {
  */
 
 app.get("/auth/discord", (req, res) => {
-    const state = crypto.randomBytes(24).toString("hex");
+    if (!DISCORD_CLIENT_ID) {
+        return res.status(500).send(
+            "DISCORD_CLIENT_ID manquant dans les variables Render."
+        );
+    }
 
+    const state = crypto.randomBytes(24).toString("hex");
     req.session.oauthState = state;
 
     const params = new URLSearchParams({
@@ -285,6 +470,12 @@ app.get("/auth/discord/callback", async (req, res) => {
 
         delete req.session.oauthState;
 
+        if (!DISCORD_CLIENT_ID || !DISCORD_CLIENT_SECRET) {
+            return res.status(500).send(
+                "Variables OAuth Discord manquantes dans Render."
+            );
+        }
+
         const tokenResponse = await fetch(
             `${DISCORD_API}/oauth2/token`,
             {
@@ -308,7 +499,7 @@ app.get("/auth/discord/callback", async (req, res) => {
             const text = await tokenResponse.text();
 
             console.error(
-                "❌ OAuth Discord:",
+                "OAuth Discord:",
                 tokenResponse.status,
                 text.slice(0, 500)
             );
@@ -338,10 +529,6 @@ app.get("/auth/discord/callback", async (req, res) => {
         }
 
         const user = await userResponse.json();
-
-        /*
-         * Vérification que le joueur appartient au serveur ALPHARK.
-         */
 
         const memberResponse = await discordFetch(
             `${DISCORD_API}/guilds/${DISCORD_GUILD_ID}/members/${user.id}`
@@ -381,7 +568,7 @@ app.get("/auth/discord/callback", async (req, res) => {
             );
         }
 
-        console.error("❌ Callback Discord:", error);
+        console.error("Callback Discord:", error);
 
         res.status(500).send(
             "Erreur pendant la connexion Discord."
@@ -391,7 +578,7 @@ app.get("/auth/discord/callback", async (req, res) => {
 
 /*
  * =========================================================
- * SESSION
+ * SESSION / ME / LOGOUT
  * =========================================================
  */
 
@@ -409,12 +596,6 @@ app.get("/api/session", (req, res) => {
     });
 });
 
-/*
- * =========================================================
- * ME
- * =========================================================
- */
-
 app.get("/api/me", (req, res) => {
     if (!req.session.user) {
         return res.status(401).json({
@@ -430,12 +611,6 @@ app.get("/api/me", (req, res) => {
     });
 });
 
-/*
- * =========================================================
- * LOGOUT
- * =========================================================
- */
-
 app.get("/auth/logout", (req, res) => {
     req.session.destroy(() => {
         res.clearCookie("connect.sid", {
@@ -446,27 +621,37 @@ app.get("/auth/logout", (req, res) => {
 
         res.redirect("https://www.alphark.fr/");
     });
+});
 
 /*
  * =========================================================
- * PRÉSENCE / JOUEURS EN LIGNE
+ * MEMBRES / PRÉSENCE
+ * =========================================================
+ *
+ * L'API REST Discord ne fournit pas les présences réelles.
+ * Ces routes renvoient donc le nombre de membres récupérables.
  * =========================================================
  */
 
+async function getGuildMembers() {
+    const response = await discordFetch(
+        `${DISCORD_API}/guilds/${DISCORD_GUILD_ID}/members?limit=1000`
+    );
+
+    if (!response.ok) {
+        const error = new Error(
+            `Discord a répondu ${response.status}.`
+        );
+        error.status = response.status;
+        throw error;
+    }
+
+    return response.json();
+}
+
 app.get("/api/presence", async (req, res) => {
     try {
-        const response = await discordFetch(
-            `${DISCORD_API}/guilds/${DISCORD_GUILD_ID}/members?limit=1000`
-        );
-
-        if (!response.ok) {
-            return res.status(response.status).json({
-                success: false,
-                error: "Impossible de récupérer les membres Discord."
-            });
-        }
-
-        const members = await response.json();
+        const members = await getGuildMembers();
 
         res.json({
             success: true,
@@ -481,10 +666,11 @@ app.get("/api/presence", async (req, res) => {
             });
         }
 
-        console.error("❌ Presence:", error);
+        console.error("Presence:", error);
 
         res.status(500).json({
             success: false,
+            count: 0,
             error: "Erreur présence Discord."
         });
     }
@@ -492,18 +678,7 @@ app.get("/api/presence", async (req, res) => {
 
 app.get("/api/online", async (req, res) => {
     try {
-        const response = await discordFetch(
-            `${DISCORD_API}/guilds/${DISCORD_GUILD_ID}/members?limit=1000`
-        );
-
-        if (!response.ok) {
-            return res.status(response.status).json({
-                success: false,
-                online: 0
-            });
-        }
-
-        const members = await response.json();
+        const members = await getGuildMembers();
 
         res.json({
             success: true,
@@ -514,166 +689,20 @@ app.get("/api/online", async (req, res) => {
             return res.status(429).json({
                 success: false,
                 online: 0,
-                rateLimited: true
+                rateLimited: true,
+                retryAfterSeconds: error.retryAfterSeconds
             });
         }
 
+        console.error("Online:", error);
+
         res.status(500).json({
             success: false,
-            online: 0
+            online: 0,
+            error: "Erreur lors de la récupération des membres."
         });
     }
 });
-
-/*
- * =========================================================
- * IMAGE DISCORD
- * =========================================================
- */
-
-function getDiscordMessageImage(message) {
-    if (
-        message.embeds &&
-        message.embeds.length > 0
-    ) {
-        const embed = message.embeds[0];
-
-        if (embed.image?.url) {
-            return embed.image.url;
-        }
-
-        if (embed.thumbnail?.url) {
-            return embed.thumbnail.url;
-        }
-    }
-
-    if (
-        message.attachments &&
-        message.attachments.length > 0
-    ) {
-        const attachment = message.attachments[0];
-
-        if (
-            attachment.content_type?.startsWith("image/") ||
-            /\.(jpg|jpeg|png|gif|webp)$/i.test(attachment.url)
-        ) {
-            return attachment.url;
-        }
-    }
-
-    return null;
-}
-
-/*
- * =========================================================
- * NETTOYAGE TEXTE DISCORD
- * =========================================================
- */
-
-function cleanDiscordText(text = "") {
-    return String(text)
-        .replace(/\r/g, "")
-        .replace(/\*\*/g, "")
-        .replace(/__/g, "")
-        .replace(/~~/g, "")
-        .replace(/`/g, "")
-        .replace(/<a?:\w+:\d+>/g, "")
-        .trim();
-}
-
-/*
- * =========================================================
- * CONSTRUCTION D'UNE ACTUALITÉ
- * =========================================================
- */
-
-function buildDiscordNews(message) {
-    const embed =
-        message.embeds?.[0] || null;
-
-    const content =
-        cleanDiscordText(message.content || "");
-
-    let title = "";
-
-    if (embed?.title) {
-        title = cleanDiscordText(embed.title);
-    }
-
-    if (!title && content) {
-        const lines = content
-            .split("\n")
-            .map(line => line.trim())
-            .filter(Boolean);
-
-        title = lines[0] || "";
-    }
-
-    if (!title) {
-        title = "Actualité ALPHARK";
-    }
-
-    let text = "";
-
-    if (embed?.description) {
-        text = cleanDiscordText(embed.description);
-    } else if (content) {
-        const lines = content
-            .split("\n")
-            .map(line => line.trim())
-            .filter(Boolean);
-
-        text = lines
-            .slice(1)
-            .join(" ")
-            .trim();
-
-        if (!text) {
-            text = content;
-        }
-    }
-
-    if (!text) {
-        text = "Nouvelle actualité sur ALPHARK.";
-    }
-
-    return {
-        id: message.id,
-
-        tag: "ACTUALITÉ",
-
-        tagClass: "update",
-
-        date: message.timestamp
-            ? new Date(message.timestamp).toLocaleDateString(
-                "fr-FR",
-                {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "numeric"
-                }
-            )
-            : "",
-
-        title,
-
-        text,
-
-        image: getDiscordMessageImage(message),
-
-        author: message.author
-            ? {
-                id: message.author.id,
-                username:
-                    message.author.global_name ||
-                    message.author.username
-            }
-            : null,
-
-        url:
-            `https://discord.com/channels/${DISCORD_GUILD_ID}/${NEWS_CHANNEL_ID}/${message.id}`
-    };
-}
 
 /*
  * =========================================================
@@ -683,10 +712,6 @@ function buildDiscordNews(message) {
 
 app.get("/api/latest-news", async (req, res) => {
     try {
-        /*
-         * Retour du cache si disponible.
-         */
-
         if (
             latestNewsCache &&
             Date.now() - latestNewsCacheTime < NEWS_CACHE_MS
@@ -708,15 +733,10 @@ app.get("/api/latest-news", async (req, res) => {
             const text = await response.text();
 
             console.error(
-                "❌ Discord actualités:",
+                "Discord actualités:",
                 response.status,
                 text.slice(0, 500)
             );
-
-            /*
-             * Si on possède encore un ancien cache,
-             * on le retourne plutôt que de casser le site.
-             */
 
             if (latestNewsCache) {
                 return res.json({
@@ -731,15 +751,16 @@ app.get("/api/latest-news", async (req, res) => {
             return res.status(response.status).json({
                 success: false,
                 error:
-                    "Impossible de récupérer les actualités Discord."
+                    "Impossible de récupérer les actualités Discord.",
+                news: []
             });
         }
 
         const messages = await response.json();
 
         const news = messages
-            .filter(message => {
-                return (
+            .filter((message) => {
+                return Boolean(
                     message.content ||
                     message.embeds?.length ||
                     message.attachments?.length
@@ -761,7 +782,7 @@ app.get("/api/latest-news", async (req, res) => {
     } catch (error) {
         if (error.status === 429) {
             console.warn(
-                `⚠️ Discord rate-limit actualités. Réessai dans ${error.retryAfterSeconds}s.`
+                `Discord rate-limit actualités. Réessai dans ${error.retryAfterSeconds}s.`
             );
 
             if (latestNewsCache) {
@@ -778,16 +799,12 @@ app.get("/api/latest-news", async (req, res) => {
             return res.status(429).json({
                 success: false,
                 rateLimited: true,
-                retryAfterSeconds:
-                    error.retryAfterSeconds,
+                retryAfterSeconds: error.retryAfterSeconds,
                 news: []
             });
         }
 
-        console.error(
-            "❌ /api/latest-news:",
-            error
-        );
+        console.error("/api/latest-news:", error);
 
         if (latestNewsCache) {
             return res.json({
@@ -810,7 +827,7 @@ app.get("/api/latest-news", async (req, res) => {
 
 /*
  * =========================================================
- * DERNIER PATCH ARK
+ * DERNIER PATCH DISCORD
  * =========================================================
  */
 
@@ -837,7 +854,7 @@ app.get("/api/latest-patch", async (req, res) => {
             const text = await response.text();
 
             console.error(
-                "❌ Discord patch:",
+                "Discord patch:",
                 response.status,
                 text.slice(0, 500)
             );
@@ -855,14 +872,15 @@ app.get("/api/latest-patch", async (req, res) => {
             return res.status(response.status).json({
                 success: false,
                 error:
-                    "Impossible de récupérer le dernier patch Discord."
+                    "Impossible de récupérer le dernier patch Discord.",
+                patch: null
             });
         }
 
         const messages = await response.json();
 
-        const message = messages.find(item => {
-            return (
+        const message = messages.find((item) => {
+            return Boolean(
                 item.content ||
                 item.embeds?.length ||
                 item.attachments?.length
@@ -878,69 +896,7 @@ app.get("/api/latest-patch", async (req, res) => {
             });
         }
 
-        const embed =
-            message.embeds?.[0] || null;
-
-        const content =
-            cleanDiscordText(message.content || "");
-
-        let title =
-            embed?.title ||
-            "";
-
-        let description =
-            embed?.description ||
-            "";
-
-        if (!title && content) {
-            const lines = content
-                .split("\n")
-                .map(line => line.trim())
-                .filter(Boolean);
-
-            title = lines[0] || "Dernier patch ARK";
-
-            description = lines
-                .slice(1)
-                .join("\n");
-        }
-
-        if (!title) {
-            title = "Dernier patch ARK";
-        }
-
-        if (!description) {
-            description =
-                "Retrouvez les dernières informations ARK sur notre Discord.";
-        }
-
-        const patch = {
-            id: message.id,
-
-            title: cleanDiscordText(title),
-
-            description:
-                cleanDiscordText(description),
-
-            date: message.timestamp
-                ? new Date(
-                    message.timestamp
-                ).toLocaleDateString(
-                    "fr-FR",
-                    {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric"
-                    }
-                )
-                : "",
-
-            image:
-                getDiscordMessageImage(message),
-
-            url:
-                `https://discord.com/channels/${DISCORD_GUILD_ID}/${PATCH_CHANNEL_ID}/${message.id}`
-        };
+        const patch = buildDiscordPatch(message);
 
         latestPatchCache = patch;
         latestPatchCacheTime = Date.now();
@@ -955,7 +911,7 @@ app.get("/api/latest-patch", async (req, res) => {
     } catch (error) {
         if (error.status === 429) {
             console.warn(
-                `⚠️ Discord rate-limit patch. Réessai dans ${error.retryAfterSeconds}s.`
+                `Discord rate-limit patch. Réessai dans ${error.retryAfterSeconds}s.`
             );
 
             if (latestPatchCache) {
@@ -972,16 +928,12 @@ app.get("/api/latest-patch", async (req, res) => {
             return res.status(429).json({
                 success: false,
                 rateLimited: true,
-                retryAfterSeconds:
-                    error.retryAfterSeconds,
+                retryAfterSeconds: error.retryAfterSeconds,
                 patch: null
             });
         }
 
-        console.error(
-            "❌ /api/latest-patch:",
-            error
-        );
+        console.error("/api/latest-patch:", error);
 
         if (latestPatchCache) {
             return res.json({
@@ -1022,7 +974,7 @@ app.use((req, res) => {
  */
 
 app.use((error, req, res, next) => {
-    console.error("❌ Erreur API:", error);
+    console.error("Erreur API:", error);
 
     if (res.headersSent) {
         return next(error);
@@ -1048,6 +1000,4 @@ app.listen(PORT, () => {
     console.log(`📰 Actualités : ${NEWS_CHANNEL_ID}`);
     console.log(`📝 Patch : ${PATCH_CHANNEL_ID}`);
     console.log("========================================");
-});
-    
 });
