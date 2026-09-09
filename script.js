@@ -1,36 +1,36 @@
 /* =========================================================
    ALPHARK — SCRIPT.JS
-   Site + dernier patch Discord
+   Homepage + actualités + dernier patch Discord
 ========================================================= */
 
 "use strict";
 
+const ALPHARK_API = "https://api.alphark.fr";
+const PATCH_API = `${ALPHARK_API}/api/latest-patch`;
+
+const PATCH_BROWSER_CACHE_KEY = "alphark_latest_patch";
+const PATCH_BROWSER_CACHE_TIME_KEY = "alphark_latest_patch_time";
+const PATCH_BROWSER_CACHE_MS = 5 * 60 * 1000;
+
+
+/* =========================================================
+   INITIALISATION
+========================================================= */
+
 document.addEventListener("DOMContentLoaded", () => {
+
     initCardAnimations();
     initButtonEffects();
     initActiveNavigation();
     initScrollEffects();
     initHeroAnimation();
     initShopLinks();
+
     loadLatestPatch();
+    loadLatestNews();
     checkSession();
+
 });
-
-/* =========================================================
-   CONFIGURATION API
-========================================================= */
-
-const ALPHARK_API = "https://api.alphark.fr";
-const PATCH_API = `${ALPHARK_API}/api/latest-patch`;
-
-const PATCH_BROWSER_CACHE_KEY =
-    "alphark_latest_patch";
-
-const PATCH_BROWSER_CACHE_TIME_KEY =
-    "alphark_latest_patch_time";
-
-const PATCH_BROWSER_CACHE_MS =
-    5 * 60 * 1000;
 
 
 /* =========================================================
@@ -54,68 +54,54 @@ function initCardAnimations() {
         return;
     }
 
-    const observer =
-        new IntersectionObserver(
-            entries => {
+    const observer = new IntersectionObserver(
+        entries => {
 
-                entries.forEach(entry => {
+            entries.forEach(entry => {
 
-                    if (entry.isIntersecting) {
+                if (entry.isIntersecting) {
 
-                        entry.target.classList.add(
-                            "visible"
-                        );
+                    entry.target.classList.add("visible");
 
-                        observer.unobserve(
-                            entry.target
-                        );
-                    }
+                    observer.unobserve(entry.target);
 
-                });
+                }
 
-            },
-            {
-                threshold: 0.08
-            }
-        );
+            });
+
+        },
+        {
+            threshold: 0.08
+        }
+    );
 
     cards.forEach(card => {
         observer.observe(card);
     });
+
 }
 
 
 /* =========================================================
-   EFFET BOUTONS
+   BOUTONS
 ========================================================= */
 
 function initButtonEffects() {
 
-    const buttons = document.querySelectorAll(
+    document.querySelectorAll(
         ".hero-button, .top-button, .panel-button"
-    );
+    ).forEach(button => {
 
-    buttons.forEach(button => {
+        button.addEventListener("mouseenter", () => {
+            button.classList.add("is-hovered");
+        });
 
-        button.addEventListener(
-            "mouseenter",
-            () => {
-                button.classList.add(
-                    "is-hovered"
-                );
-            }
-        );
-
-        button.addEventListener(
-            "mouseleave",
-            () => {
-                button.classList.remove(
-                    "is-hovered"
-                );
-            }
-        );
+        button.addEventListener("mouseleave", () => {
+            button.classList.remove("is-hovered");
+        });
 
     });
+
 }
 
 
@@ -125,73 +111,52 @@ function initButtonEffects() {
 
 function initActiveNavigation() {
 
-    const links =
-        document.querySelectorAll(
-            ".nav-link"
-        );
+    const links = document.querySelectorAll(".nav-link");
 
     if (!links.length) return;
 
-    const currentPath =
-        normalizePath(
-            window.location.pathname
-        );
+    const currentPath = normalizePath(
+        window.location.pathname
+    );
 
     links.forEach(link => {
 
-        const href =
-            link.getAttribute("href");
+        const href = link.getAttribute("href");
 
-        if (
-            !href ||
-            href.startsWith("http")
-        ) {
-            return;
-        }
+        if (!href || href.startsWith("http")) return;
 
-        const linkPath =
-            normalizePath(
-                new URL(
-                    href,
-                    window.location.href
-                ).pathname
-            );
+        const linkPath = normalizePath(
+            new URL(href, window.location.href).pathname
+        );
 
-        if (
-            linkPath === currentPath
-        ) {
-            link.classList.add(
-                "active"
-            );
+        if (linkPath === currentPath) {
+
+            link.classList.add("active");
+
         }
 
     });
+
 }
 
 
 function normalizePath(path) {
 
-    if (!path) {
-        return "/";
-    }
+    if (!path) return "/";
 
-    let clean =
-        path
-            .split("?")[0]
-            .split("#")[0];
+    let clean = path
+        .split("?")[0]
+        .split("#")[0];
 
     if (
         clean.length > 1 &&
         clean.endsWith("/")
     ) {
-        clean =
-            clean.slice(
-                0,
-                -1
-            );
+        clean = clean.slice(0, -1);
     }
 
     return clean || "/";
+
 }
 
 
@@ -201,10 +166,7 @@ function normalizePath(path) {
 
 function initScrollEffects() {
 
-    const header =
-        document.querySelector(
-            ".top-header"
-        );
+    const header = document.querySelector(".top-header");
 
     if (!header) return;
 
@@ -226,6 +188,7 @@ function initScrollEffects() {
             passive: true
         }
     );
+
 }
 
 
@@ -235,21 +198,16 @@ function initScrollEffects() {
 
 function initHeroAnimation() {
 
-    const hero =
-        document.querySelector(
-            ".hero"
-        );
+    const hero = document.querySelector(".hero");
 
     if (!hero) return;
 
-    window.setTimeout(
-        () => {
-            hero.classList.add(
-                "hero-loaded"
-            );
-        },
-        150
-    );
+    window.setTimeout(() => {
+
+        hero.classList.add("hero-loaded");
+
+    }, 150);
+
 }
 
 
@@ -259,25 +217,189 @@ function initHeroAnimation() {
 
 function initShopLinks() {
 
-    const shopLinks =
-        document.querySelectorAll(
-            'a[href*="boutique.html"]'
-        );
+    document.querySelectorAll(
+        'a[href*="boutique.html"]'
+    ).forEach(link => {
 
-    shopLinks.forEach(link => {
+        link.addEventListener("click", () => {
 
-        link.addEventListener(
-            "click",
-            () => {
+            console.log(
+                "🛒 Navigation vers la boutique ALPHARK"
+            );
 
-                console.log(
-                    "🛒 Navigation vers la boutique ALPHARK"
-                );
+        });
 
+    });
+
+}
+
+
+/* =========================================================
+   DERNIÈRES ACTUALITÉS
+========================================================= */
+
+async function loadLatestNews() {
+
+    const container =
+        document.getElementById("latest-news-list");
+
+    if (!container) return;
+
+    try {
+
+        const response = await fetch(
+            "actualites.json",
+            {
+                cache: "no-store"
             }
         );
 
-    });
+        if (!response.ok) {
+
+            throw new Error(
+                `Erreur HTTP ${response.status}`
+            );
+
+        }
+
+        const news = await response.json();
+
+        if (
+            !Array.isArray(news) ||
+            !news.length
+        ) {
+
+            container.innerHTML = `
+                <div class="news-empty">
+                    Aucune actualité disponible pour le moment.
+                </div>
+            `;
+
+            return;
+
+        }
+
+        container.innerHTML = "";
+
+        news
+            .slice(0, 4)
+            .forEach(item => {
+
+                const article =
+                    document.createElement("article");
+
+                article.className = "news-item";
+
+                const tag =
+                    item.tag || "ACTUALITÉ";
+
+                const tagClass =
+                    item.tagClass || "update";
+
+                const date =
+                    item.date || "";
+
+                const title =
+                    item.title || "Actualité ALPHARK";
+
+                const text =
+                    item.text || "";
+
+                const image =
+                    item.image || "images/news-1.jpg";
+
+                article.innerHTML = `
+
+                    <div
+                        class="news-image"
+                        style="
+                            background-image:
+                            url('${escapeHtmlAttribute(image)}');
+                        "
+                    ></div>
+
+                    <div class="news-content">
+
+                        <div class="news-meta">
+
+                            <span class="tag ${escapeHtmlAttribute(tagClass)}">
+                                ${escapeHtml(tag)}
+                            </span>
+
+                            <small>
+                                ${escapeHtml(date)}
+                            </small>
+
+                        </div>
+
+                        <h3>
+                            ${escapeHtml(title)}
+                        </h3>
+
+                        <p>
+                            ${escapeHtml(text)}
+                        </p>
+
+                        ${
+                            item.link
+                            ?
+                            `<a
+                                class="news-read-more"
+                                href="${escapeHtmlAttribute(item.link)}"
+                            >
+                                En savoir plus →
+                            </a>`
+                            :
+                            ""
+                        }
+
+                    </div>
+                `;
+
+                container.appendChild(article);
+
+            });
+
+        initCardAnimations();
+
+    } catch (error) {
+
+        console.warn(
+            "⚠️ Actualités ALPHARK :",
+            error.message
+        );
+
+        container.innerHTML = `
+            <div class="news-empty">
+                Les actualités sont temporairement indisponibles.
+            </div>
+        `;
+
+    }
+
+}
+
+
+/* =========================================================
+   PROTECTION HTML
+========================================================= */
+
+function escapeHtml(value) {
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+function escapeHtmlAttribute(value) {
+
+    return escapeHtml(value);
+
 }
 
 
@@ -288,44 +410,23 @@ function initShopLinks() {
 async function loadLatestPatch() {
 
     const titleElement =
-        document.getElementById(
-            "latest-patch-title"
-        );
+        document.getElementById("latest-patch-title");
 
     const listElement =
-        document.getElementById(
-            "latest-patch-list"
-        );
+        document.getElementById("latest-patch-list");
 
     const imageElement =
-        document.getElementById(
-            "latest-patch-image"
-        );
+        document.getElementById("latest-patch-image");
 
     const linkElement =
-        document.getElementById(
-            "latest-patch-link"
-        );
+        document.getElementById("latest-patch-link");
 
-    if (
-        !titleElement ||
-        !listElement
-    ) {
-        return;
-    }
+    if (!titleElement || !listElement) return;
 
-
-    /*
-     * Cache navigateur
-     */
 
     const cachedPatch =
         getBrowserPatchCache();
 
-
-    /*
-     * Affichage immédiat du cache
-     */
 
     if (cachedPatch) {
 
@@ -340,16 +441,13 @@ async function loadLatestPatch() {
     }
 
 
-    /*
-     * Si le cache est encore récent,
-     * on ne contacte pas l'API.
-     */
-
     if (
         getBrowserPatchCacheAge() <
         PATCH_BROWSER_CACHE_MS
     ) {
+
         return;
+
     }
 
 
@@ -392,21 +490,14 @@ async function loadLatestPatch() {
             );
 
             return;
+
         }
 
-
-        /*
-         * Sauvegarde du patch
-         */
 
         saveBrowserPatchCache(
             data.patch
         );
 
-
-        /*
-         * Affichage
-         */
 
         renderLatestPatch(
             data.patch,
@@ -425,12 +516,6 @@ async function loadLatestPatch() {
         );
 
 
-        /*
-         * Si on possède déjà
-         * un ancien patch,
-         * on le garde affiché.
-         */
-
         if (!cachedPatch) {
 
             renderPatchError(
@@ -442,11 +527,12 @@ async function loadLatestPatch() {
         }
 
     }
+
 }
 
 
 /* =========================================================
-   AFFICHAGE DU PATCH
+   AFFICHAGE PATCH
 ========================================================= */
 
 function renderLatestPatch(
@@ -464,17 +550,9 @@ function renderLatestPatch(
         );
 
 
-    /*
-     * Titre
-     */
-
     titleElement.textContent =
         title;
 
-
-    /*
-     * Récupération des lignes
-     */
 
     const bullets =
         extractPatchBullets(
@@ -482,50 +560,35 @@ function renderLatestPatch(
         );
 
 
-    listElement.innerHTML =
-        "";
+    listElement.innerHTML = "";
 
 
     if (bullets.length) {
 
-        bullets.forEach(
-            text => {
+        bullets.forEach(text => {
 
-                const li =
-                    document.createElement(
-                        "li"
-                    );
+            const li =
+                document.createElement("li");
 
-                li.textContent =
-                    `✓ ${text}`;
+            li.textContent =
+                `✓ ${text}`;
 
-                listElement.appendChild(
-                    li
-                );
+            listElement.appendChild(li);
 
-            }
-        );
+        });
 
     } else {
 
         const li =
-            document.createElement(
-                "li"
-            );
+            document.createElement("li");
 
         li.textContent =
             "✓ Voir les détails complets du patch sur Discord";
 
-        listElement.appendChild(
-            li
-        );
+        listElement.appendChild(li);
 
     }
 
-
-    /*
-     * Image
-     */
 
     if (imageElement) {
 
@@ -533,16 +596,14 @@ function renderLatestPatch(
             "images/patch.jpg";
 
 
-        imageElement.onerror =
-            () => {
+        imageElement.onerror = () => {
 
-                imageElement.onerror =
-                    null;
+            imageElement.onerror = null;
 
-                imageElement.src =
-                    fallback;
+            imageElement.src =
+                fallback;
 
-            };
+        };
 
 
         imageElement.src =
@@ -552,12 +613,9 @@ function renderLatestPatch(
 
         imageElement.alt =
             title;
+
     }
 
-
-    /*
-     * Lien Discord
-     */
 
     if (linkElement) {
 
@@ -591,50 +649,32 @@ function renderLatestPatch(
 
 
 /* =========================================================
-   EXTRACTION DES LIGNES DU PATCH
+   EXTRACTION PATCH
 ========================================================= */
 
-function extractPatchBullets(
-    description
-) {
+function extractPatchBullets(description) {
 
     const lines =
         String(description)
             .split(/\r?\n/)
-            .map(
-                line =>
-                    cleanDiscordMarkdown(
-                        line.trim()
-                    )
+            .map(line =>
+                cleanDiscordMarkdown(
+                    line.trim()
+                )
             )
             .filter(Boolean);
 
 
     return lines
-        .filter(
-            line =>
-                line.startsWith("- ")
+        .map(line =>
+            line
+                .replace(/^[-*•✓✔️]\s*/, "")
+                .replace(/^\d+[.)]\s*/, "")
+                .trim()
         )
-        .map(
-            line =>
-                line.slice(2).trim()
-        )
-        .filter(
-            line => {
+        .filter(Boolean)
+        .slice(0, 10);
 
-                const lower =
-                    line.toLowerCase();
-
-                return (
-                    !lower.startsWith("@steam") &&
-                    !lower.startsWith("@xbox") &&
-                    !lower.startsWith("@playstation") &&
-                    !lower.startsWith("@windows")
-                );
-
-            }
-        )
-        .slice(0, 8);
 }
 
 
@@ -642,23 +682,15 @@ function extractPatchBullets(
    NETTOYAGE MARKDOWN DISCORD
 ========================================================= */
 
-function cleanDiscordMarkdown(
-    text
-) {
+function cleanDiscordMarkdown(text) {
 
     return String(text)
-        .replace(
-            /\*\*(.*?)\*\*/g,
-            "$1"
-        )
-        .replace(
-            /__(.*?)__/g,
-            "$1"
-        )
-        .replace(
-            /`(.*?)`/g,
-            "$1"
-        )
+        .replace(/\*\*(.*?)\*\*/g, "$1")
+        .replace(/\*(.*?)\*/g, "$1")
+        .replace(/__(.*?)__/g, "$1")
+        .replace(/_(.*?)_/g, "$1")
+        .replace(/`(.*?)`/g, "$1")
+        .replace(/~~(.*?)~~/g, "$1")
         .trim();
 
 }
@@ -675,36 +707,26 @@ function renderPatchError(
 ) {
 
     titleElement.textContent =
-        "DERNIER PATCH";
+        "Dernier patch ALPHARK";
 
-
-    listElement.innerHTML =
-        "";
-
+    listElement.innerHTML = "";
 
     const li =
-        document.createElement(
-            "li"
-        );
-
+        document.createElement("li");
 
     li.textContent =
         `⚠️ ${message}`;
 
+    listElement.appendChild(li);
 
-    listElement.appendChild(
-        li
-    );
 }
 
 
 /* =========================================================
-   CACHE NAVIGATEUR
+   CACHE PATCH NAVIGATEUR
 ========================================================= */
 
-function saveBrowserPatchCache(
-    patch
-) {
+function saveBrowserPatchCache(patch) {
 
     try {
 
@@ -713,18 +735,17 @@ function saveBrowserPatchCache(
             JSON.stringify(patch)
         );
 
-
         localStorage.setItem(
             PATCH_BROWSER_CACHE_TIME_KEY,
             String(Date.now())
         );
 
-    } catch {
+    } catch (error) {
 
-        /*
-         * Si localStorage est indisponible,
-         * le site continue normalement.
-         */
+        console.warn(
+            "Cache patch impossible :",
+            error
+        );
 
     }
 
@@ -740,11 +761,7 @@ function getBrowserPatchCache() {
                 PATCH_BROWSER_CACHE_KEY
             );
 
-
-        if (!raw) {
-            return null;
-        }
-
+        if (!raw) return null;
 
         return JSON.parse(raw);
 
@@ -761,34 +778,16 @@ function getBrowserPatchCacheAge() {
 
     try {
 
-        const rawTime =
-            localStorage.getItem(
-                PATCH_BROWSER_CACHE_TIME_KEY
+        const time =
+            Number(
+                localStorage.getItem(
+                    PATCH_BROWSER_CACHE_TIME_KEY
+                )
             );
 
+        if (!time) return Infinity;
 
-        if (!rawTime) {
-            return Infinity;
-        }
-
-
-        const timestamp =
-            Number(rawTime);
-
-
-        if (
-            !Number.isFinite(
-                timestamp
-            )
-        ) {
-            return Infinity;
-        }
-
-
-        return (
-            Date.now() -
-            timestamp
-        );
+        return Date.now() - time;
 
     } catch {
 
@@ -806,34 +805,25 @@ function getBrowserPatchCacheAge() {
 async function checkSession() {
 
     const loginButton =
-        document.getElementById(
-            "login-button"
+        document.querySelector(
+            ".top-button.login"
         );
 
-
-    if (!loginButton) {
-        return;
-    }
+    if (!loginButton) return;
 
 
     try {
 
         const response =
             await fetch(
-                `${ALPHARK_API}/api/session`,
+                `${ALPHARK_API}/api/me`,
                 {
-                    credentials:
-                        "include",
-
-                    cache:
-                        "no-store"
+                    credentials: "include"
                 }
             );
 
 
-        if (!response.ok) {
-            return;
-        }
+        if (!response.ok) return;
 
 
         const data =
@@ -841,49 +831,25 @@ async function checkSession() {
 
 
         if (
-            data.connected &&
-            data.user
+            data.success &&
+            data.connected
         ) {
 
-            const displayName =
-                data.user.global_name ||
-                data.user.username ||
-                "Membre";
-
-
             loginButton.textContent =
-                `👤 ${displayName}`;
-
+                "Mon espace";
 
             loginButton.href =
                 "pages/infos.html";
-
-
-            loginButton.title =
-                "Compte Discord connecté";
 
         }
 
     } catch (error) {
 
         console.warn(
-            "⚠️ Session ALPHARK indisponible :",
+            "Session ALPHARK :",
             error.message
         );
 
     }
 
 }
-
-
-/* =========================================================
-   CONSOLE
-========================================================= */
-
-console.log(
-    "🦖 ALPHARK — site chargé"
-);
-
-console.log(
-    "📢 Connexion automatique au dernier patch Discord activée"
-);
