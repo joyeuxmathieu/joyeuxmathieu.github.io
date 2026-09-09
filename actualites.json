@@ -1,0 +1,38 @@
+[
+  {
+    "tag": "ÉVÉNEMENT",
+    "tagClass": "event",
+    "date": "08/09/2026",
+    "title": "Chasse aux Trésors",
+    "text": "Partez à la recherche des coffres cachés sur le cluster ALPHARK !",
+    "image": "images/actualites/chasse-aux-tresors.jpg",
+    "link": "pages/evenements.html"
+  },
+  {
+    "tag": "BOUTIQUE",
+    "tagClass": "shop",
+    "date": "05/09/2026",
+    "title": "Nouveau pack Euro",
+    "text": "Découvrez nos nouveaux packs exclusifs disponibles dans la boutique.",
+    "image": "images/actualites/pack-euro.jpg",
+    "link": "pages/boutique.html"
+  },
+  {
+    "tag": "COMMUNAUTÉ",
+    "tagClass": "community",
+    "date": "01/09/2026",
+    "title": "Dino du mois : Ferox & Achatina",
+    "text": "Retrouvez les dinos du mois et leurs offres spéciales sur ALPHARK.",
+    "image": "images/actualites/dino-du-mois.jpg",
+    "link": "pages/boutique.html"
+  },
+  {
+    "tag": "MISE À JOUR",
+    "tagClass": "update",
+    "date": "31/08/2026",
+    "title": "Optimisation des serveurs",
+    "text": "Amélioration des performances globales du cluster ALPHARK.",
+    "image": "images/actualites/optimisation.jpg",
+    "link": "pages/infos.html"
+  }
+]
