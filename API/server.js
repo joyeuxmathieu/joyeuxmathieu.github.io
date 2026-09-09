@@ -23,7 +23,7 @@ const DISCORD_REDIRECT_URI =
     process.env.DISCORD_REDIRECT_URI ||
     "https://api.alphark.fr/auth/discord/callback";
 
-const PATCH_CHANNEL_ID = "1497971812267462708";
+const PATCH_CHANNEL_ID = "1497970301865300150";
 
 /* =========================================================
    CORS
