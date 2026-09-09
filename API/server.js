@@ -17,26 +17,91 @@ const API_URL = "https://api.alphark.fr";
 
 const DISCORD_API = "https://discord.com/api/v10";
 
-const GUILD_ID = process.env.DISCORD_GUILD_ID;
+const GUILD_ID =
+    process.env.DISCORD_GUILD_ID;
+
+// ======================================================
+// OAUTH2 STATE
+// ======================================================
+//
+// Le state n'est volontairement plus stocké dans
+// express-session.
+//
+// Cela évite le problème rencontré lors du retour
+// de Discord vers Render.
+//
+// Les states sont conservés temporairement en mémoire.
+// Ils expirent automatiquement après 10 minutes.
+//
+
+const pendingOAuthStates = new Map();
+
+const OAUTH_STATE_DURATION =
+    10 * 60 * 1000;
+
+// Nettoyage automatique des anciens states
+setInterval(
+    () => {
+
+        const now =
+            Date.now();
+
+        for (
+            const [
+                state,
+                createdAt
+            ]
+            of pendingOAuthStates
+        ) {
+
+            if (
+                now - createdAt >
+                OAUTH_STATE_DURATION
+            ) {
+
+                pendingOAuthStates.delete(
+                    state
+                );
+
+            }
+
+        }
+
+    },
+    60 * 1000
+);
 
 // ======================================================
 // MIDDLEWARE
 // ======================================================
 
-app.use(express.json());
+app.use(
+    express.json()
+);
 
 app.use(
     cors({
+
         origin: [
+
             WEBSITE_URL,
+
             ALPHARK_URL,
+
             "https://alphark.fr"
+
         ],
-        credentials: true
+
+        credentials:
+            true
+
     })
 );
 
-app.set("trust proxy", 1);
+app.set(
+    "trust proxy",
+    1
+);
 
 // ======================================================
 // SESSION
@@ -44,26 +109,45 @@ app.set("trust proxy", 1);
 
 app.use(
     session({
+
         secret:
-            process.env.SESSION_SECRET || "CHANGE-ME",
+            process.env.SESSION_SECRET ||
+            "CHANGE-ME",
 
-        resave: false,
+        resave:
+            false,
 
-        saveUninitialized: false,
+        saveUninitialized:
+            false,
 
-        proxy: true,
+        proxy:
+            true,
 
         cookie: {
-            httpOnly: true,
-            secure: true,
-            sameSite: "none",
-            maxAge: 7 * 24 * 60 * 60 * 1000
+
+            httpOnly:
+                true,
+
+            secure:
+                true,
+
+            sameSite:
+                "none",
+
+            maxAge:
+                7 *
+                24 *
+                60 *
+                60 *
+                1000
+
         }
+
     })
 );
 
 // ======================================================
-// REQUÊTE DISCORD REST
+// FONCTION DISCORD REST
 // ======================================================
 
 async function discordRequest(
@@ -108,6 +192,7 @@ async function discordRequest(
         );
 
     return response;
+
 }
 
 // ======================================================
@@ -127,7 +212,7 @@ app.get(
                 "ALPHARK API",
 
             version:
-                "3.0.0",
+                "4.0.0",
 
             oauth:
                 "Discord OAuth2",
@@ -135,8 +220,12 @@ app.get(
             discord:
                 "REST API",
 
+            gateway:
+                "disabled",
+
             guildId:
-                GUILD_ID || null
+                GUILD_ID ||
+                null
 
         });
 
@@ -153,6 +242,10 @@ app.get(
 
         try {
 
+            // ==========================================
+            // TOKEN
+            // ==========================================
+
             if (
                 !process.env.DISCORD_BOT_TOKEN
             ) {
@@ -166,7 +259,8 @@ app.get(
                         null,
 
                     guildId:
-                        GUILD_ID || null,
+                        GUILD_ID ||
+                        null,
 
                     error:
                         "DISCORD_BOT_TOKEN manquant"
@@ -176,7 +270,7 @@ app.get(
             }
 
             // ==========================================
-            // TEST DU BOT
+            // TEST BOT
             // ==========================================
 
             const botResponse =
@@ -184,7 +278,9 @@ app.get(
                     "/users/@me"
                 );
 
-            if (!botResponse.ok) {
+            if (
+                !botResponse.ok
+            ) {
 
                 const errorText =
                     await botResponse.text();
@@ -201,7 +297,8 @@ app.get(
 
                 console.error(
                     "⏳ Retry-After :",
-                    retryAfter || "inconnu"
+                    retryAfter ||
+                    "inconnu"
                 );
 
                 console.error(
@@ -222,13 +319,15 @@ app.get(
                         null,
 
                     guildId:
-                        GUILD_ID || null,
+                        GUILD_ID ||
+                        null,
 
                     discordStatus:
                         botResponse.status,
 
                     retryAfter:
-                        retryAfter || null,
+                        retryAfter ||
+                        null,
 
                     error:
                         "Discord a refusé la requête."
@@ -241,10 +340,11 @@ app.get(
                 await botResponse.json();
 
             // ==========================================
-            // TEST DU SERVEUR ALPHARK
+            // TEST SERVEUR
             // ==========================================
 
-            let guild = null;
+            let guild =
+                null;
 
             if (GUILD_ID) {
 
@@ -262,16 +362,16 @@ app.get(
 
                 } else {
 
-                    const guildError =
+                    const errorText =
                         await guildResponse.text();
 
                     console.error(
-                        "❌ Discord serveur :",
+                        "❌ Discord /guilds :",
                         guildResponse.status
                     );
 
                     console.error(
-                        guildError.substring(
+                        errorText.substring(
                             0,
                             1000
                         )
@@ -301,7 +401,8 @@ app.get(
                 },
 
                 guildId:
-                    GUILD_ID || null,
+                    GUILD_ID ||
+                    null,
 
                 guild:
                     guild
@@ -334,7 +435,8 @@ app.get(
                     null,
 
                 guildId:
-                    GUILD_ID || null,
+                    GUILD_ID ||
+                    null,
 
                 error:
                     error.message
@@ -361,8 +463,12 @@ app.get(
 
             if (!clientId) {
 
+                console.error(
+                    "❌ DISCORD_CLIENT_ID manquant"
+                );
+
                 return res.status(500).send(
-                    "DISCORD_CLIENT_ID manquant."
+                    "Configuration Discord incomplète."
                 );
 
             }
@@ -372,7 +478,7 @@ app.get(
                 `${API_URL}/auth/discord/callback`;
 
             // ==========================================
-            // STATE DE SÉCURITÉ
+            // CRÉATION STATE SÉCURISÉ
             // ==========================================
 
             const state =
@@ -380,8 +486,14 @@ app.get(
                     .randomBytes(32)
                     .toString("hex");
 
-            req.session.oauthState =
-                state;
+            pendingOAuthStates.set(
+                state,
+                Date.now()
+            );
+
+            console.log(
+                "🔐 Nouveau state OAuth2 créé."
+            );
 
             // ==========================================
             // URL DISCORD
@@ -421,7 +533,7 @@ app.get(
         } catch (error) {
 
             console.error(
-                "❌ Erreur OAuth2 :",
+                "❌ Erreur création OAuth2 :",
                 error
             );
 
@@ -451,13 +563,13 @@ app.get(
             } = req.query;
 
             // ==========================================
-            // UTILISATEUR A REFUSÉ
+            // REFUS DISCORD
             // ==========================================
 
             if (error) {
 
                 console.log(
-                    "❌ Connexion Discord refusée."
+                    "❌ L'utilisateur a refusé Discord."
                 );
 
                 return res.redirect(
@@ -483,17 +595,13 @@ app.get(
             }
 
             // ==========================================
-            // VÉRIFICATION STATE
+            // STATE MANQUANT
             // ==========================================
 
-            if (
-                !state ||
-                !req.session.oauthState ||
-                state !== req.session.oauthState
-            ) {
+            if (!state) {
 
                 console.error(
-                    "❌ State OAuth2 invalide."
+                    "❌ State OAuth2 manquant."
                 );
 
                 return res.status(403).send(
@@ -502,7 +610,61 @@ app.get(
 
             }
 
-            delete req.session.oauthState;
+            // ==========================================
+            // VALIDATION STATE
+            // ==========================================
+
+            const stateCreatedAt =
+                pendingOAuthStates.get(
+                    state
+                );
+
+            if (!stateCreatedAt) {
+
+                console.error(
+                    "❌ State OAuth2 inconnu ou déjà utilisé."
+                );
+
+                return res.status(403).send(
+                    "Connexion Discord invalide ou expirée."
+                );
+
+            }
+
+            const stateAge =
+                Date.now() -
+                stateCreatedAt;
+
+            if (
+                stateAge >
+                OAUTH_STATE_DURATION
+            ) {
+
+                pendingOAuthStates.delete(
+                    state
+                );
+
+                console.error(
+                    "❌ State OAuth2 expiré."
+                );
+
+                return res.status(403).send(
+                    "Connexion Discord expirée. Recommence la connexion."
+                );
+
+            }
+
+            // ==========================================
+            // STATE VALIDE
+            // ==========================================
+
+            pendingOAuthStates.delete(
+                state
+            );
+
+            console.log(
+                "✅ State OAuth2 validé."
+            );
 
             // ==========================================
             // VARIABLES DISCORD
@@ -565,7 +727,7 @@ app.get(
                                 `Basic ${basicAuth}`,
 
                             "User-Agent":
-                                "ALPHARK-Website (https://www.alphark.fr, 3.0.0)"
+                                "ALPHARK-Website (https://www.alphark.fr, 4.0.0)"
 
                         },
 
@@ -586,7 +748,13 @@ app.get(
                     }
                 );
 
-            if (!tokenResponse.ok) {
+            // ==========================================
+            // ERREUR TOKEN
+            // ==========================================
+
+            if (
+                !tokenResponse.ok
+            ) {
 
                 const errorText =
                     await tokenResponse.text();
@@ -603,7 +771,8 @@ app.get(
 
                 console.error(
                     "⏳ Retry-After :",
-                    retryAfter || "inconnu"
+                    retryAfter ||
+                    "inconnu"
                 );
 
                 console.error(
@@ -627,7 +796,7 @@ app.get(
             );
 
             // ==========================================
-            // RÉCUPÉRATION DU COMPTE DISCORD
+            // RÉCUPÉRATION UTILISATEUR
             // ==========================================
 
             const userResponse =
@@ -644,14 +813,16 @@ app.get(
                                 `Bearer ${tokenData.access_token}`,
 
                             "User-Agent":
-                                "ALPHARK-Website (https://www.alphark.fr, 3.0.0)"
+                                "ALPHARK-Website (https://www.alphark.fr, 4.0.0)"
 
                         }
 
                     }
                 );
 
-            if (!userResponse.ok) {
+            if (
+                !userResponse.ok
+            ) {
 
                 const errorText =
                     await userResponse.text();
@@ -705,13 +876,17 @@ app.get(
                 "🔎 Vérification de l'appartenance à ALPHARK..."
             );
 
+            // ==========================================
+            // VÉRIFICATION MEMBRE
+            // ==========================================
+
             const memberResponse =
                 await discordRequest(
                     `/guilds/${GUILD_ID}/members/${discordUser.id}`
                 );
 
             // ==========================================
-            // PAS MEMBRE
+            // NON MEMBRE
             // ==========================================
 
             if (
@@ -729,10 +904,12 @@ app.get(
             }
 
             // ==========================================
-            // ERREUR API DISCORD
+            // RATE LIMIT
             // ==========================================
 
-            if (!memberResponse.ok) {
+            if (
+                memberResponse.status === 429
+            ) {
 
                 const errorText =
                     await memberResponse.text();
@@ -743,13 +920,42 @@ app.get(
                     );
 
                 console.error(
-                    "❌ Erreur vérification membre:",
-                    memberResponse.status
+                    "❌ Discord rate limit pendant vérification membre."
                 );
 
                 console.error(
                     "⏳ Retry-After :",
-                    retryAfter || "inconnu"
+                    retryAfter ||
+                    "inconnu"
+                );
+
+                console.error(
+                    errorText.substring(
+                        0,
+                        1000
+                    )
+                );
+
+                return res.status(429).send(
+                    "Discord limite temporairement les connexions. Réessaie dans quelques instants."
+                );
+
+            }
+
+            // ==========================================
+            // AUTRE ERREUR
+            // ==========================================
+
+            if (
+                !memberResponse.ok
+            ) {
+
+                const errorText =
+                    await memberResponse.text();
+
+                console.error(
+                    "❌ Erreur vérification membre:",
+                    memberResponse.status
                 );
 
                 console.error(
@@ -777,16 +983,18 @@ app.get(
             );
 
             // ==========================================
-            // RÔLES
+            // RÔLES DISCORD
             // ==========================================
 
             const roles =
-                Array.isArray(member.roles)
+                Array.isArray(
+                    member.roles
+                )
                     ? member.roles
                     : [];
 
             // ==========================================
-            // SESSION
+            // CRÉATION SESSION UTILISATEUR
             // ==========================================
 
             req.session.user = {
@@ -840,7 +1048,15 @@ app.get(
                     }
 
                     console.log(
+                        "🎉 ========================================"
+                    );
+
+                    console.log(
                         `🎉 CONNEXION ALPHARK RÉUSSIE : ${discordUser.username}`
+                    );
+
+                    console.log(
+                        "🎉 ========================================"
                     );
 
                     return res.redirect(
@@ -853,11 +1069,19 @@ app.get(
         } catch (error) {
 
             console.error(
-                "❌ ERREUR GÉNÉRALE OAUTH2 :"
+                "❌ ========================================"
+            );
+
+            console.error(
+                "❌ ERREUR GÉNÉRALE OAUTH2"
             );
 
             console.error(
                 error
+            );
+
+            console.error(
+                "❌ ========================================"
             );
 
             return res.status(500).send(
@@ -902,7 +1126,7 @@ app.get(
 );
 
 // ======================================================
-// SESSION
+// TEST SESSION
 // ======================================================
 
 app.get(
@@ -1041,6 +1265,10 @@ app.listen(
 
         console.log(
             "🔗 Discord REST API : ACTIVÉ"
+        );
+
+        console.log(
+            "🔐 OAuth2 State : SERVEUR"
         );
 
     }
