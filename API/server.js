@@ -154,7 +154,7 @@ const NEWS_CACHE_MS = 5 * 60 * 1000;
 function discordHeaders() {
     return {
         Authorization: `Bot ${DISCORD_BOT_TOKEN}`,
-        "User-Agent": "ALPHARK-API/3.2"
+        "User-Agent": "ALPHARK-API/3.3"
     };
 }
 
@@ -403,7 +403,7 @@ app.get("/", (req, res) => {
     res.json({
         status: "online",
         service: "ALPHARK API",
-        version: "3.2.0",
+        version: "3.3.0",
         guild: DISCORD_GUILD_ID,
         patchChannel: PATCH_CHANNEL_ID,
         newsChannel: NEWS_CHANNEL_ID
@@ -415,8 +415,110 @@ app.get("/api/health", (req, res) => {
         success: true,
         status: "online",
         service: "ALPHARK API",
-        version: "3.2.0"
+        version: "3.3.0"
     });
+});
+
+/*
+ * =========================================================
+ * TEST CONNEXION DISCORD
+ * =========================================================
+ * Permet de vérifier depuis Render si Discord accepte les
+ * requêtes API de notre serveur, sans toucher à OAuth.
+ */
+
+app.get("/api/discord-test", async (req, res) => {
+    const result = {
+        success: false,
+        oauthTest: "non testé",
+        botApiTest: null,
+        publicApiTest: null,
+        message: ""
+    };
+
+    try {
+        // Test public : aucune authentification.
+        const publicResponse = await fetch(
+            `${DISCORD_API}/gateway`,
+            {
+                headers: {
+                    "User-Agent": "ALPHARK-API/3.3"
+                }
+            }
+        );
+
+        let publicBody = "";
+        try {
+            publicBody = await publicResponse.text();
+        } catch {}
+
+        result.publicApiTest = {
+            status: publicResponse.status,
+            ok: publicResponse.ok,
+            body: publicBody.slice(0, 200)
+        };
+
+        // Test authentifié : utilise uniquement le bot token.
+        if (!DISCORD_BOT_TOKEN) {
+            result.message = "DISCORD_BOT_TOKEN manquant.";
+            return res.status(500).json(result);
+        }
+
+        const botResponse = await fetch(
+            `${DISCORD_API}/users/@me`,
+            {
+                headers: {
+                    Authorization: `Bot ${DISCORD_BOT_TOKEN}`,
+                    "User-Agent": "ALPHARK-API/3.3"
+                }
+            }
+        );
+
+        let botBody = "";
+        try {
+            botBody = await botResponse.text();
+        } catch {}
+
+        result.botApiTest = {
+            status: botResponse.status,
+            ok: botResponse.ok,
+            body: botBody.slice(0, 200)
+        };
+
+        result.success =
+            publicResponse.ok &&
+            botResponse.ok;
+
+        if (result.success) {
+            result.message =
+                "Discord API est accessible depuis Render avec le bot token. Le problème semble donc spécifique à l'endpoint OAuth.";
+        } else if (
+            publicResponse.status === 429 ||
+            botResponse.status === 429
+        ) {
+            result.message =
+                "Discord/Cloudflare limite les requêtes provenant de Render.";
+        } else if (
+            String(publicResponse.status).startsWith("5") ||
+            String(botResponse.status).startsWith("5")
+        ) {
+            result.message =
+                "Discord a renvoyé une erreur serveur lors du test depuis Render.";
+        } else {
+            result.message =
+                "Discord est joignable mais a refusé au moins une requête API.";
+        }
+
+        return res.json(result);
+    } catch (error) {
+        console.error("Discord connectivity test:", error);
+
+        result.message =
+            "Impossible de joindre Discord depuis Render.";
+        result.error = error?.message || "Erreur inconnue";
+
+        return res.status(502).json(result);
+    }
 });
 
 /*
@@ -534,7 +636,7 @@ app.get("/auth/discord/callback", async (req, res) => {
                     "Content-Type":
                         "application/x-www-form-urlencoded",
                     Authorization: `Basic ${basicAuth}`,
-                    "User-Agent": "ALPHARK-API/3.2"
+                    "User-Agent": "ALPHARK-API/3.3"
                 },
                 body: new URLSearchParams({
                     grant_type: "authorization_code",
@@ -566,7 +668,7 @@ app.get("/auth/discord/callback", async (req, res) => {
                 headers: {
                     Authorization:
                         `Bearer ${tokenData.access_token}`,
-                    "User-Agent": "ALPHARK-API/3.2"
+                    "User-Agent": "ALPHARK-API/3.3"
                 }
             }
         );
