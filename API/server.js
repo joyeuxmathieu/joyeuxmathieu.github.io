@@ -108,7 +108,7 @@ const NEWS_CACHE_MS = 5 * 60 * 1000;
 function discordHeaders() {
     return {
         Authorization: `Bot ${DISCORD_BOT_TOKEN}`,
-        "User-Agent": "ALPHARK-API/2.1"
+        "User-Agent": "ALPHARK-API/2.2"
     };
 }
 
@@ -357,7 +357,7 @@ app.get("/", (req, res) => {
     res.json({
         status: "online",
         service: "ALPHARK API",
-        version: "2.1.0",
+        version: "2.2.0",
         guild: DISCORD_GUILD_ID,
         patchChannel: PATCH_CHANNEL_ID,
         newsChannel: NEWS_CHANNEL_ID
@@ -369,7 +369,7 @@ app.get("/api/health", (req, res) => {
         success: true,
         status: "online",
         service: "ALPHARK API",
-        version: "2.1.0"
+        version: "2.2.0"
     });
 });
 
@@ -434,7 +434,7 @@ app.get("/auth/discord", (req, res) => {
         );
     }
 
-    const state = crypto.randomBytes(24).toString("hex");
+    const state = crypto.randomBytes(32).toString("hex");
     req.session.oauthState = state;
 
     const params = new URLSearchParams({
@@ -442,12 +442,30 @@ app.get("/auth/discord", (req, res) => {
         response_type: "code",
         redirect_uri: DISCORD_REDIRECT_URI,
         scope: "identify",
-        state
+        state,
+        prompt: "consent"
     });
 
-    res.redirect(
-        `https://discord.com/oauth2/authorize?${params.toString()}`
-    );
+    const discordUrl =
+        `https://discord.com/oauth2/authorize?${params.toString()}`;
+
+    console.log("🔵 Connexion Discord lancée");
+    console.log("🔗 Redirect URI:", DISCORD_REDIRECT_URI);
+    console.log("🧩 State OAuth créé");
+
+    // IMPORTANT : la session doit être persistée AVANT la redirection vers Discord.
+    req.session.save((error) => {
+        if (error) {
+            console.error("❌ Erreur sauvegarde session OAuth:", error);
+            return res.status(500).send(
+                "Impossible de démarrer la connexion Discord."
+            );
+        }
+
+        console.log("✅ Session OAuth sauvegardée");
+        res.setHeader("Cache-Control", "no-store");
+        res.redirect(discordUrl);
+    });
 });
 
 /*
@@ -483,7 +501,7 @@ app.get("/auth/discord/callback", async (req, res) => {
                 headers: {
                     "Content-Type":
                         "application/x-www-form-urlencoded",
-                    "User-Agent": "ALPHARK-API/2.1"
+                    "User-Agent": "ALPHARK-API/2.2"
                 },
                 body: new URLSearchParams({
                     client_id: DISCORD_CLIENT_ID,
@@ -517,7 +535,7 @@ app.get("/auth/discord/callback", async (req, res) => {
                 headers: {
                     Authorization:
                         `Bearer ${tokenData.access_token}`,
-                    "User-Agent": "ALPHARK-API/2.1"
+                    "User-Agent": "ALPHARK-API/2.2"
                 }
             }
         );
@@ -558,7 +576,15 @@ app.get("/auth/discord/callback", async (req, res) => {
             joined_at: member.joined_at || null
         };
 
-        req.session.save(() => {
+        req.session.save((error) => {
+            if (error) {
+                console.error("❌ Erreur sauvegarde session utilisateur:", error);
+                return res.status(500).send(
+                    "Connexion Discord réussie, mais impossible de sauvegarder la session."
+                );
+            }
+
+            console.log("✅ Connexion Discord réussie:", user.username);
             res.redirect("https://www.alphark.fr/");
         });
     } catch (error) {
