@@ -22,6 +22,42 @@ const DISCORD_REDIRECT_URI =
     process.env.DISCORD_REDIRECT_URI ||
     "https://api.alphark.fr/auth/discord/callback";
 
+const SESSION_SECRET =
+    process.env.SESSION_SECRET || crypto.randomBytes(32).toString("hex");
+
+function verifyOAuthState(state) {
+    try {
+        const separator = state.lastIndexOf(".");
+        if (separator <= 0) return false;
+
+        const stateData = state.slice(0, separator);
+        const providedSignature = state.slice(separator + 1);
+        const expectedSignature = crypto
+            .createHmac("sha256", SESSION_SECRET)
+            .update(stateData)
+            .digest("base64url");
+
+        const a = Buffer.from(providedSignature);
+        const b = Buffer.from(expectedSignature);
+        if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) {
+            return false;
+        }
+
+        const payload = JSON.parse(
+            Buffer.from(stateData, "base64url").toString("utf8")
+        );
+
+        return Boolean(
+            payload &&
+            Number.isFinite(payload.issuedAt) &&
+            Date.now() >= payload.issuedAt &&
+            Date.now() - payload.issuedAt <= 10 * 60 * 1000
+        );
+    } catch {
+        return false;
+    }
+}
+
 /*
  * =========================================================
  * SALONS DISCORD
@@ -67,9 +103,7 @@ app.use(
 
 app.use(
     session({
-        secret:
-            process.env.SESSION_SECRET ||
-            crypto.randomBytes(32).toString("hex"),
+        secret: SESSION_SECRET,
         resave: false,
         saveUninitialized: false,
         cookie: {
@@ -357,7 +391,7 @@ app.get("/", (req, res) => {
     res.json({
         status: "online",
         service: "ALPHARK API",
-        version: "2.2.0",
+        version: "2.3.0",
         guild: DISCORD_GUILD_ID,
         patchChannel: PATCH_CHANNEL_ID,
         newsChannel: NEWS_CHANNEL_ID
@@ -434,8 +468,22 @@ app.get("/auth/discord", (req, res) => {
         );
     }
 
-    const state = crypto.randomBytes(32).toString("hex");
-    req.session.oauthState = state;
+    const statePayload = {
+        nonce: crypto.randomBytes(24).toString("hex"),
+        issuedAt: Date.now()
+    };
+
+    const stateData = Buffer.from(
+        JSON.stringify(statePayload),
+        "utf8"
+    ).toString("base64url");
+
+    const stateSignature = crypto
+        .createHmac("sha256", SESSION_SECRET)
+        .update(stateData)
+        .digest("base64url");
+
+    const state = `${stateData}.${stateSignature}`;
 
     const params = new URLSearchParams({
         client_id: DISCORD_CLIENT_ID,
@@ -482,11 +530,10 @@ app.get("/auth/discord/callback", async (req, res) => {
             return res.status(400).send("Code Discord manquant.");
         }
 
-        if (!state || state !== req.session.oauthState) {
+        if (!state || !verifyOAuthState(state)) {
+            console.error("❌ State OAuth invalide ou expiré");
             return res.status(400).send("Session OAuth invalide.");
         }
-
-        delete req.session.oauthState;
 
         if (!DISCORD_CLIENT_ID || !DISCORD_CLIENT_SECRET) {
             return res.status(500).send(
