@@ -22,6 +22,52 @@ const DISCORD_REDIRECT_URI =
     process.env.DISCORD_REDIRECT_URI ||
     "https://api.alphark.fr/auth/discord/callback";
 
+const OAUTH_STATE_TTL_MS = 10 * 60 * 1000;
+
+function createOAuthState() {
+    const payload = `${Date.now()}.${crypto.randomBytes(32).toString("hex")}`;
+    const secret =
+        process.env.SESSION_SECRET || "ALPHARK-OAUTH-FALLBACK-SECRET";
+    const signature = crypto
+        .createHmac("sha256", secret)
+        .update(payload)
+        .digest("hex");
+
+    return `${payload}.${signature}`;
+}
+
+function verifyOAuthState(state) {
+    if (!state || typeof state !== "string") return false;
+
+    const parts = state.split(".");
+    if (parts.length !== 3) return false;
+
+    const [timestampText, nonce, signature] = parts;
+    const timestamp = Number(timestampText);
+
+    if (!Number.isFinite(timestamp) || !nonce || !signature) return false;
+    if (Date.now() - timestamp > OAUTH_STATE_TTL_MS) return false;
+    if (Date.now() - timestamp < -60 * 1000) return false;
+
+    const payload = `${timestampText}.${nonce}`;
+    const secret =
+        process.env.SESSION_SECRET || "ALPHARK-OAUTH-FALLBACK-SECRET";
+
+    const expected = crypto
+        .createHmac("sha256", secret)
+        .update(payload)
+        .digest("hex");
+
+    try {
+        return crypto.timingSafeEqual(
+            Buffer.from(signature, "utf8"),
+            Buffer.from(expected, "utf8")
+        );
+    } catch {
+        return false;
+    }
+}
+
 /*
  * =========================================================
  * SALONS DISCORD
@@ -108,7 +154,7 @@ const NEWS_CACHE_MS = 5 * 60 * 1000;
 function discordHeaders() {
     return {
         Authorization: `Bot ${DISCORD_BOT_TOKEN}`,
-        "User-Agent": "ALPHARK-API/3.0"
+        "User-Agent": "ALPHARK-API/3.1"
     };
 }
 
@@ -357,7 +403,7 @@ app.get("/", (req, res) => {
     res.json({
         status: "online",
         service: "ALPHARK API",
-        version: "3.0.0",
+        version: "3.1.0",
         guild: DISCORD_GUILD_ID,
         patchChannel: PATCH_CHANNEL_ID,
         newsChannel: NEWS_CHANNEL_ID
@@ -369,7 +415,7 @@ app.get("/api/health", (req, res) => {
         success: true,
         status: "online",
         service: "ALPHARK API",
-        version: "3.0.0"
+        version: "3.1.0"
     });
 });
 
@@ -434,8 +480,7 @@ app.get("/auth/discord", (req, res) => {
         );
     }
 
-    const state = crypto.randomBytes(24).toString("hex");
-    req.session.oauthState = state;
+    const state = createOAuthState();
 
     const params = new URLSearchParams({
         client_id: DISCORD_CLIENT_ID,
@@ -448,18 +493,8 @@ app.get("/auth/discord", (req, res) => {
     const discordUrl =
         `https://discord.com/oauth2/authorize?${params.toString()}`;
 
-    // Persiste l'état OAuth AVANT la redirection vers Discord.
-    req.session.save((error) => {
-        if (error) {
-            console.error("Erreur sauvegarde session OAuth :", error);
-            return res.status(500).send(
-                "Impossible de démarrer la connexion Discord."
-            );
-        }
-
-        res.setHeader("Cache-Control", "no-store");
-        res.redirect(discordUrl);
-    });
+    res.setHeader("Cache-Control", "no-store");
+    res.redirect(discordUrl);
 });
 
 /*
@@ -476,11 +511,10 @@ app.get("/auth/discord/callback", async (req, res) => {
             return res.status(400).send("Code Discord manquant.");
         }
 
-        if (!state || state !== req.session.oauthState) {
+        if (!verifyOAuthState(state)) {
+            console.error("OAuth: state invalide ou expiré.");
             return res.status(400).send("Session OAuth invalide.");
         }
-
-        delete req.session.oauthState;
 
         if (!DISCORD_CLIENT_ID || !DISCORD_CLIENT_SECRET) {
             return res.status(500).send(
@@ -495,7 +529,7 @@ app.get("/auth/discord/callback", async (req, res) => {
                 headers: {
                     "Content-Type":
                         "application/x-www-form-urlencoded",
-                    "User-Agent": "ALPHARK-API/3.0"
+                    "User-Agent": "ALPHARK-API/3.1"
                 },
                 body: new URLSearchParams({
                     client_id: DISCORD_CLIENT_ID,
@@ -529,7 +563,7 @@ app.get("/auth/discord/callback", async (req, res) => {
                 headers: {
                     Authorization:
                         `Bearer ${tokenData.access_token}`,
-                    "User-Agent": "ALPHARK-API/3.0"
+                    "User-Agent": "ALPHARK-API/3.1"
                 }
             }
         );
