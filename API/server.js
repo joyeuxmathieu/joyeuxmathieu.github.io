@@ -154,7 +154,7 @@ const NEWS_CACHE_MS = 5 * 60 * 1000;
 function discordHeaders() {
     return {
         Authorization: `Bot ${DISCORD_BOT_TOKEN}`,
-        "User-Agent": "ALPHARK-API/3.1"
+        "User-Agent": "ALPHARK-API/3.2"
     };
 }
 
@@ -403,7 +403,7 @@ app.get("/", (req, res) => {
     res.json({
         status: "online",
         service: "ALPHARK API",
-        version: "3.1.0",
+        version: "3.2.0",
         guild: DISCORD_GUILD_ID,
         patchChannel: PATCH_CHANNEL_ID,
         newsChannel: NEWS_CHANNEL_ID
@@ -415,7 +415,7 @@ app.get("/api/health", (req, res) => {
         success: true,
         status: "online",
         service: "ALPHARK API",
-        version: "3.1.0"
+        version: "3.2.0"
     });
 });
 
@@ -522,6 +522,10 @@ app.get("/auth/discord/callback", async (req, res) => {
             );
         }
 
+        const basicAuth = Buffer.from(
+            `${DISCORD_CLIENT_ID}:${DISCORD_CLIENT_SECRET}`
+        ).toString("base64");
+
         const tokenResponse = await fetch(
             `${DISCORD_API}/oauth2/token`,
             {
@@ -529,11 +533,10 @@ app.get("/auth/discord/callback", async (req, res) => {
                 headers: {
                     "Content-Type":
                         "application/x-www-form-urlencoded",
-                    "User-Agent": "ALPHARK-API/3.1"
+                    Authorization: `Basic ${basicAuth}`,
+                    "User-Agent": "ALPHARK-API/3.2"
                 },
                 body: new URLSearchParams({
-                    client_id: DISCORD_CLIENT_ID,
-                    client_secret: DISCORD_CLIENT_SECRET,
                     grant_type: "authorization_code",
                     code,
                     redirect_uri: DISCORD_REDIRECT_URI
@@ -563,7 +566,7 @@ app.get("/auth/discord/callback", async (req, res) => {
                 headers: {
                     Authorization:
                         `Bearer ${tokenData.access_token}`,
-                    "User-Agent": "ALPHARK-API/3.1"
+                    "User-Agent": "ALPHARK-API/3.2"
                 }
             }
         );
